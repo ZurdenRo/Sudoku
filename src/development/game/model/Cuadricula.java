@@ -7,13 +7,22 @@ public class Cuadricula {
 	private Celda [] [] matrix;
 	
 	public Cuadricula() {
-		this.setMatrix(new Celda [6] [6]);
+		this.setMatrix(new Celda [3] [3]);
 	}
 
+	public Celda[][] getMatrix() {
+		return matrix;
+	}
+
+	public void setMatrix(Celda[][] matrix) {
+		this.matrix = matrix;
+	}
+	
 	public void generarCuadro() {			
 		for (int f = 0; f < this.getMatrix().length; f++) {
-			for (int c = 0; c <this.getMatrix()[f].length; c++) {
-				matrix[f][c] = new Celda(false, new Posicion(f, c) , generateNumberRandom());
+			for (int c = 0; c < this.getMatrix()[f].length; c++) {
+				int numeroAsignado = generateNumberRandom();
+				getMatrix()[f][c] = new Celda(false, numeroAsignado);
 			}
 		}
 	}
@@ -24,7 +33,8 @@ public class Cuadricula {
 		return n += 1;
 	}
 
-	public void printMatriz() {
+	public void printMatriz() 
+	{
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 				System.out.print(this.getMatrix()[i][j]);
@@ -32,14 +42,14 @@ public class Cuadricula {
 			System.out.println();
 		}
 	}
-	
-	public Celda[][] getMatrix() {
-		return matrix;
-	}
 
-	public void setMatrix(Celda[][] matrix) {
-		this.matrix = matrix;
+	public void limpiarNumerosRepetidos(int numeros) 
+	{	
+		for (int i = 0; i < getMatrix().length; i++) {
+			for (int j = 0; j < getMatrix()[i].length; j++) {
+				
+			}
+		}
 	}
-
 
 }
