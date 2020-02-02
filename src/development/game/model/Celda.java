@@ -6,9 +6,8 @@ public class Celda {
 	private Posicion miPosicion;
 	private boolean isRepeat;
 	
-	public Celda(boolean isRepeat, Posicion miPosicion, Integer numero) {
+	public Celda(boolean isRepeat, Integer numero) {
 		this.setRepeat(isRepeat);
-		this.setMiPosicion(miPosicion);
 		this.setNumero(numero);
 	}
 	
@@ -39,4 +38,5 @@ public class Celda {
 	public String toString() {
 		return this.getNumero().toString();
 	}
+	
 }
