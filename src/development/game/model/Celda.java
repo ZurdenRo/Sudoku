@@ -6,9 +6,10 @@ public class Celda {
 	private Posicion miPosicion;
 	private boolean isRepeat;
 	
-	public Celda(boolean isRepeat, Integer numero) {
-		this.setRepeat(isRepeat);
+	public Celda(Posicion p, Integer numero) {
 		this.setNumero(numero);
+		this.setMiPosicion(p);
+		this.setRepeat(false);
 	}
 	
 	public Integer getNumero() {
