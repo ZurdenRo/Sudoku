@@ -1,13 +1,15 @@
 package development.game.model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Cuadricula {
 	
 	private Celda [] [] matrix;
+	private ArrayList<Integer> numerosEncontrados;
 	
 	public Cuadricula() {
-		this.setMatrix(new Celda [3] [3]);
+		this.setMatrix(new Celda [6] [6]);
 	}
 
 	public Celda[][] getMatrix() {
@@ -18,11 +20,17 @@ public class Cuadricula {
 		this.matrix = matrix;
 	}
 	
-	public void generarCuadro() {			
+	public void generarCuadro() {	
+		iniciarNumeroGrilla();
 		for (int f = 0; f < this.getMatrix().length; f++) {
 			for (int c = 0; c < this.getMatrix()[f].length; c++) {
 				int numeroAsignado = generateNumberRandom();
-				getMatrix()[f][c] = new Celda(false, numeroAsignado);
+				if(numeroAsignado <= numerosEncontrados.size() ) {
+					int num = numerosEncontrados.get(numeroAsignado - 1);
+					getMatrix()[f][c] = new Celda(new Posicion(f, c), num);
+					numerosEncontrados.remove(numeroAsignado - 1);
+				}
+				
 			}
 		}
 	}
@@ -43,13 +51,21 @@ public class Cuadricula {
 		}
 	}
 
-	public void limpiarNumerosRepetidos(int numeros) 
-	{	
-		for (int i = 0; i < getMatrix().length; i++) {
-			for (int j = 0; j < getMatrix()[i].length; j++) {
-				
-			}
+	public void iniciarNumeroGrilla() {
+		numerosEncontrados = new ArrayList<Integer>();
+		for (int i = 0; i < 9; i++) {
+			numerosEncontrados.add(i + 1);
 		}
 	}
-
+	
+	public void limpiarNumerosRepetidos( Celda arr[][]) 
+	{	
+		for (int i = 0; i < arr.length; i++) {
+			
+			for (int j = 0; j < arr[i].length; j++) {
+				
+			
+		}
+	}
+	}
 }
