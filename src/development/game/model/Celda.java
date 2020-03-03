@@ -2,41 +2,55 @@ package development.game.model;
 
 public class Celda {
 
-	private Integer numero;
-	private Posicion miPosicion;
-	private boolean isRepeat;
-	
-	public Celda(boolean isRepeat, Posicion miPosicion, Integer numero) {
-		this.setRepeat(isRepeat);
-		this.setMiPosicion(miPosicion);
-		this.setNumero(numero);
-	}
-	
-	public Integer getNumero() {
-		return numero;
-	}
+	private int number;
+    private boolean isRepeat;
+    private int position;
+    private boolean numberAbsent;
 
-	public void setNumero(Integer numero) {
-		this.numero = numero;
-	}
+    public Celda(int number, boolean isRepeat, int position){
+        setNumber(number);
+        setRepeat(isRepeat);
+        setPosition(position);
+    }
 
-	public Posicion getMiPosicion() {
-		return miPosicion;
-	}
+    public Celda(int number, boolean numberAbsent){
+        setNumber(number);
+        setNumberAbsent(numberAbsent);
+    }
 
-	public void setMiPosicion(Posicion miPosicion) {
-		this.miPosicion = miPosicion;
-	}
+    public boolean isRepeat() {
+        return isRepeat;
+    }
 
-	public boolean isRepeat() {
-		return isRepeat;
-	}
+    public void setRepeat(boolean repeat) {
+        isRepeat = repeat;
+    }
+    public int getNumber() {
+        return number;
+    }
 
-	public void setRepeat(boolean isRepeat) {
-		this.isRepeat = isRepeat;
-	}
-	
-	public String toString() {
-		return this.getNumero().toString();
-	}
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public String toString(){
+        return String.valueOf(this.getNumber());
+    }
+
+    public boolean isNumberAbsent() {
+        return numberAbsent;
+    }
+
+    public void setNumberAbsent(boolean numberAbsent) {
+        this.numberAbsent = numberAbsent;
+    }
+
 }
