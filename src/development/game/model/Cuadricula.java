@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Cuadricula {
+	
 	public static  Celda arr[] = new Celda[9];
     public static Celda [] numerosDisponibles = new Celda [9];
     public static ArrayList<Integer> numerosFaltantes;
-
+    
     public Cuadricula() {
 
     }
@@ -19,7 +20,6 @@ public class Cuadricula {
     }
 
     public void createArrayNumber(){
-
         for (int i = 0 ; i < arr.length ; i++){
             arr[i] = new Celda(generateNumberRandom(),false, i);
         }
@@ -32,7 +32,7 @@ public class Cuadricula {
 
     }
 
-    public static void printNumber(Object [] arr){
+    public void printNumber(Object [] arr){
         for (int i =  0; i < arr.length ; i++) {
             System.out.println(arr[i]);
         }
@@ -103,8 +103,7 @@ public class Cuadricula {
         }
     }
 
-    public void addNumberRepetitive(){
-        printNumber(Cuadricula.arr);
+    public void sizeNumberAbsent(){
         System.out.println(numerosFaltantes.size());
     }
 
