@@ -1,6 +1,6 @@
 package development.game.model;
 
-public class Celda {
+public class Cell{
 
 
     private int number;
@@ -8,13 +8,13 @@ public class Celda {
     private Position position;
     private boolean numberAbsent;
 
-    public Celda(int number, boolean isRepeat, Position p){
+    public Cell(int number, boolean isRepeat, Position p){
         setNumber(number);
         setRepeat(isRepeat);
         setPosition(p);
     }
 
-    public Celda(int number, boolean numberAbsent){
+    public Cell(int number, boolean numberAbsent){
         setNumber(number);
         setNumberAbsent(numberAbsent);
     }

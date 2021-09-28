@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class Cuadricula{
 
-    public static Celda arr[][] = new Celda[3][3];
-    public static Celda[] numerosDisponibles = new Celda[9];
+    public static Cell arr[][] = new Cell[3][3];
+    public static Cell[] numerosDisponibles = new Cell[9];
     public static ArrayList<Integer> numerosFaltantes;
     public Tablero t;
 
@@ -28,23 +28,23 @@ public class Cuadricula{
         return n += 1;
     }
 
-    public void createMatrixNumber(Celda[][] cell){
+    public void createMatrixNumber(Cell[][] cell){
 
         for(int i = 0; i < cell.length; i++) {
             for(int c = 0; c < cell[i].length; c++) {
-                cell[i][c] = new Celda(generateNumberRandom(), false, new Position(i, c));
+                cell[i][c] = new Cell(generateNumberRandom(), false, new Position(i, c));
             }
         }
     }
 
     public static void llenarNumerosDisponibles(){
         for(int i = 0; i < numerosDisponibles.length; i++) {
-            numerosDisponibles[i] = new Celda(i + 1, true);
+            numerosDisponibles[i] = new Cell(i + 1, true);
         }
 
     }
 
-    public void printMatrix(Celda[][] cell){
+    public void printMatrix(Cell[][] cell){
         for(int i = 0; i < cell.length; i++) {
             for(int j = 0; j < cell[i].length; j++) {
                 System.out.println(cell[i][j].getNumber());
@@ -52,7 +52,7 @@ public class Cuadricula{
         }
     }
 
-    public void removeNumberRepetitive(Celda[][] cell){
+    public void removeNumberRepetitive(Cell[][] cell){
         for(int i = 0; i < cell.length; i++) {
             //System.out.println(arr[i]);
             for(int j = 0; j < cell[i].length; j++) {
@@ -61,7 +61,7 @@ public class Cuadricula{
         }
     }
 
-    public void cellToCheck(Celda c, Celda[][] cell){
+    public void cellToCheck(Cell c, Cell[][] cell){
         for(int i = 0; i < cell.length; i++) {
             for(int j = 0; j < cell[i].length; j++) {
                 if(!(c.isRepeat())) {
@@ -76,7 +76,7 @@ public class Cuadricula{
         }
     }
 
-    public void printNumberRepetitive(Celda[][] cell){
+    public void printNumberRepetitive(Cell[][] cell){
         for(int i = 0; i < cell.length; i++) {
             for(int j = 0; j < cell[i].length; j++) {
                 if(cell[i][j].isRepeat()) {
@@ -87,7 +87,7 @@ public class Cuadricula{
         }
     }
 
-    public void markTrueNumberRepetitive(Celda[][] cell){
+    public void markTrueNumberRepetitive(Cell[][] cell){
         numerosFaltantes = new ArrayList<>();
         for(int i = 0; i < cell.length; i++) {
             for(int j = 0; j < cell[i].length; j++) {
@@ -99,7 +99,7 @@ public class Cuadricula{
         seleccionarNumerosFaltantes(cell);
     }
 
-    public void searchArrNumberEnable(Celda c){
+    public void searchArrNumberEnable(Cell c){
         for(int i = 0; i < numerosDisponibles.length; i++) {
             if(numerosDisponibles[i].getNumber() == c.getNumber()) {
                 numerosDisponibles[i].setNumberAbsent(false);
@@ -115,7 +115,7 @@ public class Cuadricula{
         }
     }
 
-    public void seleccionarNumerosFaltantes(Celda[][] cell){
+    public void seleccionarNumerosFaltantes(Cell[][] cell){
         Random r = new Random();
 
         for(int i = 0; i < cell.length; i++) {
