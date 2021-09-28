@@ -4,13 +4,21 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Cuadricula {
-	
-	public static  Celda arr[] = new Celda[9];
-    public static Celda [] numerosDisponibles = new Celda [9];
-    public static ArrayList<Integer> numerosFaltantes;
+
+    public static Cell arr[] = new Cell[9];
+    public static Cell[] numbersAvailable = new Cell[9];
+    public static ArrayList<Integer> numbersMissing;
     
     public Cuadricula() {
 
+    }
+
+    public static Cell[] getArr(){
+        return arr;
+    }
+
+    public static void setArr(Cell[] arr){
+        Cuadricula.arr = arr;
     }
 
     public int generateNumberRandom() {
@@ -21,13 +29,13 @@ public class Cuadricula {
 
     public void createArrayNumber(){
         for (int i = 0 ; i < arr.length ; i++){
-            arr[i] = new Celda(generateNumberRandom(),false, i);
+            arr[i] = new Cell(generateNumberRandom(),false, i);
         }
     }
 
     public static void addNumber(){
-        for (int i = 0 ; i < numerosDisponibles.length ; i++){
-            numerosDisponibles[i] = new Celda(i +1 , true) ;
+        for (int i = 0; i < numbersAvailable.length ; i++){
+            numbersAvailable[i] = new Cell(i +1 , true) ;
         }
 
     }
@@ -58,7 +66,7 @@ public class Cuadricula {
         for (int i = 0; i < arr.length; i++) {
 
             if(arr[i].isRepeat()){
-                System.out.println(arr[i].getNumber() + "Repetido");
+                System.out.println(arr[i].getNumber() + "Repeat:");
 
             }else{
                 System.out.println(arr[i].getNumber());
@@ -67,45 +75,49 @@ public class Cuadricula {
     }
 
     public void markTrueNumberRepetitive(){
-        numerosFaltantes = new ArrayList<>();
+        numbersMissing = new ArrayList<>();
         for (int i = 0; i < arr.length; i++) {
              searchArrNumberEnable(arr[i]);
         }
-        changerNumerosReptidosPorFaltantes();
-        seleccionarNumerosFaltantes();
+        changeNumbersRepetitiveForMissing();
+        selectNumberMissing();
     }
 
-    public void searchArrNumberEnable(Celda c){
-        for (int i = 0; i < numerosDisponibles.length; i++) {
-            if(numerosDisponibles[i].getNumber() == c.getNumber()){
-                numerosDisponibles[i].setNumberAbsent(false);
+    public void searchArrNumberEnable(Cell c){
+        for (int i = 0; i < numbersAvailable.length; i++) {
+            if(numbersAvailable[i].getNumber() == c.getNumber()){
+                numbersAvailable[i].setNumberAbsent(false);
             }
         }
     }
 
-    public void changerNumerosReptidosPorFaltantes(){
-        for (int i = 0; i < numerosDisponibles.length; i++) {
-            if(numerosDisponibles[i].isNumberAbsent()){
-                numerosFaltantes.add(numerosDisponibles[i].getNumber());
+    public void changeNumbersRepetitiveForMissing(){
+        for (int i = 0; i < numbersAvailable.length; i++) {
+            if(numbersAvailable[i].isNumberAbsent()){
+                numbersMissing.add(numbersAvailable[i].getNumber());
             }
         }
     }
-    public void seleccionarNumerosFaltantes(){
+    public void selectNumberMissing(){
         Random r = new Random();
 
         for (int i = 0; i < arr.length; i++) {
             if(arr[i].isRepeat()){
-                int n = r.nextInt(numerosFaltantes.size());
+                int n = r.nextInt(numbersMissing.size());
 
-                arr[i].setNumber(numerosFaltantes.get(n));
-                numerosFaltantes.remove(n);
+                arr[i].setNumber(numbersMissing.get(n));
+                numbersMissing.remove(n);
             }
         }
     }
 
     public void sizeNumberAbsent(){
-        System.out.println(numerosFaltantes.size());
+        System.out.println(numbersMissing.size());
     }
 
 
+    @Override
+    public String toString(){
+        return super.toString();
+    }
 }

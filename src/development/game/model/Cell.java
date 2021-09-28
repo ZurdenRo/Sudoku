@@ -1,19 +1,19 @@
 package development.game.model;
 
-public class Celda {
+public class Cell{
 
 	private int number;
     private boolean isRepeat;
     private int position;
     private boolean numberAbsent;
 
-    public Celda(int number, boolean isRepeat, int position){
+    public Cell(int number, boolean isRepeat, int position){
         setNumber(number);
         setRepeat(isRepeat);
         setPosition(position);
     }
 
-    public Celda(int number, boolean numberAbsent){
+    public Cell(int number, boolean numberAbsent){
         setNumber(number);
         setNumberAbsent(numberAbsent);
     }
