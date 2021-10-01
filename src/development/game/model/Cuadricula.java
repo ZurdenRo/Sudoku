@@ -5,21 +5,24 @@ import java.util.Random;
 
 public class Cuadricula{
 
-    public static Cell arr[][] = new Cell[3][3];
-    public static Cell[] numberAvailable = new Cell[9];
-    public static ArrayList<Integer> numbersMissing;
-    public Tablero t;
+    private Cell[][] c;
+    private static final Cell[] numberAvailable = new Cell[9];
+    private static ArrayList<Integer> numbersMissing;
+
+    public Cuadricula(Cell[][] c ){
+        setC(c);
+    }
 
     public Cuadricula(){
 
     }
 
-    public Tablero getT(){
-        return t;
+    public void setC(Cell[][] c ){
+        this.c = c;
     }
 
-    public void setT(Tablero t){
-        this.t = t;
+    public Cell[][] getC(){
+        return this.c;
     }
 
     public int generateNumberRandom(){
@@ -138,6 +141,6 @@ public class Cuadricula{
 
     @Override
     public String toString(){
-        return super.toString();
+        return  "";
     }
 }
