@@ -3,137 +3,144 @@ package development.game.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Cuadricula {
-	
-	 public static  Celda arr[] [] = new Celda[3] [3];
-	    public static Celda [] numerosDisponibles = new Celda [9];
-	    public static ArrayList<Integer> numerosFaltantes;
-	    public Tablero t;
+public class Cuadricula{
 
-	    public Cuadricula() {
+    private Cell[][] c;
+    private static final Cell[] numberAvailable = new Cell[9];
+    private static ArrayList<Integer> numbersMissing;
 
-	    }
+    public Cuadricula(Cell[][] c ){
+        setC(c);
+    }
 
-	    public Tablero getT() {
-	        return t;
-	    }
+    public Cuadricula(){
 
-	    public void setT(Tablero t) {
-	        this.t = t;
-	    }
+    }
 
-	    public int generateNumberRandom() {
-	        Random number = new Random();
-	        int n = number.nextInt(9);
-	        return n += 1;
-	    }
+    public void setC(Cell[][] c ){
+        this.c = c;
+    }
 
-	    public void createMatrixNumber(Celda [][] cell){
+    public Cell[][] getC(){
+        return this.c;
+    }
 
-	        for (int i = 0 ; i < cell.length ; i++){
-	            for (int c = 0 ; c < cell[i].length ; c++){
-	                cell[i][c] = new Celda(generateNumberRandom(),false, new Position(i, c));
-	            }
-	        }
-	    }
+    public int generateNumberRandom(){
+        Random number = new Random();
+        int n = number.nextInt(9);
+        return n += 1;
+    }
 
-	    public static void llenarNumerosDisponibles(){
-	        for (int i = 0 ; i < numerosDisponibles.length ; i++){
-	            numerosDisponibles[i] = new Celda(i +1 , true) ;
-	        }
+    public void createMatrixNumber(Cell[][] cell){
 
-	    }
+        for(int i = 0; i < cell.length; i++) {
+            for(int c = 0; c < cell[i].length; c++) {
+                cell[i][c] = new Cell(generateNumberRandom(), false, new Position(i, c));
+            }
+        }
+    }
 
-	    public  void printMatrix(Celda [][] cell){
-	    	for (int i = 0; i < cell.length; i++) {
-				for (int j = 0; j < cell[i].length; j++) {
-					System.out.println(cell[i][j].getNumber());
-				}
-			}
-	    }
+    public static void fillNumbersAvailable(){
+        for(int i = 0; i < numberAvailable.length; i++) {
+            numberAvailable[i] = new Cell(i + 1, true);
+        }
 
-	    public void removeNumberRepetitive(Celda [][] cell){
-	        for (int i = 0; i < cell.length; i++) {
-	            //System.out.println(arr[i]);
-	            for (int j = 0; j < cell[i].length; j++) {
-	                cellToCheck(cell[i][j], cell);
-	            }
-	        }
-	    }
+    }
 
-	    public void cellToCheck(Celda c, Celda[][] cell){
-	        for (int i = 0; i < cell.length; i++) {
-	            for (int j = 0; j < cell[i].length; j++) {
-	                if(!(c.isRepeat())){
-	                    if(!(c.getPosition().equals(cell[i][j].getPosition()))){
-	                        if(c.getNumber() == cell[i][j].getNumber()  ){
-	                            // System.out.println( arr[j].getNumber() + "Repeat");
-	                            cell[i][j].setRepeat(true);
-	                        }
-	                    }
-	                }
-	            }
-	        }
-	    }
+    public void printMatrix(Cell[][] cell){
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                System.out.print(cell[i][j].getNumber() + " ");
+            }
+            System.out.println();
+        }
+    }
 
-	    public void printNumberRepetitive(Celda[][] cell){
-	        for (int i = 0; i < cell.length; i++) {
-	            for (int j = 0; j < cell[i].length; j++) {
-	                if(cell[i][j].isRepeat()){
-	                    System.out.println("Repetido" + cell[i][j].getNumber());
-	                }
-	            }
+    public void removeNumberRepetitive(Cell[][] cell){
+        for(int i = 0; i < cell.length; i++) {
+            //System.out.println(arr[i]);
+            for(int j = 0; j < cell[i].length; j++) {
+                cellToCheck(cell[i][j], cell);
+            }
+        }
+    }
 
-	        }
-	    }
+    public void cellToCheck(Cell c, Cell[][] cell){
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                if(!(c.isRepeat())) {
+                    if(!(c.getPosition().equals(cell[i][j].getPosition()))) {
+                        if(c.getNumber() == cell[i][j].getNumber()) {
+                            // System.out.println( arr[j].getNumber() + "Repeat");
+                            cell[i][j].setRepeat(true);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-	    public void markTrueNumberRepetitive(Celda[][] cell){
-	        numerosFaltantes = new ArrayList<>();
-	        for (int i = 0; i < cell.length; i++) {
-	            for (int j = 0; j < cell[i].length; j++) {
-	                searchArrNumberEnable(cell[i][j]);
-	            }
+    public void printNumberRepetitive(Cell[][] cell){
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                if(cell[i][j].isRepeat()) {
+                    System.out.println("Repetido" + cell[i][j].getNumber());
+                }
+            }
 
-	        }
-	        changerNumerosReptidosPorFaltantes();
-	        seleccionarNumerosFaltantes(cell);
-	    }
+        }
+    }
 
-	    public void searchArrNumberEnable(Celda c){
-	        for (int i = 0; i < numerosDisponibles.length; i++) {
-	            if(numerosDisponibles[i].getNumber() == c.getNumber()){
-	                numerosDisponibles[i].setNumberAbsent(false);
-	            }
-	        }
-	    }
+    public void markTrueNumberRepetitive(Cell[][] cell){
+        numbersMissing = new ArrayList<>();
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                searchArrNumberEnable(cell[i][j]);
+            }
 
-	    public void changerNumerosReptidosPorFaltantes(){
-	        for (int i = 0; i < numerosDisponibles.length; i++) {
-	            if(numerosDisponibles[i].isNumberAbsent()){
-	                numerosFaltantes.add(numerosDisponibles[i].getNumber());
-	            }
-	        }
-	    }
+        }
+        changerNumberRepetitiveForMissing();
+        selectNumberMissing(cell);
+    }
 
-	    public void seleccionarNumerosFaltantes(Celda [] [] cell){
-	        Random r = new Random();
+    public void searchArrNumberEnable(Cell c){
+        for(int i = 0; i < numberAvailable.length; i++) {
+            if(numberAvailable[i].getNumber() == c.getNumber()) {
+                numberAvailable[i].setNumberAbsent(false);
+            }
+        }
+    }
 
-	        for (int i = 0; i < cell.length; i++) {
-	            for (int j = 0; j < cell[i].length; j++) {
-	                if(cell[i][j].isRepeat()){
-	                    int n = r.nextInt(numerosFaltantes.size());
+    public void changerNumberRepetitiveForMissing(){
+        for(int i = 0; i < numberAvailable.length; i++) {
+            if(numberAvailable[i].isNumberAbsent()) {
+                numbersMissing.add(numberAvailable[i].getNumber());
+            }
+        }
+    }
 
-	                    cell[i][j].setNumber(numerosFaltantes.get(n));
-	                    numerosFaltantes.remove(n);
-	                }
-	            }
+    public void selectNumberMissing(Cell[][] cell){
+        Random r = new Random();
 
-	        }
-	    }
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                if(cell[i][j].isRepeat()) {
+                    int n = r.nextInt(numbersMissing.size());
 
-	    public void checkCol(){
+                    cell[i][j].setNumber(numbersMissing.get(n));
+                    numbersMissing.remove(n);
+                }
+            }
 
-	    }
+        }
+    }
 
+    public void checkCol(){
 
+    }
+
+    @Override
+    public String toString(){
+        return  "";
+    }
 }
