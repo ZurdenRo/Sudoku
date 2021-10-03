@@ -10,24 +10,39 @@ public class App{
 
     public static void main(String[] args){
 
+        Cell[][] cellsOne = new Cell[2][2];
+        Cell[][] cellsTwo = new Cell[2][2];
+        Cell[][] cellsThree = new Cell[2][2];
+        Cell[][] cellsFour = new Cell[2][2];
         Cuadricula c = new Cuadricula();;
-        Cell[][] cellsOne = new Cell[3][3];
         c.createMatrixNumber(cellsOne);
         Cuadricula.fillNumbersAvailable();
         c.removeNumberRepetitive(cellsOne);
         c.markTrueNumberRepetitive(cellsOne);
         c.printMatrix(cellsOne);
 
-        Cell[][] cellsTwo = new Cell[3][3];
         c.createMatrixNumber(cellsTwo);
         Cuadricula.fillNumbersAvailable();
         c.removeNumberRepetitive(cellsTwo);
         c.markTrueNumberRepetitive(cellsTwo);
         c.printMatrix(cellsTwo);
 
-        Tablero tablero = new Tablero();
-        tablero.setGridOnTable(cellsOne, cellsTwo);
-        //t.printGrid();
+        c.createMatrixNumber(cellsThree);
+        Cuadricula.fillNumbersAvailable();
+        c.removeNumberRepetitive(cellsThree);
+        c.markTrueNumberRepetitive(cellsThree);
+        c.printMatrix(cellsThree);
+
+        c.createMatrixNumber(cellsFour);
+        Cuadricula.fillNumbersAvailable();
+        c.removeNumberRepetitive(cellsFour);
+        c.markTrueNumberRepetitive(cellsFour);
+        c.printMatrix(cellsFour);
+
+        c.setGrid(new Cuadricula[2][2]);
+        c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour);
+        c.printGrid();
+
     }
 
 }
