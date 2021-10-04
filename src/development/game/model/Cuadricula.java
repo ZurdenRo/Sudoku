@@ -55,7 +55,7 @@ public class Cuadricula{
 
         for(int i = 0; i < cell.length; i++) {
             for(int c = 0; c < cell[i].length; c++) {
-                cell[i][c] = new Cell(generateNumberRandom(), false, new Position(i, c));
+                cell[i][c] = new Cell(generateNumberRandom(), false, new Position(i, c), false);
             }
         }
     }
@@ -89,7 +89,7 @@ public class Cuadricula{
         for(int i = 0; i < cell.length; i++) {
             for(int j = 0; j < cell[i].length; j++) {
                 if(!(c.isRepeat())) {
-                    if(!(c.getPosition().equals(cell[i][j].getPosition()))) {
+                    if(!(c.getPosition().equalsPosition(cell[i][j].getPosition()))) {
                         if(c.getNumber() == cell[i][j].getNumber()) {
                             // System.out.println( arr[j].getNumber() + "Repeat");
                             cell[i][j].setRepeat(true);
@@ -156,6 +156,7 @@ public class Cuadricula{
     }
 
     public void setCellsOnGrid(Cell[][] ... cells){
+        int count = 0;
         for(Cell[][] rec: cells){
             boolean isBreak = false;
             for(int i = 0; i < this.getGrid().length; i++) {
@@ -163,7 +164,8 @@ public class Cuadricula{
                 for(int j = 0; j < this.getGrid()[i].length; j++) {
                     if(this.getGrid()[i][j] == null){
                         isBreak = true;
-                        this.getGrid()[i][j] = new Cuadricula(rec, "r:" + i + "c:" + j);
+                        count++;
+                        this.getGrid()[i][j] = new Cuadricula(rec, "IDGrid: " + count);
                         break;
                     }
                 }
@@ -211,4 +213,50 @@ public class Cuadricula{
         System.out.println("-------------");
     }
 
+    public Position getPosition()
+    {
+        Position p = null ;
+        boolean getPosition = false;
+        for (int i = 0; i < this.getGrid().length; i++) {
+            for (int j = 0; j < this.getGrid()[i].length; j++) {
+
+                for (int k = 0; k < this.getGrid()[i][j].getC().length; k++) {
+                    for (int l = 0; l < this.getGrid()[i][j].getC()[k].length; l++) {
+                        if(!this.getGrid()[i][j].getC()[k][l].isChecked()){
+                            p = new Position(this.getGrid()[i][j].getIndicator(), this.getGrid()[i][j].getC()[k][l]);
+                            getPosition = true;
+                            break;
+                        }
+                    }
+                    if(getPosition){
+                        break;
+                    }
+                }
+                if(getPosition){
+                    break;
+                }
+            }
+            if(getPosition){
+                break;
+            }
+        }
+        return  p;
+    }
+
+    public void walkGridonRow(){
+        Position p = getPosition();
+        for (int i = 0; i < this.getGrid().length; i++) {
+            for (int j = 0; j < this.getGrid()[i].length; j++) {
+
+            }
+        }
+    }
+    @Override
+    public String toString() {
+        return "Cuadricula{" +
+                "grid=" + Arrays.toString(grid) +
+                ", c=" + Arrays.toString(c) +
+                ", indicator='" + indicator + '\'' +
+                '}';
+    }
 }

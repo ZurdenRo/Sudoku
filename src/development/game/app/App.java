@@ -3,7 +3,6 @@ package development.game.app;
 
 import development.game.model.Cell;
 import development.game.model.Cuadricula;
-import development.game.model.Tablero;
 
 
 public class App{
@@ -15,6 +14,7 @@ public class App{
         Cell[][] cellsThree = new Cell[2][2];
         Cell[][] cellsFour = new Cell[2][2];
         Cuadricula c = new Cuadricula();;
+
         c.createMatrixNumber(cellsOne);
         Cuadricula.fillNumbersAvailable();
         c.removeNumberRepetitive(cellsOne);
@@ -42,7 +42,7 @@ public class App{
         c.setGrid(new Cuadricula[2][2]);
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour);
         c.printGrid();
-
+        c.walkGridonRow();
     }
 
 }

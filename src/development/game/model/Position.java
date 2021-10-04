@@ -2,45 +2,69 @@ package development.game.model;
 
 public class Position{
 
-    private int fila;
-    private int columna;
+    private int row;
+    private int column;
+    private String idGrid;
+    private Cell cell;
 
-    public Position(int fila, int columna){
-        setFila(fila);
-        setColumna(columna);
+    public Position(int row, int column){
+        setRow(row);
+        setColumn(column);
     }
 
-    public int getFila(){
-        return fila;
+    public Position(String idGrid, Cell c){
+        setIdGrid(idGrid);
+        setCell(c);
     }
 
-    public void setFila(int fila){
-        this.fila = fila;
+    public String getIdGrid() {
+        return idGrid;
     }
 
-    public int getColumna(){
-        return columna;
+    public void setIdGrid(String idGrid) {
+        this.idGrid = idGrid;
     }
 
-    public void setColumna(int columna){
-        this.columna = columna;
+    public Cell getCell() {
+        return cell;
+    }
+
+    public void setCell(Cell cell) {
+        this.cell = cell;
     }
 
 
-    public boolean equals(Position obj){
+    public int getRow(){
+        return row;
+    }
+
+    public void setRow(int row){
+        this.row = row;
+    }
+
+    public int getColumn(){
+        return column;
+    }
+
+    public void setColumn(int column){
+        this.column = column;
+    }
+
+
+    public boolean equalsPosition(Position obj){
         if(obj == null) return false;
-        if(this.getColumna() == obj.getColumna() && this.getFila() == obj.getFila()) return true;
-        if(this.getColumna() != obj.getColumna() || this.getFila() != obj.getFila()) return false;
-        return this.getColumna() != obj.getColumna() && this.getFila() != obj.getFila();
+        if(this.getColumn() == obj.getColumn() && this.getRow() == obj.getRow()) return true;
+        if(this.getColumn() != obj.getColumn() || this.getRow() != obj.getRow()) return false;
+        return this.getColumn() != obj.getColumn() && this.getRow() != obj.getRow();
     }
 
     @Override
-    public String toString(){
-        return "{" +
-                "fila=" + fila +
-                ", columna=" + columna +
+    public String toString() {
+        return "Position{" +
+                "row=" + row +
+                ", column=" + column +
+                ", idGrid='" + idGrid + '\'' +
+                ", cell=" + cell +
                 '}';
     }
-
-
 }

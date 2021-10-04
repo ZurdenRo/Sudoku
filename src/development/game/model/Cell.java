@@ -7,11 +7,21 @@ public class Cell{
     private boolean isRepeat;
     private Position position;
     private boolean numberAbsent;
+    private boolean isChecked;
 
-    public Cell(int number, boolean isRepeat, Position p){
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public Cell(int number, boolean isRepeat, Position p, boolean isChecked){
         setNumber(number);
         setRepeat(isRepeat);
         setPosition(p);
+        setChecked(isChecked);
     }
 
     public Cell(int number, boolean numberAbsent){
@@ -52,12 +62,12 @@ public class Cell{
 
     @Override
     public String toString() {
-        return "{" +
+        return "Cell{" +
                 "number=" + number +
                 ", isRepeat=" + isRepeat +
                 ", position=" + position +
                 ", numberAbsent=" + numberAbsent +
+                ", isChecked=" + isChecked +
                 '}';
     }
-
 }
