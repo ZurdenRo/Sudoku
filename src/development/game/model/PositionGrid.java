@@ -1,2 +1,5 @@
-package development.game.model;public class PositionGrid {
+package development.game.model;
+
+public class PositionGrid{
+
 }
