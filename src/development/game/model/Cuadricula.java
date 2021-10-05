@@ -213,9 +213,9 @@ public class Cuadricula{
         System.out.println("-------------");
     }
 
-    public Position getPosition()
+    public PositionGrid getPosition()
     {
-        Position p = null ;
+        PositionGrid p = null ;
         boolean getPosition = false;
         for (int i = 0; i < this.getGrid().length; i++) {
             for (int j = 0; j < this.getGrid()[i].length; j++) {
@@ -223,7 +223,7 @@ public class Cuadricula{
                 for (int k = 0; k < this.getGrid()[i][j].getC().length; k++) {
                     for (int l = 0; l < this.getGrid()[i][j].getC()[k].length; l++) {
                         if(!this.getGrid()[i][j].getC()[k][l].isChecked()){
-                            p = new Position(this.getGrid()[i][j].getIndicator(), this.getGrid()[i][j].getC()[k][l]);
+                            p = new PositionGrid(this.getGrid()[i][j].getIndicator(), this.getGrid()[i][j].getC()[k][l], new Position(i,j));
                             getPosition = true;
                             break;
                         }
@@ -244,10 +244,10 @@ public class Cuadricula{
     }
 
     public void walkGridOnRow(){
-        Position p = getPosition();
+        PositionGrid p = getPosition();
         int limitRow = this.getGrid().length - 1;
         int maxColumn = this.getGrid()[limitRow].length;
-        if(p.getRow() == 0 && p.getColumn() == 0){
+        if(p.getPositionGrid().getRow() ==0 && p.getPositionGrid().getColumn() == 0){
 
         }
         System.out.println(p);
