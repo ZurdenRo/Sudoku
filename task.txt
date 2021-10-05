@@ -30,4 +30,24 @@ Cuadricula:
 																													
 	Esto es el proceso completo generar un CUADRO de 9 CELDAS de forma random con numeros no repetidos de 1...9
 	y luego es agregado a un tablero de 3 filas y 3 columnas.
+
+
+1. recorre filas
+2. chequear repetidos
+3. ir hacia el repetido y movenrlo dentro de la misma grilla.
+    selecciona una celda:
+    1. recorrer de arriba a abajo las filas, verificar si existe el numero
+    repetido en las filas, luego si existe:
+        me paro en la grilla que esta repetido el numero
+        reccorrer de izq. a derech. las columas de la misma grilla en la fila
+        anterior seleccionado, verificar si no existe el mismo valor en la columna
+        y setearlo en esa columna.
+        Una vez realizado esto 2 procesos, cambiar las celdas de estos 2(el que se
+        va tener que mover y el otro que va hacer movido),
+         setear con un flag{booleano}, del cual esta celda en la grilla,
+         no se mueve mas ya que fue checkeado, el otro puede ser movido ya que no se chequeo.
+
+
+4.
+
 	

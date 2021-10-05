@@ -41,8 +41,8 @@ public class App{
 
         c.setGrid(new Cuadricula[2][2]);
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour);
-        c.printGrid();
-        c.walkGridonRow();
+        c.printGridTwoRowTwoCol();
+        c.walkGridOnRow();
     }
 
 }

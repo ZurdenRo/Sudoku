@@ -177,7 +177,7 @@ public class Cuadricula{
         }
     }
 
-    public void printGrid(){
+    public void printGridTwoRowTwoCol(){
         System.out.println("-------------");
         String rowOnes = "";
         String rowTwo = "";
@@ -243,14 +243,16 @@ public class Cuadricula{
         return  p;
     }
 
-    public void walkGridonRow(){
+    public void walkGridOnRow(){
         Position p = getPosition();
-        for (int i = 0; i < this.getGrid().length; i++) {
-            for (int j = 0; j < this.getGrid()[i].length; j++) {
+        int limitRow = this.getGrid().length - 1;
+        int maxColumn = this.getGrid()[limitRow].length;
+        if(p.getRow() == 0 && p.getColumn() == 0){
 
-            }
         }
+        System.out.println(p);
     }
+
     @Override
     public String toString() {
         return "Cuadricula{" +
