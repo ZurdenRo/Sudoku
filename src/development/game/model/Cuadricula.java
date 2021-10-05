@@ -1,52 +1,98 @@
 package development.game.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
-public class Cuadricula {
-	
-	public static  Celda arr[] = new Celda[9];
-    public static Celda [] numerosDisponibles = new Celda [9];
-    public static ArrayList<Integer> numerosFaltantes;
-    
-    public Cuadricula() {
+public class Cuadricula{
+
+    private static final Cell[] numberAvailable = new Cell[4];
+    private static ArrayList<Integer> numbersMissing;
+    private Cuadricula[][] grid;
+    private Cell[][] c;
+    private String indicator;
+
+    public Cuadricula(Cell[][] c, String indicator){
+        setC(c);
+        setIndicator(indicator);
+    }
+
+    public Cuadricula(){
 
     }
 
-    public int generateNumberRandom() {
+    public String getIndicator() {
+        return indicator;
+    }
+
+    public void setIndicator(String indicator) {
+        this.indicator = indicator;
+    }
+
+    public Cuadricula[][] getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Cuadricula[][] grid) {
+        this.grid = grid;
+    }
+
+    public Cell[][] getC(){
+        return this.c;
+    }
+
+    private void setC(Cell[][] c ){
+        this.c = c;
+    }
+
+    public int generateNumberRandom(){
         Random number = new Random();
-        int n = number.nextInt(9);
+        int n = number.nextInt(4);
         return n += 1;
     }
 
-    public void createArrayNumber(){
-        for (int i = 0 ; i < arr.length ; i++){
-            arr[i] = new Celda(generateNumberRandom(),false, i);
+    public void createMatrixNumber(Cell[][] cell){
+
+        for(int i = 0; i < cell.length; i++) {
+            for(int c = 0; c < cell[i].length; c++) {
+                cell[i][c] = new Cell(generateNumberRandom(), false, new Position(i, c), false);
+            }
         }
     }
 
-    public static void addNumber(){
-        for (int i = 0 ; i < numerosDisponibles.length ; i++){
-            numerosDisponibles[i] = new Celda(i +1 , true) ;
+    public static void fillNumbersAvailable(){
+        for(int i = 0; i < numberAvailable.length; i++) {
+            numberAvailable[i] = new Cell(i + 1, true);
         }
 
     }
 
-    public void printNumber(Object [] arr){
-        for (int i =  0; i < arr.length ; i++) {
-            System.out.println(arr[i]);
+    public void printMatrix(Cell[][] cell){
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                System.out.print(cell[i][j].getNumber() + " ");
+            }
+            System.out.println();
         }
     }
 
-    public void removeNumberRepetitive(){
-        for (int i = 0; i < arr.length; i++) {
+    public void removeNumberRepetitive(Cell[][] cell){
+        for(int i = 0; i < cell.length; i++) {
             //System.out.println(arr[i]);
-            for (int j = 0; j < arr.length; j++) {
-                if(!(arr[i].isRepeat())){
-                    if(arr[i].getPosition() != arr[j].getPosition()){
-                        if(arr[i].getNumber() == arr[j].getNumber()  ){
+            for(int j = 0; j < cell[i].length; j++) {
+                cellToCheck(cell[i][j], cell);
+            }
+        }
+    }
+
+    public void cellToCheck(Cell c, Cell[][] cell){
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                if(!(c.isRepeat())) {
+                    if(!(c.getPosition().equalsPosition(cell[i][j].getPosition()))) {
+                        if(c.getNumber() == cell[i][j].getNumber()) {
                             // System.out.println( arr[j].getNumber() + "Repeat");
-                            arr[j].setRepeat(true);
+                            cell[i][j].setRepeat(true);
                         }
                     }
                 }
@@ -54,58 +100,165 @@ public class Cuadricula {
         }
     }
 
-    public void printNumberRepetitive(){
-        for (int i = 0; i < arr.length; i++) {
+    public void printNumberRepetitive(Cell[][] cell){
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                if(cell[i][j].isRepeat()) {
+                    System.out.println("Repetido" + cell[i][j].getNumber());
+                }
+            }
 
-            if(arr[i].isRepeat()){
-                System.out.println(arr[i].getNumber() + "Repetido");
+        }
+    }
 
-            }else{
-                System.out.println(arr[i].getNumber());
+    public void markTrueNumberRepetitive(Cell[][] cell){
+        numbersMissing = new ArrayList<>();
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                searchArrNumberEnable(cell[i][j]);
+            }
+
+        }
+        changerNumberRepetitiveForMissing();
+        selectNumberMissing(cell);
+    }
+
+    public void searchArrNumberEnable(Cell c){
+        for(int i = 0; i < numberAvailable.length; i++) {
+            if(numberAvailable[i].getNumber() == c.getNumber()) {
+                numberAvailable[i].setNumberAbsent(false);
             }
         }
     }
 
-    public void markTrueNumberRepetitive(){
-        numerosFaltantes = new ArrayList<>();
-        for (int i = 0; i < arr.length; i++) {
-             searchArrNumberEnable(arr[i]);
-        }
-        changerNumerosReptidosPorFaltantes();
-        seleccionarNumerosFaltantes();
-    }
-
-    public void searchArrNumberEnable(Celda c){
-        for (int i = 0; i < numerosDisponibles.length; i++) {
-            if(numerosDisponibles[i].getNumber() == c.getNumber()){
-                numerosDisponibles[i].setNumberAbsent(false);
+    public void changerNumberRepetitiveForMissing(){
+        for(int i = 0; i < numberAvailable.length; i++) {
+            if(numberAvailable[i].isNumberAbsent()) {
+                numbersMissing.add(numberAvailable[i].getNumber());
             }
         }
     }
 
-    public void changerNumerosReptidosPorFaltantes(){
-        for (int i = 0; i < numerosDisponibles.length; i++) {
-            if(numerosDisponibles[i].isNumberAbsent()){
-                numerosFaltantes.add(numerosDisponibles[i].getNumber());
-            }
-        }
-    }
-    public void seleccionarNumerosFaltantes(){
+    public void selectNumberMissing(Cell[][] cell){
         Random r = new Random();
 
-        for (int i = 0; i < arr.length; i++) {
-            if(arr[i].isRepeat()){
-                int n = r.nextInt(numerosFaltantes.size());
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                if(cell[i][j].isRepeat()) {
+                    int n = r.nextInt(numbersMissing.size());
 
-                arr[i].setNumber(numerosFaltantes.get(n));
-                numerosFaltantes.remove(n);
+                    cell[i][j].setNumber(numbersMissing.get(n));
+                    numbersMissing.remove(n);
+                }
             }
+
         }
     }
 
-    public void sizeNumberAbsent(){
-        System.out.println(numerosFaltantes.size());
+    public void setCellsOnGrid(Cell[][] ... cells){
+        int count = 0;
+        for(Cell[][] rec: cells){
+            boolean isBreak = false;
+            for(int i = 0; i < this.getGrid().length; i++) {
+
+                for(int j = 0; j < this.getGrid()[i].length; j++) {
+                    if(this.getGrid()[i][j] == null){
+                        isBreak = true;
+                        count++;
+                        this.getGrid()[i][j] = new Cuadricula(rec, "IDGrid: " + count);
+                        break;
+                    }
+                }
+                if(isBreak){
+                    break;
+                }
+            }
+
+        }
     }
 
+    public void printGridTwoRowTwoCol(){
+        System.out.println("-------------");
+        String rowOnes = "";
+        String rowTwo = "";
+        String splitLines = "\n";
+        String rowFinal = "";
 
+        for (int i = 0; i < this.getGrid().length; i++) {
+            for (int j = 0; j < this.getGrid()[i].length; j++) {
+
+                for (int k = 0; k < this.getGrid()[i][j].getC().length; k++) {
+                    for (int l = 0; l < this.getGrid()[i][j].getC()[k].length; l++) {
+                        if(k == 0){
+                            rowOnes = rowOnes + this.getGrid()[i][j].getC()[k][l].getNumber() + " ";
+                        }
+                        else if (k ==1){
+                            rowTwo = rowTwo + this.getGrid()[i][j].getC()[k][l].getNumber() + " ";
+                        }
+                    }
+                }
+                if(i == 0 && j == 1){
+                    rowFinal = rowOnes.concat(splitLines).concat(rowTwo);
+                    rowOnes = "";
+                    rowTwo = "";
+                }
+                else if(i == 1 && j == 1){
+                    rowFinal = rowFinal.concat(splitLines).concat(rowOnes).concat(splitLines).concat(rowTwo);
+                }
+            }
+
+        }
+
+        System.out.println(rowFinal);
+        System.out.println("-------------");
+    }
+
+    public Position getPosition()
+    {
+        Position p = null ;
+        boolean getPosition = false;
+        for (int i = 0; i < this.getGrid().length; i++) {
+            for (int j = 0; j < this.getGrid()[i].length; j++) {
+
+                for (int k = 0; k < this.getGrid()[i][j].getC().length; k++) {
+                    for (int l = 0; l < this.getGrid()[i][j].getC()[k].length; l++) {
+                        if(!this.getGrid()[i][j].getC()[k][l].isChecked()){
+                            p = new Position(this.getGrid()[i][j].getIndicator(), this.getGrid()[i][j].getC()[k][l]);
+                            getPosition = true;
+                            break;
+                        }
+                    }
+                    if(getPosition){
+                        break;
+                    }
+                }
+                if(getPosition){
+                    break;
+                }
+            }
+            if(getPosition){
+                break;
+            }
+        }
+        return  p;
+    }
+
+    public void walkGridOnRow(){
+        Position p = getPosition();
+        int limitRow = this.getGrid().length - 1;
+        int maxColumn = this.getGrid()[limitRow].length;
+        if(p.getRow() == 0 && p.getColumn() == 0){
+
+        }
+        System.out.println(p);
+    }
+
+    @Override
+    public String toString() {
+        return "Cuadricula{" +
+                "grid=" + Arrays.toString(grid) +
+                ", c=" + Arrays.toString(c) +
+                ", indicator='" + indicator + '\'' +
+                '}';
+    }
 }
