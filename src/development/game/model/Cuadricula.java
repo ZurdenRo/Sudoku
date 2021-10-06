@@ -211,7 +211,7 @@ public class Cuadricula{
         System.out.println("-------------");
     }
 
-    public PositionGrid getPosition()
+    public PositionGrid getPositionNotChecked()
     {
         PositionGrid p = null ;
         boolean getPosition = false;
@@ -242,19 +242,32 @@ public class Cuadricula{
     }
 
     public void walkGridOnRow(){
-        PositionGrid p = getPosition();
+        PositionGrid p = getPositionNotChecked();
         int limitRow = this.getGrid().length;
         int maxColumn = this.getGrid()[limitRow - 1].length;
         HashMap<String, Position> searcher = new HashMap<>();
 
+        if(p.getPositionGrid().getRow() < limitRow){
+           for(int i = 0; i < limitRow; i++) {
+                if( i != p.getPositionGrid().getRow() ){
+                     searcher.put(this.getGrid()[i][p.getPositionGrid().getColumn()].getIndicator(), new Position(i,p.getPositionGrid().getColumn() ));
+                }
+           }
+       }
+        else if(p.getPositionGrid().getRow() == (limitRow  - 1) ){
 
-            for(int i = 0; i < limitRow; i++) {
-                for(int j = 0; j < maxColumn; j++) {
-                    if(){
+        }
 
-                    }
+        if(p.getPositionGrid().getColumn() < maxColumn){
+            System.out.println(maxColumn);
+            for(int i = 0; i < maxColumn; i++) {
+                if( i != p.getPositionGrid().getColumn() ){
+                    searcher.put(this.getGrid()[p.getPositionGrid().getRow()][i].getIndicator(), new Position(p.getPositionGrid().getRow(), i));
                 }
             }
+        }
+
+        System.out.println(searcher);
 
         System.out.println(p);
     }
