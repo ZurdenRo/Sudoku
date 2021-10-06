@@ -1,19 +1,17 @@
 package development.game.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class Cuadricula{
 
     private static final Cell[] numberAvailable = new Cell[4];
     private static ArrayList<Integer> numbersMissing;
     private Cuadricula[][] grid;
-    private Cell[][] c;
+    private Cell[][] cellsMatrix;
     private String indicator;
 
-    public Cuadricula(Cell[][] c, String indicator){
-        setC(c);
+    public Cuadricula(Cell[][] cellsMatrix, String indicator){
+        setCellsMatrix(cellsMatrix);
         setIndicator(indicator);
     }
 
@@ -37,12 +35,12 @@ public class Cuadricula{
         this.grid = grid;
     }
 
-    public Cell[][] getC(){
-        return this.c;
+    public Cell[][] getCellsMatrix(){
+        return this.cellsMatrix;
     }
 
-    private void setC(Cell[][] c ){
-        this.c = c;
+    private void setCellsMatrix(Cell[][] cellsMatrix){
+        this.cellsMatrix = cellsMatrix;
     }
 
     public int generateNumberRandom(){
@@ -187,13 +185,13 @@ public class Cuadricula{
         for (int i = 0; i < this.getGrid().length; i++) {
             for (int j = 0; j < this.getGrid()[i].length; j++) {
 
-                for (int k = 0; k < this.getGrid()[i][j].getC().length; k++) {
-                    for (int l = 0; l < this.getGrid()[i][j].getC()[k].length; l++) {
+                for (int k = 0; k < this.getGrid()[i][j].getCellsMatrix().length; k++) {
+                    for (int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
                         if(k == 0){
-                            rowOnes = rowOnes + this.getGrid()[i][j].getC()[k][l].getNumber() + " ";
+                            rowOnes = rowOnes + this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
                         }
                         else if (k ==1){
-                            rowTwo = rowTwo + this.getGrid()[i][j].getC()[k][l].getNumber() + " ";
+                            rowTwo = rowTwo + this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
                         }
                     }
                 }
@@ -220,10 +218,10 @@ public class Cuadricula{
         for (int i = 0; i < this.getGrid().length; i++) {
             for (int j = 0; j < this.getGrid()[i].length; j++) {
 
-                for (int k = 0; k < this.getGrid()[i][j].getC().length; k++) {
-                    for (int l = 0; l < this.getGrid()[i][j].getC()[k].length; l++) {
-                        if(!this.getGrid()[i][j].getC()[k][l].isChecked()){
-                            p = new PositionGrid(this.getGrid()[i][j].getIndicator(), this.getGrid()[i][j].getC()[k][l], new Position(i,j));
+                for (int k = 0; k < this.getGrid()[i][j].getCellsMatrix().length; k++) {
+                    for (int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
+                        if(!this.getGrid()[i][j].getCellsMatrix()[k][l].isChecked()){
+                            p = new PositionGrid(this.getGrid()[i][j].getIndicator(), this.getGrid()[i][j].getCellsMatrix()[k][l], new Position(i,j));
                             getPosition = true;
                             break;
                         }
@@ -245,11 +243,19 @@ public class Cuadricula{
 
     public void walkGridOnRow(){
         PositionGrid p = getPosition();
-        int limitRow = this.getGrid().length - 1;
-        int maxColumn = this.getGrid()[limitRow].length;
-        if(p.getPositionGrid().getRow() ==0 && p.getPositionGrid().getColumn() == 0){
+        int limitRow = this.getGrid().length;
+        int maxColumn = this.getGrid()[limitRow - 1].length;
+        HashMap<String, Position> searcher = new HashMap<>();
 
-        }
+
+            for(int i = 0; i < limitRow; i++) {
+                for(int j = 0; j < maxColumn; j++) {
+                    if(){
+
+                    }
+                }
+            }
+
         System.out.println(p);
     }
 
@@ -257,7 +263,7 @@ public class Cuadricula{
     public String toString() {
         return "Cuadricula{" +
                 "grid=" + Arrays.toString(grid) +
-                ", c=" + Arrays.toString(c) +
+                ", c=" + Arrays.toString(cellsMatrix) +
                 ", indicator='" + indicator + '\'' +
                 '}';
     }
