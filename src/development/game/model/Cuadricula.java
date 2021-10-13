@@ -1,6 +1,7 @@
 package development.game.model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Cuadricula{
 
@@ -253,21 +254,39 @@ public class Cuadricula{
                      searcher.put(this.getGrid()[i][p.getPositionGrid().getColumn()].getIndicator(), new Position(i,p.getPositionGrid().getColumn() ));
                 }
            }
-       }
+        }
         else if(p.getPositionGrid().getRow() == (limitRow  - 1) ){
 
         }
 
         if(p.getPositionGrid().getColumn() < maxColumn){
-            System.out.println(maxColumn);
             for(int i = 0; i < maxColumn; i++) {
                 if( i != p.getPositionGrid().getColumn() ){
                     searcher.put(this.getGrid()[p.getPositionGrid().getRow()][i].getIndicator(), new Position(p.getPositionGrid().getRow(), i));
                 }
             }
         }
+        System.out.println(searcher.entrySet());
+        for(int i = 0; i < limitRow; i++) {
+            for(int j = 0; j < maxColumn; j++) {
+                String positionActualGrid = this.getGrid()[i][j].getIndicator();
+                System.out.println(positionActualGrid);
 
-        System.out.println(searcher);
+                //System.out.println(any.get(0).getValue());
+                if(searcher.entrySet().stream().anyMatch(x -> { return x.getKey().contentEquals(positionActualGrid);})){
+                    //List<Map.Entry<String, Position>> any = searcher.entrySet().stream().filter(x -> { return x.getKey().contentEquals(ind); }).collect(Collectors.toList());
+                    for(int k = 0; k < this.getGrid()[i][j].getCellsMatrix().length; k++) {
+                        for(int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
+                            //aca recorro la fila si existe algun repetido, de ser asi muevo el identificado
+                        }
+                    }
+                    System.out.println("Enter here");
+
+                }
+            }
+        }
+
+
 
         System.out.println(p);
     }
