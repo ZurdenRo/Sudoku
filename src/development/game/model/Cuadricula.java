@@ -267,6 +267,9 @@ public class Cuadricula{
             }
         }
         System.out.println(searcher.entrySet());
+
+        System.out.println(p);
+
         for(int i = 0; i < limitRow; i++) {
             for(int j = 0; j < maxColumn; j++) {
                 String positionActualGrid = this.getGrid()[i][j].getIndicator();
@@ -278,6 +281,10 @@ public class Cuadricula{
                     for(int k = 0; k < this.getGrid()[i][j].getCellsMatrix().length; k++) {
                         for(int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
                             //aca recorro la fila si existe algun repetido, de ser asi muevo el identificado
+                            if(p.getCell().getNumber() == this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber() ){
+                                System.out.println(this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber());
+                            }
+
                         }
                     }
                     System.out.println("Enter here");
@@ -288,7 +295,7 @@ public class Cuadricula{
 
 
 
-        System.out.println(p);
+
     }
 
     @Override
