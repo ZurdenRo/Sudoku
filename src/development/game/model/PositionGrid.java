@@ -39,9 +39,10 @@ public class PositionGrid{
     @Override
     public String toString(){
         return "PositionGrid{" +
+                "idGrid='" + idGrid + '\'' +
                 "cell=" + cell +
-                ", idGrid='" + idGrid + '\'' +
                 ", p=" + positionGrid +
                 '}';
     }
+
 }
