@@ -1,7 +1,6 @@
 package development.game.model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Cuadricula{
 
@@ -246,56 +245,48 @@ public class Cuadricula{
         PositionGrid p = getPositionNotChecked();
         int limitRow = this.getGrid().length;
         int maxColumn = this.getGrid()[limitRow - 1].length;
-        HashMap<String, Position> searcher = new HashMap<>();
 
+        ArrayList<PositionSearcher> list = new ArrayList<>();
+
+        /*run row, maybe set down or up*/
         if(p.getPositionGrid().getRow() < limitRow){
            for(int i = 0; i < limitRow; i++) {
                 if( i != p.getPositionGrid().getRow() ){
-                     searcher.put(this.getGrid()[i][p.getPositionGrid().getColumn()].getIndicator(), new Position(i,p.getPositionGrid().getColumn() ));
+                    PositionSearcher ps = new PositionSearcher(this.getGrid()[i][p.getPositionGrid().getColumn()].getIndicator(), new Position(i, p.getPositionGrid().getColumn() ), (Movements.DOWN) );
+                    list.add(ps);
                 }
            }
         }
         else if(p.getPositionGrid().getRow() == (limitRow  - 1) ){
 
         }
-
+        /*run column maybe set right or left*/
         if(p.getPositionGrid().getColumn() < maxColumn){
             for(int i = 0; i < maxColumn; i++) {
                 if( i != p.getPositionGrid().getColumn() ){
-                    searcher.put(this.getGrid()[p.getPositionGrid().getRow()][i].getIndicator(), new Position(p.getPositionGrid().getRow(), i));
+                    //searcher.put(this.getGrid()[p.getPositionGrid().getRow()][i].getIndicator(), new Position(p.getPositionGrid().getRow(), i));
+                    PositionSearcher ps = new PositionSearcher(this.getGrid()[p.getPositionGrid().getRow()][i].getIndicator(), new Position(p.getPositionGrid().getRow(), i), Movements.RIGHT);
+                    list.add(ps);
                 }
             }
         }
-        System.out.println(searcher.entrySet());
 
         System.out.println(p);
 
-        for(int i = 0; i < limitRow; i++) {
-            for(int j = 0; j < maxColumn; j++) {
-                String positionActualGrid = this.getGrid()[i][j].getIndicator();
-                System.out.println(positionActualGrid);
+        for(PositionSearcher rec: list){
 
-                //System.out.println(any.get(0).getValue());
-                if(searcher.entrySet().stream().anyMatch(x -> { return x.getKey().contentEquals(positionActualGrid);})){
-                    //List<Map.Entry<String, Position>> any = searcher.entrySet().stream().filter(x -> { return x.getKey().contentEquals(ind); }).collect(Collectors.toList());
-                    for(int k = 0; k < this.getGrid()[i][j].getCellsMatrix().length; k++) {
-                        for(int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
-                            //aca recorro la fila si existe algun repetido, de ser asi muevo el identificado
-                            if(p.getCell().getNumber() == this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber() ){
-                                System.out.println(this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber());
-                            }
+            System.out.println(rec);
 
-                        }
-                    }
-                    System.out.println("Enter here");
+            if(rec.getMovements().getNumber() == -1){
+                Cuadricula cuad = this.getGrid()[rec.getP().getRow()][rec.getP().getColumn()];
 
+                for(int i = 0; i < cuad.getCellsMatrix()[p.getCell().getPosition().getRow()].length; i++) {
+                    System.out.println(cuad.getCellsMatrix()[i][p.getCell().getPosition().getColumn()].getNumber());
                 }
             }
+
         }
-
-
-
-
+        
     }
 
     @Override
@@ -305,5 +296,10 @@ public class Cuadricula{
                 ", c=" + Arrays.toString(cellsMatrix) +
                 ", indicator='" + indicator + '\'' +
                 '}';
+    }
+
+
+    private class InternPositionGrid{
+
     }
 }
