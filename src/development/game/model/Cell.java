@@ -36,6 +36,7 @@ public class Cell{
     public void setRepeat(boolean repeat) {
         isRepeat = repeat;
     }
+
     public int getNumber() {
         return number;
     }
