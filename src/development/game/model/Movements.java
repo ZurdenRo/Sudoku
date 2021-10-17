@@ -19,12 +19,12 @@ public enum Movements{
         this.number = number;
     }
 
-    public void setPositionMovements(PositionMovements positionMovements){
-        this.positionMovements = positionMovements;
-    }
-
     public int getNumber(){
         return number;
+    }
+
+    public void setPositionMovements(PositionMovements positionMovements){
+        this.positionMovements = positionMovements;
     }
 
     public PositionMovements getPositionMovements(){
@@ -36,10 +36,12 @@ public enum Movements{
 
         private String posMovements;
 
-        PositionMovements(String posMovements){}
+        PositionMovements(String posMovements){
+            this.posMovements = posMovements;
+        }
 
         public String getPosMovements(){
-            return this.getPosMovements();
+            return this.posMovements;
         }
     }
 

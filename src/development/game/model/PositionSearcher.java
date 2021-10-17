@@ -1,14 +1,16 @@
 package development.game.model;
 
+import java.util.Arrays;
+
 public class PositionSearcher{
 
     private String grid;
     private Position p;
 
 
-    private Movements movements;
+    private Movements[] movements;
 
-    public PositionSearcher(String indicatorGrid, Position p, Movements movements){
+    public PositionSearcher(String indicatorGrid, Position p, Movements... movements){
         setGrid(indicatorGrid);
         setP(p);
         setMovements(movements);
@@ -30,21 +32,20 @@ public class PositionSearcher{
         this.p = p;
     }
 
-    public Movements getMovements(){
+    public Movements[] getMovements(){
         return movements;
     }
 
-    public void setMovements(Movements movements){
+    public void setMovements(Movements[] movements){
         this.movements = movements;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "PositionSearcher{" +
                 "grid='" + grid + '\'' +
                 ", p=" + p +
-                ", movements=" + movements +
+                ", movements=" + Arrays.toString(movements) +
                 '}';
     }
-
 }
