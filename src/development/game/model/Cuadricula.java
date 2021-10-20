@@ -255,7 +255,7 @@ public class Cuadricula{
         boolean breakForEach = false;
         for(PositionSearcher rec: list){
 
-            System.out.println(rec);
+            //System.out.println(rec);
 
             /*agarra el primer movimiento, reccorre ese movimiento, si hay un repetido lo guarda y arranca el agloritmo hacia ese repetido*/
             if(rec.getMovements().length == 1){
