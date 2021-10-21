@@ -251,14 +251,16 @@ public class Cuadricula{
 
         list = getWaysToSearcherAList( p, limitRow, maxColumn);
 
+        System.out.println(list);
+        searchNumberRepetitiveAllGrid(list);
         /*check cell to other cell and compare if is repetitive, if repetitive then save to object  */
         boolean breakForEach = false;
-        for(PositionSearcher rec: list){
+       /* for(PositionSearcher rec: list){
 
-            System.out.println(rec);
+            //System.out.println(rec);
 
             if(rec.getMovements().length == 1){
-                if(rec.getMovements()[0].getNumber() == -1){
+                if(rec.getMovements()[0].getPositionMovements().equals(Movements.DOWN.getPositionMovements())){
                     Cuadricula cuad = this.getGrid()[rec.getP().getRow()][rec.getP().getColumn()];
                     for(int i = 0; i < cuad.getCellsMatrix()[p.getCell().getPosition().getRow()].length; i++) {
                         int numberToCompare = cuad.getCellsMatrix()[i][p.getCell().getPosition().getColumn()].getNumber();
@@ -272,10 +274,8 @@ public class Cuadricula{
                         break;
                     }
                 }
-            }
-
-            if(rec.getMovements().length == 1){
-                if(rec.getMovements()[0].getNumber() == 1){
+            }else if(rec.getMovements().length == 1){
+                if(rec.getMovements()[0].getPositionMovements().equals(Movements.RIGHT.getPositionMovements())){
                     Cuadricula cuad = this.getGrid()[rec.getP().getRow()][rec.getP().getColumn()];
                     for(int i = 0; i < cuad.getCellsMatrix()[p.getCell().getPosition().getRow()].length; i++) {
                         System.out.println(cuad.getCellsMatrix()[p.getCell().getPosition().getRow()][i].getNumber());
@@ -283,13 +283,20 @@ public class Cuadricula{
                 }
             }
 
-        }
+        }*/
 
         /*inicia el algoritmo para cambiar el repetido, */
-        System.out.println(positionRepeat);
-        list = getWaysToSearcherAList(positionRepeat, limitRow, maxColumn);
+        //System.out.println(positionRepeat);
+        //list = getWaysToSearcherAList(positionRepeat, limitRow, maxColumn);
 
-        System.out.println(list);
+        //System.out.println(list);
+    }
+
+    public void searchNumberRepetitiveAllGrid(ArrayList<PositionSearcher> list){
+
+        for(PositionSearcher rec: list){
+
+        }
     }
 
     public ArrayList<PositionSearcher> getWaysToSearcherAList(PositionGrid p, int limitRow, int maxColumn){

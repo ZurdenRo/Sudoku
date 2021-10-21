@@ -27,8 +27,8 @@ public enum Movements{
         this.positionMovements = positionMovements;
     }
 
-    public PositionMovements getPositionMovements(){
-        return positionMovements;
+    public String getPositionMovements(){
+        return positionMovements.getPosMovements();
     }
 
     private enum PositionMovements{

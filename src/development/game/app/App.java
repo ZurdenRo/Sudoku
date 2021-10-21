@@ -28,8 +28,7 @@ public class App{
                     }
                     if(canBreak) break;
                 }
-            }
-            if(i < 9){
+            }else if(i < 9){
                 for(int j = 0; j < cTwo.length; j++) {
                     for(int k = 0; k < cTwo[j].length; k++) {
                         String[] arr = rec.split(",");
@@ -41,8 +40,7 @@ public class App{
                     }
                     if(canBreak) break;
                 }
-            }
-            if(i < 13){
+            }else if(i < 13){
                 for(int j = 0; j < cThree.length; j++) {
                     for(int k = 0; k < cThree[j].length; k++) {
                         String[] arr = rec.split(",");
@@ -54,8 +52,7 @@ public class App{
                     }
                     if(canBreak) break;
                 }
-            }
-            if(i < 17){
+            }else if(i < 17){
                 for(int j = 0; j < cFour.length; j++) {
                     for(int k = 0; k < cFour[j].length; k++) {
                         String[] arr = rec.split(",");
