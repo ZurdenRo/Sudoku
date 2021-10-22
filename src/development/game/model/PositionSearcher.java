@@ -1,18 +1,14 @@
 package development.game.model;
 
-import java.util.Arrays;
-
 public class PositionSearcher{
 
     private String grid;
-    private Position p;
+    private Position positionSearcher;
+    private Movements movements;
 
-
-    private Movements[] movements;
-
-    public PositionSearcher(String indicatorGrid, Position p, Movements... movements){
+    public PositionSearcher(String indicatorGrid, Position positionSearcher, Movements movements){
         setGrid(indicatorGrid);
-        setP(p);
+        setPositionSearcher(positionSearcher);
         setMovements(movements);
     }
 
@@ -24,19 +20,19 @@ public class PositionSearcher{
         this.grid = grid;
     }
 
-    public Position getP(){
-        return p;
+    public Position getPositionSearcher(){
+        return positionSearcher;
     }
 
-    public void setP(Position p){
-        this.p = p;
+    public void setPositionSearcher(Position positionSearcher){
+        this.positionSearcher = positionSearcher;
     }
 
-    public Movements[] getMovements(){
+    public Movements getMovements(){
         return movements;
     }
 
-    public void setMovements(Movements[] movements){
+    public void setMovements(Movements movements){
         this.movements = movements;
     }
 
@@ -44,8 +40,8 @@ public class PositionSearcher{
     public String toString() {
         return "PositionSearcher{" +
                 "grid='" + grid + '\'' +
-                ", p=" + p +
-                ", movements=" + Arrays.toString(movements) +
+                ", p=" + positionSearcher +
+                ", movements=" + movements +
                 '}';
     }
 }

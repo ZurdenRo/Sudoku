@@ -176,7 +176,6 @@ public class Cuadricula{
     }
 
     public void printGridTwoRowTwoCol(){
-        System.out.println("-------------");
         String rowOnes = "";
         String rowTwo = "";
         String splitLines = "\n";
@@ -206,7 +205,7 @@ public class Cuadricula{
             }
 
         }
-
+        System.out.println("-------------");
         System.out.println(rowFinal);
         System.out.println("-------------");
     }
@@ -252,40 +251,9 @@ public class Cuadricula{
         list = getWaysToSearcherAList( p, limitRow, maxColumn);
 
         System.out.println(list);
-        searchNumberRepetitiveAllGrid(list);
+        System.out.println(p);
+        PositionGrid positionRepetitive = searchNumberRepetitiveAllGrid(list, p);
         /*check cell to other cell and compare if is repetitive, if repetitive then save to object  */
-        boolean breakForEach = false;
-       /* for(PositionSearcher rec: list){
-
-            //System.out.println(rec);
-
-            /*agarra el primer movimiento, reccorre ese movimiento, si hay un repetido lo guarda y arranca el agloritmo hacia ese repetido*/
-            if(rec.getMovements().length == 1){
-                if(rec.getMovements()[0].getPositionMovements().equals(Movements.DOWN.getPositionMovements())){
-                    Cuadricula cuad = this.getGrid()[rec.getP().getRow()][rec.getP().getColumn()];
-                    for(int i = 0; i < cuad.getCellsMatrix()[p.getCell().getPosition().getRow()].length; i++) {
-                        int numberToCompare = cuad.getCellsMatrix()[i][p.getCell().getPosition().getColumn()].getNumber();
-                        if(p.getCell().getNumber() == numberToCompare){
-                            positionRepeat = new PositionGrid(rec.getGrid(), cuad.getCellsMatrix()[i][p.getCell().getPosition().getColumn()], new Position(rec.getP().getRow(), rec.getP().getColumn()));
-                            breakForEach = true;
-                            break;
-                        }
-                    }
-                    if(breakForEach){
-                        break;
-                    }
-                }
-            }else if(rec.getMovements().length == 1){
-                if(rec.getMovements()[0].getPositionMovements().equals(Movements.RIGHT.getPositionMovements())){
-                    Cuadricula cuad = this.getGrid()[rec.getP().getRow()][rec.getP().getColumn()];
-                    for(int i = 0; i < cuad.getCellsMatrix()[p.getCell().getPosition().getRow()].length; i++) {
-                        System.out.println(cuad.getCellsMatrix()[p.getCell().getPosition().getRow()][i].getNumber());
-                    }
-                }
-            }
-
-        }*/
-
         /*inicia el algoritmo para cambiar el repetido, */
         //System.out.println(positionRepeat);
         //list = getWaysToSearcherAList(positionRepeat, limitRow, maxColumn);
@@ -293,19 +261,39 @@ public class Cuadricula{
         //System.out.println(list);
     }
 
-    public void searchNumberRepetitiveAllGrid(ArrayList<PositionSearcher> list){
+    public PositionGrid searchNumberRepetitiveAllGrid(ArrayList<PositionSearcher> list, PositionGrid positionSearchRepetitive){
+        PositionGrid ps = null;
+        boolean breakForEach = false;
 
         for(PositionSearcher rec: list){
-
+            if(rec.getMovements().getPositionMovements().equals(Movements.RIGHT.getPositionMovements())){
+                Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
+                for(int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
+                    System.out.println(gridToSearch.getCellsMatrix()[positionSearchRepetitive.getCell().getPosition().getRow()][i].getNumber());
+                    if(gridToSearch.getCellsMatrix()[positionSearchRepetitive.getCell().getPosition().getRow()][i].getNumber() == positionSearchRepetitive.getCell().getNumber()){
+                        ps = new PositionGrid(rec.getGrid(), gridToSearch.getCellsMatrix()[positionSearchRepetitive.getCell().getPosition().getRow()][i], rec.getPositionSearcher());
+                        breakForEach = true;
+                    }
+                }
+            }else if(rec.getMovements().getPositionMovements().equals(Movements.DOWN.getPositionMovements())){
+                Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
+                for(int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
+                    System.out.println(gridToSearch.getCellsMatrix()[i][positionSearchRepetitive.getCell().getPosition().getColumn()].getNumber());
+                    if(gridToSearch.getCellsMatrix()[i][positionSearchRepetitive.getCell().getPosition().getColumn()].getNumber() == positionSearchRepetitive.getCell().getNumber()){
+                        ps = new PositionGrid(rec.getGrid(), gridToSearch.getCellsMatrix()[i][positionSearchRepetitive.getCell().getPosition().getColumn()], rec.getPositionSearcher());
+                        breakForEach = true;
+                    }
+                }
+            }
+            if(breakForEach){ break; }
         }
+        return ps;
     }
 
     public ArrayList<PositionSearcher> getWaysToSearcherAList(PositionGrid p, int limitRow, int maxColumn){
         ArrayList<PositionSearcher> list = new ArrayList<>();
 
         /*run row maybe set right or left*/
-        System.out.println(p.getPositionGrid().getRow());
-        System.out.println(limitRow);
         if(p.getPositionGrid().getRow() < limitRow - 1){
             for(int i = 0; i < limitRow; i++) {
                 if( i != p.getPositionGrid().getRow() ){

@@ -67,7 +67,6 @@ public class Cell{
                 "number=" + number +
                 ", isRepeat=" + isRepeat +
                 ", position=" + position +
-                ", numberAbsent=" + numberAbsent +
                 ", isChecked=" + isChecked +
                 '}';
     }
