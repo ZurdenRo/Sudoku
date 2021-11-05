@@ -287,7 +287,7 @@ public class Cuadricula{
     public void setNumberOnGridAndSetChecked(ArrayList<PositionSearcher> list, PositionGrid positionSearchRepetitive, PositionGrid positionAnalyzed){
         System.out.println(positionSearchRepetitive);
         System.out.println(positionAnalyzed);
-        System.out.println(list);
+        //System.out.println(list);
         for(PositionSearcher rec : list){
             if(rec.getMovements().getPositionMovements().equals(Movements.RIGHT.getPositionMovements())){
                 Cuadricula c = this.getGrid()[positionSearchRepetitive.getPositionGrid().getRow()][positionSearchRepetitive.getPositionGrid().getColumn()];
@@ -295,13 +295,29 @@ public class Cuadricula{
                     if(positionAnalyzed.getCell().getPosition().getRow() != i){
                         for(int j = 0; j < c.getCellsMatrix()[i].length; j++) {
                             PositionGrid positionTmpToChange = new PositionGrid(rec.getGrid(), c.getCellsMatrix()[i][j], rec.getPositionSearcher());
+                            searchPositionNotRepeat(positionTmpToChange);
                         }
                     }
                 }
+
             }
         }
 
     }
+
+    public boolean searchPositionNotRepeat(PositionGrid positionGrid){
+        int limitRow = this.getGrid().length;
+        int maxColumn = this.getGrid()[limitRow - 1].length;
+        ArrayList<PositionSearcher> list = getWaysToSearcherAList(positionGrid, limitRow, maxColumn);
+        //aca busca la posicion dentro de cell[][], y si hay un objeto cell que en su fila y columna correspondiente no hay un repetido, retorna un valor
+        //booleano: TRUE, para que haga el cambio de la posicion de: `positionAnalyzed` con la posicion del parametro de este mismo metodo que es `positionGrid`
+        /*for(){
+        };*/
+        System.out.println(list);
+
+        return false;
+    }
+
 
     public ArrayList<PositionSearcher> getWaysToSearcherAList(PositionGrid p, int limitRow, int maxColumn){
         ArrayList<PositionSearcher> list = new ArrayList<>();
