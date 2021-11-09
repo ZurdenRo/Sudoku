@@ -107,6 +107,7 @@ public class App{
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour);
         c.printGridTwoRowTwoCol();
         c.walkGridOnRow();
+
     }
 
 }
