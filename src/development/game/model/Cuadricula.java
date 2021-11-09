@@ -295,14 +295,14 @@ public class Cuadricula{
                     if(positionAnalyzed.getCell().getPosition().getRow() != i){
                         for(int j = 0; j < c.getCellsMatrix()[i].length; j++) {
                             PositionGrid positionTmpToChange = new PositionGrid(rec.getGrid(), c.getCellsMatrix()[i][j], rec.getPositionSearcher());
-<<<<<<< HEAD
+
 
                             if(!searchPositionNotRepeat(positionTmpToChange, positionSearchRepetitive)){
                                 changePosition(positionTmpToChange, positionSearchRepetitive);
                             }
-=======
+
                             searchPositionNotRepeat(positionTmpToChange,positionSearchRepetitive);
->>>>>>> cfba7c7428b267b372a0022c8ba2979b301847a6
+
                         }
                     }
                 }
@@ -312,63 +312,42 @@ public class Cuadricula{
 
     }
 
-<<<<<<< HEAD
-    public boolean searchPositionNotRepeat(PositionGrid positionGrid, PositionGrid positionToCheck){
+
+    public boolean searchPositionNotRepeat(PositionGrid positionGrid, PositionGrid positionToCheck) {
         int limitRow = this.getGrid().length;
         int maxColumn = this.getGrid()[limitRow - 1].length;
         boolean isRepeat = false;
         ArrayList<PositionSearcher> list = getWaysToSearcherAList(positionGrid, limitRow, maxColumn);
         //aca busca la posicion dentro de cell[][], y si hay un objeto cell que en su fila y columna correspondiente no hay un repetido, retorna un valor
         //booleano: TRUE, para que haga el cambio de la posicion de: `positionAnalyzed` con la posicion del parametro de este mismo metodo que es `positionGrid`
-        for(PositionSearcher rec: list){
+        for (PositionSearcher rec : list) {
             Cell[][] cell = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()].getCellsMatrix();
-            if(rec.getMovements().equals(Movements.DOWN)){
+            if (rec.getMovements().equals(Movements.DOWN)) {
                 for (int i = 0; i < cell.length; i++) {
-                    if(cell[i][positionGrid.getCell().getPosition().getColumn()].getNumber() == positionToCheck.getCell().getNumber()){
+                    if (cell[i][positionGrid.getCell().getPosition().getColumn()].getNumber() == positionToCheck.getCell().getNumber()) {
                         isRepeat = true;
                     }
                     System.out.println(cell[i][positionGrid.getCell().getPosition().getColumn()].getNumber());
                 }
-                if(isRepeat){
+                if (isRepeat) {
                     break;
                 }
-            }
-            else if(rec.getMovements().equals(Movements.LEFT)){
+            } else if (rec.getMovements().equals(Movements.LEFT)) {
                 for (int i = 0; i < cell.length; i++) {
-                    if(cell[positionGrid.getCell().getPosition().getRow()][i].getNumber() == positionToCheck.getCell().getNumber()){
+                    if (cell[positionGrid.getCell().getPosition().getRow()][i].getNumber() == positionToCheck.getCell().getNumber()) {
                         isRepeat = true;
                     }
                     System.out.println(cell[positionGrid.getCell().getPosition().getRow()][i].getNumber());
                 }
-                if(isRepeat){
+                if (isRepeat) {
                     break;
                 }
             }
-=======
-    public boolean searchPositionNotRepeat(PositionGrid positionFrom, PositionGrid positionTo){
-        int limitRow = this.getGrid().length;
-        int maxColumn = this.getGrid()[limitRow - 1].length;
-        ArrayList<PositionSearcher> list = getWaysToSearcherAList(positionFrom, limitRow, maxColumn);
-        boolean isRepeat = false;
-        //aca busca la posicion dentro de cell[][], y si hay un objeto cell que en su fila y columna correspondiente no hay un repetido, retorna un valor
-        //booleano: TRUE, para que haga el cambio de la posicion de: `positionAnalyzed` con la posicion del parametro de este mismo metodo que es `positionGrid`
-        for(PositionSearcher rec: list){
-            if(rec.getMovements().equals(Movements.DOWN)){
-                Cuadricula gridSearched = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
-                for(int i = 0; i < gridSearched.getCellsMatrix().length; i++) {
-
-                    if(gridSearched.getCellsMatrix()[i][positionFrom.getCell().getPosition().getColumn()].getNumber() == positionTo.getCell().getNumber()){
-
-                    }
-                }
-            }
-        };
-        System.out.println(list);
->>>>>>> cfba7c7428b267b372a0022c8ba2979b301847a6
-
-        };
+        }
         return isRepeat;
     }
+    
+
 
     public void changePosition(PositionGrid positionTo, PositionGrid positionFrom){
         Cell[][] cTo = this.getGrid()[positionTo.getPositionGrid().getRow()][positionTo.getPositionGrid().getColumn()].getCellsMatrix();
