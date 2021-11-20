@@ -301,7 +301,7 @@ public class Cuadricula{
                                 changePosition(positionTmpToChange, positionSearchRepetitive);
                             }
 
-                            searchPositionNotRepeat(positionTmpToChange,positionSearchRepetitive);
+                            //searchPositionNotRepeat(positionTmpToChange,positionSearchRepetitive);
 
                         }
                     }
@@ -346,15 +346,19 @@ public class Cuadricula{
         }
         return isRepeat;
     }
-    
+
 
 
     public void changePosition(PositionGrid positionTo, PositionGrid positionFrom){
+        int to = positionTo.getCell().getNumber();
+        int from = positionFrom.getCell().getNumber();
+
         Cell[][] cTo = this.getGrid()[positionTo.getPositionGrid().getRow()][positionTo.getPositionGrid().getColumn()].getCellsMatrix();
         Cell[][] cFrom = this.getGrid()[positionFrom.getPositionGrid().getRow()][positionFrom.getPositionGrid().getColumn()].getCellsMatrix();
-        Cell[][] cTmp;
-        //this.getGrid()[positionTo.getPositionGrid().getRow()][positionTo.getPositionGrid().getColumn()].setCellsMatrix();
-        cTo[positionTo.getCell().getPosition().getRow()][positionTo.getCell().getPosition().getColumn()] = cFrom[positionFrom.getCell().getPosition().getRow()][positionFrom.getCell().getPosition().getColumn()];
+        cTo[positionTo.getCell().getPosition().getRow()][positionTo.getCell().getPosition().getColumn()].setNumber(from);
+        cFrom[positionFrom.getCell().getPosition().getRow()][positionFrom.getCell().getPosition().getColumn()].setNumber(to);
+
+
         printGridTwoRowTwoCol();
     }
 
