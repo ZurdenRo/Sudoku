@@ -253,13 +253,17 @@ public class Cuadricula{
 
         setNumberOnGridAndSetChecked(list, positionRepetitive, p);
         //System.out.println(list);
+        if(positionRepetitive == null){
+            p.getCell().setChecked(true);
+        }
+
     }
 
-    public PositionGrid searchNumberRepetitiveAllGrid(ArrayList<PositionSearcher> list, PositionGrid positionSearchRepetitive){
+    public PositionGrid searchNumberRepetitiveAllGrid(ArrayList<PositionSearcher> waysList, PositionGrid positionSearchRepetitive){
         PositionGrid ps = null;
         boolean breakForEach = false;
 
-        for(PositionSearcher rec: list){
+        for(PositionSearcher rec: waysList){
             if(rec.getMovements().getPositionMovements().equals(Movements.RIGHT.getPositionMovements())){
                 Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
                 for(int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
