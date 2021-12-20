@@ -342,17 +342,42 @@ public class Cuadricula{
     public void setNumberOnGridAndSetChecked(PositionGrid positionSearchRepetitive, PositionGrid positionAnalyzed){
         System.out.println(positionSearchRepetitive);
         System.out.println(positionAnalyzed);
-        //System.out.println(list);
-        //verifica si el numero repetido es chequeado, de ser verdadero. aca mismo tendra que tomar otro algoritmo
+        boolean isChange = false;
         int limitRow = this.getGrid().length;
-        int maxColumn = this.getGrid()[limitRow - 1].length;
-        ArrayList<PositionSearcher> list = getWaysToSearcherAList(positionAnalyzed, limitRow, maxColumn );
+        //ArrayList<PositionSearcher> list = getWaysToSearcherAList(positionAnalyzed, limitRow, maxColumn );
 
         if(positionSearchRepetitive.getCell().isChecked() != true){
             Movements m = whereIsMyRepeat(positionSearchRepetitive, positionAnalyzed);
 
-            if(m.name().contentEquals(Movements.LEFT.name())){
+            if(m.name().contentEquals(Movements.LEFT.name()) || m.name().contentEquals(Movements.RIGHT.name())){
+                for (int i = 0; i < this.getGrid().length; i++) {
+                    if(i != positionSearchRepetitive.getCell().getPosition().getRow()){
+                        for (int j = 0; j < this.getGrid()[i].length; j++) {
+                            Cell c = this.getGrid()[positionSearchRepetitive.getPositionGrid().getRow()][positionSearchRepetitive.getPositionGrid().getColumn()].getCellsMatrix()[i][j];
+                            PositionGrid posTmp = new PositionGrid(positionSearchRepetitive.getIdGrid(), c, positionSearchRepetitive.getPositionGrid());
+                            if(!searchPositionNotRepeat(posTmp, positionSearchRepetitive)){
+                                System.out.println("here");
+                                changePositionAndSetTrueCell(positionSearchRepetitive, posTmp);
+                                isChange = true;
+                                if(isChange){
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if(isChange){
+                        break;
+                    }
+                }
+            }else if (m.name().contentEquals(Movements.UP.name()) || m.name().contentEquals(Movements.DOWN.name())){
+                for (int i = 0; i < this.getGrid().length; i++) {
 
+                    for (int j = 0; j < this.getGrid()[i].length; j++) {
+                        if(j !=  positionSearchRepetitive.getCell().getPosition().getColumn() ){
+
+                        }
+                    }
+                }
             }
         }else{
             moveMyPositionBecauseIcantMoveThePositionIFound(positionAnalyzed, positionSearchRepetitive);
@@ -380,6 +405,8 @@ public class Cuadricula{
         }
         return mov;
     }
+
+
 
     public boolean searchPositionNotRepeat(PositionGrid positionGrid, PositionGrid positionToCheck) {
         int limitRow = this.getGrid().length;
@@ -425,9 +452,6 @@ public class Cuadricula{
         Cell[][] cFrom = this.getGrid()[positionFrom.getPositionGrid().getRow()][positionFrom.getPositionGrid().getColumn()].getCellsMatrix();
         cTo[positionTo.getCell().getPosition().getRow()][positionTo.getCell().getPosition().getColumn()].setNumber(from);
         cFrom[positionFrom.getCell().getPosition().getRow()][positionFrom.getCell().getPosition().getColumn()].setNumber(to);
-        //positionTo.getCell().setChecked(true);
-
-
     }
 
 
