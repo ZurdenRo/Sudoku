@@ -355,7 +355,7 @@ public class Cuadricula{
                         for (int j = 0; j < this.getGrid()[i].length; j++) {
                             Cell c = this.getGrid()[positionSearchRepetitive.getPositionGrid().getRow()][positionSearchRepetitive.getPositionGrid().getColumn()].getCellsMatrix()[i][j];
                             PositionGrid posTmp = new PositionGrid(positionSearchRepetitive.getIdGrid(), c, positionSearchRepetitive.getPositionGrid());
-                            if(!searchPositionNotRepeat(posTmp, positionSearchRepetitive)){
+                            if(!isNumberPresent(posTmp, positionSearchRepetitive)){
                                 System.out.println("here");
                                 changePositionAndSetTrueCell(positionSearchRepetitive, posTmp);
                                 isChange = true;
@@ -374,7 +374,7 @@ public class Cuadricula{
 
                     for (int j = 0; j < this.getGrid()[i].length; j++) {
                         if(j !=  positionSearchRepetitive.getCell().getPosition().getColumn() ){
-
+                            Cell c = this.getGrid()[positionSearchRepetitive.getPositionGrid().getRow()][positionSearchRepetitive.getPositionGrid().getColumn()].getCellsMatrix()[i][j];
                         }
                     }
                 }
@@ -408,7 +408,7 @@ public class Cuadricula{
 
 
 
-    public boolean searchPositionNotRepeat(PositionGrid positionGrid, PositionGrid positionToCheck) {
+    public boolean isNumberPresent(PositionGrid positionGrid, PositionGrid positionToCheck) {
         int limitRow = this.getGrid().length;
         int maxColumn = this.getGrid()[limitRow - 1].length;
         boolean isRepeat = false;
