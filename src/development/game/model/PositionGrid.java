@@ -41,7 +41,7 @@ public class PositionGrid{
         return "PositionGrid{" +
                 "idGrid='" + idGrid + '\'' +
                 "cell=" + cell +
-                ", p=" + positionGrid +
+                ", positionGrid=" + positionGrid +
                 '}';
     }
 
