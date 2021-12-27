@@ -1,5 +1,6 @@
 package development.game.model;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Cuadricula{
@@ -311,36 +312,45 @@ public class Cuadricula{
         int colGrid = positionToChangeInGrid.getPositionGrid().getColumn();
         int limitRow = this.getGrid().length;
         int maxColumn = this.getGrid()[limitRow - 1].length;
-        boolean isChange = false;
+        boolean change;
         ArrayList<PositionSearcher> ls = getWaysToSearcherAList(positionToChangeInGrid, limitRow, maxColumn);
 
-        for (PositionSearcher rec : ls){
-            if(rec.getMovements().name().contentEquals(Movements.UP.name()) || rec.getMovements().name().contentEquals(Movements.DOWN.name())){
+        for (int i = 0; i < this.getGrid().length; i++) {
+            for (int j = 0; j < this.getGrid()[i].length; j++) {
+                Cell c = this.getGrid()[positionToChangeInGrid.getPositionGrid().getRow()][positionToChangeInGrid.getPositionGrid().getColumn()].getCellsMatrix()[i][j];
+                if(!c.isChecked()){
+                    PositionGrid tmp = new PositionGrid(positionToChangeInGrid.getIdGrid(),c, positionToChangeInGrid.getPositionGrid() );
+                    change = walkToRowOrColumnAndVerifyIfIsChecked(ls, tmp);
+                    if(change){
 
-                for(int i = 0; i < this.getGrid().length; i++) {
-                    for(int j = 0; j < this.getGrid()[i].length; j++) {
-                        if(positionCheckedAndIcantMove.getCell().getPosition().getColumn() != j) {
-                            if( !this.getGrid()[rowGrid][colGrid].getCellsMatrix()[i][j].isChecked()){
-                                Cell c =  this.getGrid()[rowGrid][colGrid].getCellsMatrix()[i][j];
-                                PositionGrid positionFrom = new PositionGrid(positionToChangeInGrid.getIdGrid(), c, new Position(positionToChangeInGrid.getPositionGrid().getRow(),positionToChangeInGrid.getPositionGrid().getColumn() ));
-                                if(notExistNumberOnRowOrColumn(positionFrom, positionToChangeInGrid )){
-                                    changePositionAndSetTrueCell(positionToChangeInGrid, positionFrom);
-                                    positionFrom.getCell().setChecked(true);
-                                    isChange = true;
-                                }
-                            }
-                        }
-                        if(isChange){
-                            break;
-                        }
-                    }
-                    if(isChange){
-                        break;
                     }
                 }
             }
         }
+    }
 
+    public boolean walkToRowOrColumnAndVerifyIfIsChecked(ArrayList <PositionSearcher> waysList, PositionGrid pg){
+        boolean isChecked = false;
+        for (PositionSearcher rec : waysList){
+
+            if( rec.getMovements().name().contentEquals(Movements.DOWN.name()) || rec.getMovements().name().contentEquals(Movements.UP.name()) ){
+                Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
+                for (int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
+                    System.out.println(gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].getNumber());
+                    if(pg.getCell().getNumber() == gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].getNumber()){
+                        if(gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].isChecked()){
+                            isChecked = true;
+                        }
+                    }
+                }
+            }else if(rec.getMovements().name().contentEquals(Movements.LEFT.name()) || rec.getMovements().name().contentEquals(Movements.RIGHT.name())){
+
+            }else {
+
+            }
+
+        }
+        return isChecked;
     }
 
     public void setNumberOnGridAndSetChecked(PositionGrid positionSearchRepetitive, PositionGrid positionAnalyzed){
@@ -424,7 +434,7 @@ public class Cuadricula{
 
 
     /*
-    * Este metodo verifica 2 posiciones,
+    * Este metodo verifica 2 posiciones
     * */
     public boolean notExistNumberOnRowOrColumn(PositionGrid positionGrid, PositionGrid positionToCheck) {
         int limitRow = this.getGrid().length;
