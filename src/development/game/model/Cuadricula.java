@@ -312,28 +312,23 @@ public class Cuadricula{
         int colGrid = positionToChangeInGrid.getPositionGrid().getColumn();
         int limitRow = this.getGrid().length;
         int maxColumn = this.getGrid()[limitRow - 1].length;
-        ArrayList<PositionGrid> lsPositionGridRepetitiveChecked;
+
         ArrayList<PositionSearcher> ls = getWaysToSearcherAList(positionToChangeInGrid, limitRow, maxColumn);
 
-        for (int i = 0; i < this.getGrid().length; i++) {
-            for (int j = 0; j < this.getGrid()[i].length; j++) {
-                Cell c = this.getGrid()[positionToChangeInGrid.getPositionGrid().getRow()][positionToChangeInGrid.getPositionGrid().getColumn()].getCellsMatrix()[i][j];
-                if(!c.isChecked()){
-                    PositionGrid tmp = new PositionGrid(positionToChangeInGrid.getIdGrid(),c, positionToChangeInGrid.getPositionGrid() );
-                    lsPositionGridRepetitiveChecked = walkToRowOrColumnAndVerifyIfIsChecked(ls, tmp);
-                    if(!lsPositionGridRepetitiveChecked.isEmpty()){
-                        changePositionAndForceTrueChecked(tmp, lsPositionGridRepetitiveChecked, ls);
-                    }
-                }
-            }
-        }
+        ArrayList<PositionGrid> waysToPositionTrue = walkToRowOrColumnAndVerifyIfIsChecked(ls, positionToChangeInGrid);
+        changePositionAndForceTrueChecked(positionToChangeInGrid, waysToPositionTrue, ls);
+
     }
+
+
 
     public void changePositionAndForceTrueChecked(PositionGrid pg, ArrayList<PositionGrid> lsRepetitiveChecked, ArrayList <PositionSearcher> waysList){
 
         boolean vertical = false;
         boolean horizontal = false;
         Movements m = whereIsMyRepeat(pg, lsRepetitiveChecked.get(0));
+        ArrayList<PositionGrid> waysToPositionTrue;
+        boolean isChange = false;
         // donde esta mi posicion?, realizado existen 3 movimientos para moverme de la posicion chequeada. me muevo de fila, muevo de columna, o muevo de fila y columna.
         //
         if(m.name().contentEquals(Movements.UP.name())){
@@ -342,10 +337,15 @@ public class Cuadricula{
                     if(j != lsRepetitiveChecked.get(0).getCell().getPosition().getColumn()){
                         Cuadricula c = this.getGrid()[pg.getPositionGrid().getRow()][pg.getPositionGrid().getColumn()];
                         if(!c.getCellsMatrix()[i][j].isChecked()){
-
+                            PositionGrid pgTmp = new PositionGrid(null, c.getCellsMatrix()[i][j], pg.getPositionGrid());
+                            changePosition(pg, pgTmp);
+                            waysToPositionTrue = walkToRowOrColumnAndVerifyIfIsChecked(waysList, pgTmp);
+                            isChange = true;
                         }
+                        if(isChange){break;}
                     }
                 }
+                if(isChange){break;}
             }
 
         }
@@ -397,7 +397,7 @@ public class Cuadricula{
                             PositionGrid posTmp = new PositionGrid(positionSearchRepetitive.getIdGrid(), c, positionSearchRepetitive.getPositionGrid());
                             if(notExistNumberOnRowOrColumn(posTmp, positionSearchRepetitive)){
                                 System.out.println("here");
-                                changePositionAndSetTrueCell(positionSearchRepetitive, posTmp);
+                                changePosition(positionSearchRepetitive, posTmp);
                                 isChange = true;
                             }
                             if(isChange){
@@ -418,7 +418,7 @@ public class Cuadricula{
                             PositionGrid posTmp = new PositionGrid(positionSearchRepetitive.getIdGrid(), c, positionSearchRepetitive.getPositionGrid());
                             if(notExistNumberOnRowOrColumn(posTmp, positionSearchRepetitive)){
                                 System.out.println("here");
-                                changePositionAndSetTrueCell(positionSearchRepetitive, posTmp);
+                                changePosition(positionSearchRepetitive, posTmp);
                                 isChange = true;
                             }
                             if(isChange){
@@ -500,7 +500,7 @@ public class Cuadricula{
 
 
 
-    public void changePositionAndSetTrueCell(PositionGrid positionTo, PositionGrid positionFrom){
+    public void changePosition(PositionGrid positionTo, PositionGrid positionFrom){
         int to = positionTo.getCell().getNumber();
         int from = positionFrom.getCell().getNumber();
 
