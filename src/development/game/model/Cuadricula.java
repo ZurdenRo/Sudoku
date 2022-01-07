@@ -1,6 +1,6 @@
 package development.game.model;
 
-import java.lang.reflect.Array;
+
 import java.util.*;
 
 public class Cuadricula{
@@ -312,7 +312,7 @@ public class Cuadricula{
         int colGrid = positionToChangeInGrid.getPositionGrid().getColumn();
         int limitRow = this.getGrid().length;
         int maxColumn = this.getGrid()[limitRow - 1].length;
-        boolean change;
+        ArrayList<PositionGrid> lsPositionGridRepetitiveChecked;
         ArrayList<PositionSearcher> ls = getWaysToSearcherAList(positionToChangeInGrid, limitRow, maxColumn);
 
         for (int i = 0; i < this.getGrid().length; i++) {
@@ -320,17 +320,41 @@ public class Cuadricula{
                 Cell c = this.getGrid()[positionToChangeInGrid.getPositionGrid().getRow()][positionToChangeInGrid.getPositionGrid().getColumn()].getCellsMatrix()[i][j];
                 if(!c.isChecked()){
                     PositionGrid tmp = new PositionGrid(positionToChangeInGrid.getIdGrid(),c, positionToChangeInGrid.getPositionGrid() );
-                    change = walkToRowOrColumnAndVerifyIfIsChecked(ls, tmp);
-                    if(change){
-
+                    lsPositionGridRepetitiveChecked = walkToRowOrColumnAndVerifyIfIsChecked(ls, tmp);
+                    if(!lsPositionGridRepetitiveChecked.isEmpty()){
+                        changePositionAndForceTrueChecked(tmp, lsPositionGridRepetitiveChecked, ls);
                     }
                 }
             }
         }
     }
 
-    public boolean walkToRowOrColumnAndVerifyIfIsChecked(ArrayList <PositionSearcher> waysList, PositionGrid pg){
-        boolean isChecked = false;
+    public void changePositionAndForceTrueChecked(PositionGrid pg, ArrayList<PositionGrid> lsRepetitiveChecked, ArrayList <PositionSearcher> waysList){
+
+        boolean vertical = false;
+        boolean horizontal = false;
+        Movements m = whereIsMyRepeat(pg, lsRepetitiveChecked.get(0));
+        // donde esta mi posicion?, realizado existen 3 movimientos para moverme de la posicion chequeada. me muevo de fila, muevo de columna, o muevo de fila y columna.
+        //
+        if(m.name().contentEquals(Movements.UP.name())){
+            for(int i = 0; i < this.getGrid().length; i++) {
+                for(int j = 0; j < this.getGrid()[i].length; j++) {
+                    if(j != lsRepetitiveChecked.get(0).getCell().getPosition().getColumn()){
+                        Cuadricula c = this.getGrid()[pg.getPositionGrid().getRow()][pg.getPositionGrid().getColumn()];
+                        if(!c.getCellsMatrix()[i][j].isChecked()){
+
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+    }
+
+    public ArrayList<PositionGrid> walkToRowOrColumnAndVerifyIfIsChecked(ArrayList <PositionSearcher> waysList, PositionGrid pg){
+        ArrayList<PositionGrid> lsPositionRepeatChecked = new ArrayList<>();
         for (PositionSearcher rec : waysList){
 
             if( rec.getMovements().name().contentEquals(Movements.DOWN.name()) || rec.getMovements().name().contentEquals(Movements.UP.name()) ){
@@ -339,18 +363,20 @@ public class Cuadricula{
                     System.out.println(gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].getNumber());
                     if(pg.getCell().getNumber() == gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].getNumber()){
                         if(gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].isChecked()){
-                            isChecked = true;
+                            Cell c = gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()];
+                            lsPositionRepeatChecked.add(new PositionGrid(rec.getGrid(), c, rec.getPositionSearcher()));
                         }
                     }
                 }
             }else if(rec.getMovements().name().contentEquals(Movements.LEFT.name()) || rec.getMovements().name().contentEquals(Movements.RIGHT.name())){
-
+                Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
+                //falta completar es muy parecido a lo de arriba, pero en este caso tengo que recorrer la columna de la fila [fija] [ dinamica]
             }else {
 
             }
 
         }
-        return isChecked;
+        return lsPositionRepeatChecked;
     }
 
     public void setNumberOnGridAndSetChecked(PositionGrid positionSearchRepetitive, PositionGrid positionAnalyzed){
