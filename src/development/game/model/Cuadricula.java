@@ -307,49 +307,82 @@ public class Cuadricula{
         return ps;
     }
 
-    public void moveMyPositionBecauseIcantMoveThePositionIFound(PositionGrid positionToChangeInGrid, PositionGrid positionCheckedAndIcantMove){
+    public void moveMyPositionBecauseIcantMoveThePositionIFound(PositionGrid positionToChangeInGrid){
         int rowGrid = positionToChangeInGrid.getPositionGrid().getRow();
         int colGrid = positionToChangeInGrid.getPositionGrid().getColumn();
         int limitRow = this.getGrid().length;
         int maxColumn = this.getGrid()[limitRow - 1].length;
 
         ArrayList<PositionSearcher> ls = getWaysToSearcherAList(positionToChangeInGrid, limitRow, maxColumn);
+        //changePositionAndForceTrueChecked(positionToChangeInGrid, waysToPositionTrue, ls);
+        Cuadricula c = this.getGrid()[rowGrid][colGrid];
 
-        ArrayList<PositionGrid> waysToPositionTrue = walkToRowOrColumnAndVerifyIfIsChecked(ls, positionToChangeInGrid);
-        changePositionAndForceTrueChecked(positionToChangeInGrid, waysToPositionTrue, ls);
-
-    }
-
-
-
-    public void changePositionAndForceTrueChecked(PositionGrid pg, ArrayList<PositionGrid> lsRepetitiveChecked, ArrayList <PositionSearcher> waysList){
-
-        boolean vertical = false;
-        boolean horizontal = false;
-        Movements m = whereIsMyRepeat(pg, lsRepetitiveChecked.get(0));
-        ArrayList<PositionGrid> waysToPositionTrue;
         boolean isChange = false;
-        // donde esta mi posicion?, realizado existen 3 movimientos para moverme de la posicion chequeada. me muevo de fila, muevo de columna, o muevo de fila y columna.
-        //
-        if(m.name().contentEquals(Movements.UP.name())){
-            for(int i = 0; i < this.getGrid().length; i++) {
-                for(int j = 0; j < this.getGrid()[i].length; j++) {
-                    if(j != lsRepetitiveChecked.get(0).getCell().getPosition().getColumn()){
-                        Cuadricula c = this.getGrid()[pg.getPositionGrid().getRow()][pg.getPositionGrid().getColumn()];
-                        if(!c.getCellsMatrix()[i][j].isChecked()){
-                            PositionGrid pgTmp = new PositionGrid(null, c.getCellsMatrix()[i][j], pg.getPositionGrid());
-                            changePosition(pg, pgTmp);
-                            waysToPositionTrue = walkToRowOrColumnAndVerifyIfIsChecked(waysList, pgTmp);
-                            isChange = true;
+
+            for (int i = 0; i < limitRow; i++) {
+                for (int j = 0; j < maxColumn; j++) {
+
+                        while(!c.getCellsMatrix()[i][j].isChecked()) {
+
+                            if (!c.getCellsMatrix()[i][j].isChecked()) {
+                                isChange = false;
+                                PositionGrid tmpAnalyzed = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[i][j], positionToChangeInGrid.getPositionGrid());
+                                ArrayList<PositionGrid> waysToPositionTrue = walkToRowOrColumnAndVerifyIfIsChecked(ls, tmpAnalyzed);
+                                while (waysToPositionTrue.size() != 0) {
+
+                                    for (PositionGrid rec : waysToPositionTrue) {
+                                        if (waysToPositionTrue.size() == 1) {
+                                            Movements m = whereIsMyRepeat(tmpAnalyzed, rec);
+                                            if (m.name().contentEquals(Movements.UP.name())) {
+
+                                                for (int k = 0; k < limitRow; k++) {
+                                                    for (int l = 0; l < maxColumn; l++) {
+                                                        if (l != rec.getCell().getPosition().getColumn()) {
+                                                            if (!c.getCellsMatrix()[k][l].isChecked()) {
+                                                                PositionGrid posToChange = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[k][l], positionToChangeInGrid.getPositionGrid());
+                                                                changePosition(posToChange, tmpAnalyzed);
+                                                                isChange = true;
+                                                                tmpAnalyzed = posToChange;
+                                                            }
+                                                        }
+                                                        if (isChange) {
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (isChange) {
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }else if(waysToPositionTrue.size() == 2){
+
+                                        }
+                                    }
+                                    waysToPositionTrue = walkToRowOrColumnAndVerifyIfIsChecked(ls, tmpAnalyzed);
+                                }
+
+                                tmpAnalyzed.getCell().setChecked(true);
+
+                            }
                         }
-                        if(isChange){break;}
-                    }
+
+                    if(isChange){break;}
                 }
                 if(isChange){break;}
             }
 
         }
 
+
+    public void changePositionAndForceTrueChecked(PositionGrid pg, ArrayList<PositionGrid> lsRepetitiveChecked, ArrayList <PositionSearcher> waysList){
+
+        boolean vertical = false;
+        boolean horizontal = false;
+        PositionGrid pgTmp = null;
+        ArrayList<PositionGrid> waysToPositionTrue;
+        boolean isChange = false;
+        // donde esta mi posicion?, realizado existen 3 movimientos para moverme de la posicion chequeada : me muevo de fila, muevo de columna, o muevo de fila y columna.
+        ArrayList<Movements> movements = new ArrayList<>();
 
     }
 
@@ -432,7 +465,9 @@ public class Cuadricula{
                 }
             }
         }else{
-            moveMyPositionBecauseIcantMoveThePositionIFound(positionAnalyzed, positionSearchRepetitive);
+
+
+            moveMyPositionBecauseIcantMoveThePositionIFound(positionAnalyzed);
 
         }
 
