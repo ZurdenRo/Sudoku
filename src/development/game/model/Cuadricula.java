@@ -252,8 +252,8 @@ public class Cuadricula{
                     for(int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
                         PositionGrid p = getPositionNotChecked();
                         PositionGrid positionRepeat = null;
-
-                        int limitRow = this.getGrid().length;
+                        finallyMethodSolution(p);
+                      /* int limitRow = this.getGrid().length;
                         int maxColumn = this.getGrid()[limitRow - 1].length;
                         ArrayList<PositionSearcher> list;
 
@@ -264,6 +264,7 @@ public class Cuadricula{
                         }else{
                             p.getCell().setChecked(true);
                         }
+                        */
                         printGridTwoRowTwoCol();
                     }
                 }
@@ -305,6 +306,105 @@ public class Cuadricula{
             if(breakForEach){ break; }
         }
         return ps;
+    }
+
+    public void finallyMethodSolution(PositionGrid positionAnalyzed){
+        int rowGrid = positionAnalyzed.getPositionGrid().getRow();
+        int colGrid = positionAnalyzed.getPositionGrid().getColumn();
+        Cuadricula c = this.getGrid()[rowGrid][colGrid];
+
+        int limitRow = this.getGrid().length;
+        int maxColumn = this.getGrid()[limitRow - 1].length;
+
+        ArrayList<PositionSearcher> ls = getWaysToSearcherAList(positionAnalyzed, limitRow, maxColumn);
+
+        boolean isChange = false;
+
+        for (int i = 0; i < limitRow; i++) {
+            for (int j = 0; j < maxColumn; j++) {
+                while(!c.getCellsMatrix()[i][j].isChecked()){
+                    isChange = false;
+                    PositionGrid tmpAnalyzed = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[i][j], positionAnalyzed.getPositionGrid());
+                    ArrayList<PositionGrid> waysToPositionTrue = walkToRowOrColumnAndVerifyIfIsChecked(ls, tmpAnalyzed);
+
+                    if(waysToPositionTrue.size() == 0 ){
+                        c.getCellsMatrix()[i][j].setChecked(true);
+                    }else if(waysToPositionTrue.size() == 1){
+                        for (PositionGrid rec: waysToPositionTrue){
+                            Movements m = whereIsMyRepeat(tmpAnalyzed, rec);
+                            if (m.name().contentEquals(Movements.UP.name())) {
+                                for (int k = 0; k < rowGrid; k++) {
+                                    for (int l = 0; l < maxColumn; l++) {
+                                        if (l != rec.getCell().getPosition().getColumn()) {
+                                            if (!c.getCellsMatrix()[k][l].isChecked()) {
+                                                PositionGrid posToChange = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[k][l], positionAnalyzed.getPositionGrid());
+                                                changePosition(posToChange, tmpAnalyzed);
+                                                isChange = true;
+                                                tmpAnalyzed = posToChange;
+                                            }
+                                        }
+                                        if (isChange) {
+                                            break;
+                                        }
+                                    }
+                                    if (isChange) {
+                                        break;
+                                    }
+                                }
+                            }else if(m.name().contentEquals(Movements.LEFT.name())){
+                                for (int k = 0; k < limitRow; k++) {
+                                    if(rec.getCell().getPosition().getRow() !=  k ){
+                                        for (int l = 0; l < maxColumn; l++) {
+                                            if(!c.getCellsMatrix()[k][l].isChecked()){
+                                                PositionGrid posToChange = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[k][l], positionAnalyzed.getPositionGrid() );
+                                                changePosition(posToChange, tmpAnalyzed);
+                                                isChange = true;
+                                                tmpAnalyzed = posToChange;
+                                            }
+                                            if (isChange) {
+                                                break;
+                                            }
+                                        }
+                                        if (isChange) {
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        tmpAnalyzed.getCell().setChecked(true);
+                    }else if(waysToPositionTrue.size() == 2){
+                        for (int k = 0; k < waysToPositionTrue.size() - 1; k++) {
+                            Movements movOne = whereIsMyRepeat(tmpAnalyzed, waysToPositionTrue.get(k));
+                            Movements movTwo = whereIsMyRepeat(tmpAnalyzed, waysToPositionTrue.get(k + 1));
+                            if(movOne.name().contentEquals(Movements.UP.name()) && movTwo.name().contentEquals(Movements.LEFT.name())){
+                                for (int l = 0; l < limitRow; l++) {
+                                    if(l != waysToPositionTrue.get(k).getCell().getPosition().getRow()){
+                                        for (int m = 0; m < maxColumn; m++) {
+                                            if(m != waysToPositionTrue.get(k + 1).getCell().getPosition().getColumn()){
+                                                if(!c.getCellsMatrix()[l][m].isChecked()){
+                                                    PositionGrid posToChange = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[l][m], positionAnalyzed.getPositionGrid() );
+                                                    changePosition(posToChange, tmpAnalyzed);
+                                                    isChange = true;
+                                                    tmpAnalyzed = posToChange;
+                                                }
+                                                if (isChange) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        if (isChange) {
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        tmpAnalyzed.getCell().setChecked(true);
+                    }
+                }
+            }
+        }
     }
 
     public void moveMyPositionBecauseIcantMoveThePositionIFound(PositionGrid positionToChangeInGrid){
@@ -353,6 +453,25 @@ public class Cuadricula{
                                                         break;
                                                     }
                                                 }
+                                            }else if( m.name().contentEquals(Movements.LEFT.name()) ){
+                                                for (int k = 0; k < limitRow; k++) {
+                                                    if(rec.getCell().getPosition().getRow() !=  k ){
+                                                        for (int l = 0; l < maxColumn; l++) {
+                                                            if(!c.getCellsMatrix()[k][l].isChecked()){
+                                                                PositionGrid posToChange = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[k][l], positionToChangeInGrid.getPositionGrid() );
+                                                                changePosition(posToChange, tmpAnalyzed);
+                                                                isChange = true;
+                                                                tmpAnalyzed = posToChange;
+                                                            }
+                                                            if (isChange) {
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (isChange) {
+                                                        break;
+                                                    }
+                                                }
                                             }
                                         }else if(waysToPositionTrue.size() == 2){
 
@@ -374,23 +493,11 @@ public class Cuadricula{
         }
 
 
-    public void changePositionAndForceTrueChecked(PositionGrid pg, ArrayList<PositionGrid> lsRepetitiveChecked, ArrayList <PositionSearcher> waysList){
-
-        boolean vertical = false;
-        boolean horizontal = false;
-        PositionGrid pgTmp = null;
-        ArrayList<PositionGrid> waysToPositionTrue;
-        boolean isChange = false;
-        // donde esta mi posicion?, realizado existen 3 movimientos para moverme de la posicion chequeada : me muevo de fila, muevo de columna, o muevo de fila y columna.
-        ArrayList<Movements> movements = new ArrayList<>();
-
-    }
-
     public ArrayList<PositionGrid> walkToRowOrColumnAndVerifyIfIsChecked(ArrayList <PositionSearcher> waysList, PositionGrid pg){
         ArrayList<PositionGrid> lsPositionRepeatChecked = new ArrayList<>();
-        for (PositionSearcher rec : waysList){
 
-            if( rec.getMovements().name().contentEquals(Movements.DOWN.name()) || rec.getMovements().name().contentEquals(Movements.UP.name()) ){
+        for (PositionSearcher rec : waysList){
+            if(rec.getMovements().name().contentEquals(Movements.UP.name()) ){
                 Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
                 for (int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
                     System.out.println(gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].getNumber());
@@ -401,11 +508,16 @@ public class Cuadricula{
                         }
                     }
                 }
-            }else if(rec.getMovements().name().contentEquals(Movements.LEFT.name()) || rec.getMovements().name().contentEquals(Movements.RIGHT.name())){
+            }else if(rec.getMovements().name().contentEquals(Movements.LEFT.name()) ){
                 Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
-                //falta completar es muy parecido a lo de arriba, pero en este caso tengo que recorrer la columna de la fila [fija] [ dinamica]
-            }else {
-
+                for (int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
+                            if(gridToSearch.getCellsMatrix()[pg.getCell().getPosition().getRow()][i].getNumber() == pg.getCell().getNumber()){
+                                if(gridToSearch.getCellsMatrix()[pg.getCell().getPosition().getRow()][i].isChecked()){
+                                    Cell c = gridToSearch.getCellsMatrix()[pg.getCell().getPosition().getRow()][i];
+                                    lsPositionRepeatChecked.add(new PositionGrid(rec.getGrid(), c, rec.getPositionSearcher()));
+                                }
+                            }
+                }
             }
 
         }
@@ -492,6 +604,7 @@ public class Cuadricula{
         }
         return mov;
     }
+
 
 
     /*
