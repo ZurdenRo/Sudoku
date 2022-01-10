@@ -10,7 +10,6 @@ public class Cuadricula{
     private Cuadricula[][] grid;
     private Cell[][] cellsMatrix;
     private String indicator;
-    private static int NUMBER_TOTAL_ROW ;
 
     public Cuadricula(Cell[][] cellsMatrix, String indicator){
         setCellsMatrix(cellsMatrix);
@@ -252,7 +251,8 @@ public class Cuadricula{
                     for(int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
                         PositionGrid p = getPositionNotChecked();
                         PositionGrid positionRepeat = null;
-                        finallyMethodSolution(p);
+                        finallyUltimateSolution(p);
+                        //finallyMethodSolution(p);
                       /* int limitRow = this.getGrid().length;
                         int maxColumn = this.getGrid()[limitRow - 1].length;
                         ArrayList<PositionSearcher> list;
@@ -306,6 +306,29 @@ public class Cuadricula{
             if(breakForEach){ break; }
         }
         return ps;
+    }
+
+    public void finallyUltimateSolution(PositionGrid positionAnalyzed){
+        int rowGrid = positionAnalyzed.getPositionGrid().getRow();
+        int colGrid = positionAnalyzed.getPositionGrid().getColumn();
+        Cuadricula c = this.getGrid()[rowGrid][colGrid];
+
+        fillNumbersAvailable();
+        List<Cell> ls = Arrays.asList(Cuadricula.numberAvailable);
+        ArrayList<PositionGrid> lsNumberHave = new ArrayList<>();
+        lsNumberHave.add(positionAnalyzed);
+        int limitRow = this.getGrid().length;
+        int maxColumn = this.getGrid()[limitRow - 1].length;
+
+        for (int i = 0; i < limitRow; i++) {
+            if(positionAnalyzed.getCell().getPosition().getColumn() != i ){
+                PositionGrid posTmp = new PositionGrid(c.getIndicator(),  c.getCellsMatrix()[positionAnalyzed.getCell().getPosition().getRow()][i], positionAnalyzed.getPositionGrid());
+                lsNumberHave.add(posTmp);
+            }
+        }
+
+
+
     }
 
     public void finallyMethodSolution(PositionGrid positionAnalyzed){
