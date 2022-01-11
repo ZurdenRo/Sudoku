@@ -79,7 +79,7 @@ public class App{
 
         App.upFile(cellsOne, cellsTwo, cellsThree, cellsFour);
 
-       /* c.createMatrixNumber(cellsOne);
+        /*c.createMatrixNumber(cellsOne);
         Cuadricula.fillNumbersAvailable();
         c.removeNumberRepetitive(cellsOne);
         c.markTrueNumberRepetitive(cellsOne);
