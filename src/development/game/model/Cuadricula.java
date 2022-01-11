@@ -251,7 +251,6 @@ public class Cuadricula{
                 for(int k = 0; k < this.getGrid()[i][j].getCellsMatrix().length; k++) {
                     for(int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
                         PositionGrid p = getPositionNotChecked();
-                        PositionGrid positionRepeat = null;
                         finallyUltimateSolution(p);
                         printGridTwoRowTwoCol();
                     }
@@ -261,39 +260,6 @@ public class Cuadricula{
         }
         
 
-    }
-
-    public PositionGrid searchNumberRepetitiveAllGrid(ArrayList<PositionSearcher> waysList, PositionGrid positionSearchRepetitive){
-        PositionGrid ps = null;
-        boolean breakForEach = false;
-
-        for(PositionSearcher rec: waysList){
-            if(rec.getMovements().getPositionMovements().equals(Movements.RIGHT.getPositionMovements())){
-                Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
-                for(int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
-                    System.out.println(gridToSearch.getCellsMatrix()[positionSearchRepetitive.getCell().getPosition().getRow()][i].getNumber());
-                    System.out.println("--");
-                    if(gridToSearch.getCellsMatrix()[positionSearchRepetitive.getCell().getPosition().getRow()][i].getNumber() == positionSearchRepetitive.getCell().getNumber() ){
-                        ps = new PositionGrid(rec.getGrid(), gridToSearch.getCellsMatrix()[positionSearchRepetitive.getCell().getPosition().getRow()][i], rec.getPositionSearcher());
-                        breakForEach = true;
-                    }
-                    if(breakForEach){ break; }
-                }
-            }else if(rec.getMovements().getPositionMovements().equals(Movements.DOWN.getPositionMovements())){
-                Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
-                for(int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
-                    System.out.println(gridToSearch.getCellsMatrix()[i][positionSearchRepetitive.getCell().getPosition().getColumn()].getNumber());
-                    System.out.println("--");
-                    if(gridToSearch.getCellsMatrix()[i][positionSearchRepetitive.getCell().getPosition().getColumn()].getNumber() == positionSearchRepetitive.getCell().getNumber() ){
-                        ps = new PositionGrid(rec.getGrid(), gridToSearch.getCellsMatrix()[i][positionSearchRepetitive.getCell().getPosition().getColumn()], rec.getPositionSearcher());
-                        breakForEach = true;
-                    }
-                    if(breakForEach){ break; }
-                }
-            }
-            if(breakForEach){ break; }
-        }
-        return ps;
     }
 
     public void finallyUltimateSolution(PositionGrid positionAnalyzed){
@@ -324,7 +290,7 @@ public class Cuadricula{
                 for(int i = 0; i < limitRow; i++) {
                     Cuadricula cTmp = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
                     int numberCheck = cTmp.getCellsMatrix()[positionAnalyzed.getCell().getPosition().getRow()][i].getNumber();
-                    if(lsNumbersIHave.stream().noneMatch(x -> { return x.getCell().getNumber() == numberCheck;})){
+                    if(lsNumbersIHave.stream().noneMatch(numberHave -> numberHave.getCell().getNumber() == numberCheck )){
                         PositionGrid posTmp = new PositionGrid(cTmp.getIndicator(), cTmp.getCellsMatrix()[positionAnalyzed.getCell().getPosition().getRow()][i], rec.getPositionSearcher());
                         lsNumbersIHave.add(posTmp);
                     }else{
@@ -469,91 +435,6 @@ public class Cuadricula{
         return list;
     }
 
-    public void moveMyPositionBecauseIcantMoveThePositionIFound(PositionGrid positionToChangeInGrid){
-        int rowGrid = positionToChangeInGrid.getPositionGrid().getRow();
-        int colGrid = positionToChangeInGrid.getPositionGrid().getColumn();
-        int limitRow = this.getGrid().length;
-        int maxColumn = this.getGrid()[limitRow - 1].length;
-
-        ArrayList<PositionSearcher> ls = getWaysToSearcherAList(positionToChangeInGrid, limitRow, maxColumn);
-        //changePositionAndForceTrueChecked(positionToChangeInGrid, waysToPositionTrue, ls);
-        Cuadricula c = this.getGrid()[rowGrid][colGrid];
-
-        boolean isChange = false;
-
-            for (int i = 0; i < limitRow; i++) {
-                for (int j = 0; j < maxColumn; j++) {
-
-                        while(!c.getCellsMatrix()[i][j].isChecked()) {
-
-                            if (!c.getCellsMatrix()[i][j].isChecked()) {
-                                isChange = false;
-                                PositionGrid tmpAnalyzed = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[i][j], positionToChangeInGrid.getPositionGrid());
-                                ArrayList<PositionGrid> waysToPositionTrue = walkToRowOrColumnAndVerifyIfIsChecked(ls, tmpAnalyzed);
-                                while (waysToPositionTrue.size() != 0) {
-
-                                    for (PositionGrid rec : waysToPositionTrue) {
-                                        if (waysToPositionTrue.size() == 1) {
-                                            Movements m = whereIsMyRepeat(tmpAnalyzed, rec);
-                                            if (m.name().contentEquals(Movements.UP.name())) {
-
-                                                for (int k = 0; k < limitRow; k++) {
-                                                    for (int l = 0; l < maxColumn; l++) {
-                                                        if (l != rec.getCell().getPosition().getColumn()) {
-                                                            if (!c.getCellsMatrix()[k][l].isChecked()) {
-                                                                PositionGrid posToChange = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[k][l], positionToChangeInGrid.getPositionGrid());
-                                                                changePosition(posToChange, tmpAnalyzed);
-                                                                isChange = true;
-                                                                tmpAnalyzed = posToChange;
-                                                            }
-                                                        }
-                                                        if (isChange) {
-                                                            break;
-                                                        }
-                                                    }
-                                                    if (isChange) {
-                                                        break;
-                                                    }
-                                                }
-                                            }else if( m.name().contentEquals(Movements.LEFT.name()) ){
-                                                for (int k = 0; k < limitRow; k++) {
-                                                    if(rec.getCell().getPosition().getRow() !=  k ){
-                                                        for (int l = 0; l < maxColumn; l++) {
-                                                            if(!c.getCellsMatrix()[k][l].isChecked()){
-                                                                PositionGrid posToChange = new PositionGrid(c.getIndicator(), c.getCellsMatrix()[k][l], positionToChangeInGrid.getPositionGrid() );
-                                                                changePosition(posToChange, tmpAnalyzed);
-                                                                isChange = true;
-                                                                tmpAnalyzed = posToChange;
-                                                            }
-                                                            if (isChange) {
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                    if (isChange) {
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                        }else if(waysToPositionTrue.size() == 2){
-
-                                        }
-                                    }
-                                    waysToPositionTrue = walkToRowOrColumnAndVerifyIfIsChecked(ls, tmpAnalyzed);
-                                }
-
-                                tmpAnalyzed.getCell().setChecked(true);
-
-                            }
-                        }
-
-                    if(isChange){break;}
-                }
-                if(isChange){break;}
-            }
-
-        }
-
 
     public ArrayList<PositionGrid> walkToRowOrColumnAndVerifyIfIsChecked(ArrayList <PositionSearcher> waysList, PositionGrid pg){
         ArrayList<PositionGrid> lsPositionRepeatChecked = new ArrayList<>();
@@ -586,69 +467,6 @@ public class Cuadricula{
         return lsPositionRepeatChecked;
     }
 
-    public void setNumberOnGridAndSetChecked(PositionGrid positionSearchRepetitive, PositionGrid positionAnalyzed){
-        System.out.println(positionSearchRepetitive);
-        System.out.println(positionAnalyzed);
-        boolean isChange = false;
-        int limitRow = this.getGrid().length;
-        //ArrayList<PositionSearcher> list = getWaysToSearcherAList(positionAnalyzed, limitRow, maxColumn );
-
-        if(positionSearchRepetitive.getCell().isChecked() != true){
-            Movements m = whereIsMyRepeat(positionSearchRepetitive, positionAnalyzed);
-
-            if(m.name().contentEquals(Movements.LEFT.name()) || m.name().contentEquals(Movements.RIGHT.name())){
-                for (int i = 0; i < this.getGrid().length; i++) {
-                    if(i != positionSearchRepetitive.getCell().getPosition().getRow()){
-                        for (int j = 0; j < this.getGrid()[i].length; j++) {
-                            Cell c = this.getGrid()[positionSearchRepetitive.getPositionGrid().getRow()][positionSearchRepetitive.getPositionGrid().getColumn()].getCellsMatrix()[i][j];
-                            PositionGrid posTmp = new PositionGrid(positionSearchRepetitive.getIdGrid(), c, positionSearchRepetitive.getPositionGrid());
-                            if(notExistNumberOnRowOrColumn(posTmp, positionSearchRepetitive)){
-                                System.out.println("here");
-                                changePosition(positionSearchRepetitive, posTmp);
-                                isChange = true;
-                            }
-                            if(isChange){
-                                break;
-                            }
-                        }
-                    }
-                    if(isChange){
-                        break;
-                    }
-                }
-            }else if (m.name().contentEquals(Movements.UP.name()) || m.name().contentEquals(Movements.DOWN.name())){
-                for (int i = 0; i < this.getGrid().length; i++) {
-
-                    for (int j = 0; j < this.getGrid()[i].length; j++) {
-                        if(j !=  positionSearchRepetitive.getCell().getPosition().getColumn() ){
-                            Cell c = this.getGrid()[positionSearchRepetitive.getPositionGrid().getRow()][positionSearchRepetitive.getPositionGrid().getColumn()].getCellsMatrix()[i][j];
-                            PositionGrid posTmp = new PositionGrid(positionSearchRepetitive.getIdGrid(), c, positionSearchRepetitive.getPositionGrid());
-                            if(notExistNumberOnRowOrColumn(posTmp, positionSearchRepetitive)){
-                                System.out.println("here");
-                                changePosition(positionSearchRepetitive, posTmp);
-                                isChange = true;
-                            }
-                            if(isChange){
-                                break;
-                            }
-                        }
-                    }
-                    if(isChange){
-                        break;
-                    }
-                }
-            }
-        }else{
-
-
-            moveMyPositionBecauseIcantMoveThePositionIFound(positionAnalyzed);
-
-        }
-
-
-    }
-
-
     public Movements whereIsMyRepeat(PositionGrid positionSearchRepetitive, PositionGrid positionAnalyzed){
         Movements mov = null;
         if(positionAnalyzed.getPositionGrid().getRow() == positionSearchRepetitive.getPositionGrid().getRow()){
@@ -667,49 +485,6 @@ public class Cuadricula{
         return mov;
     }
 
-
-
-    /*
-    * Este metodo verifica 2 posiciones
-    * */
-    public boolean notExistNumberOnRowOrColumn(PositionGrid positionGrid, PositionGrid positionToCheck) {
-        int limitRow = this.getGrid().length;
-        int maxColumn = this.getGrid()[limitRow - 1].length;
-        boolean notExistNumberOnRowOrColumn = true;
-        boolean canBreak = false;
-        ArrayList<PositionSearcher> list = getWaysToSearcherAList(positionGrid, limitRow, maxColumn);
-
-        for (PositionSearcher rec : list) {
-            Cell[][] cell = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()].getCellsMatrix();
-            if (rec.getMovements().equals(Movements.DOWN) || rec.getMovements().equals(Movements.UP)) {
-                for (int i = 0; i < cell.length; i++) {
-                    if (cell[i][positionGrid.getCell().getPosition().getColumn()].getNumber() == positionToCheck.getCell().getNumber()) {
-                        notExistNumberOnRowOrColumn = false;
-                        canBreak = true;
-                    }
-                    System.out.println(cell[i][positionGrid.getCell().getPosition().getColumn()].getNumber());
-                }
-                if (canBreak) {
-                    break;
-                }
-            } else if (rec.getMovements().equals(Movements.LEFT) || rec.getMovements().equals(Movements.RIGHT)) {
-                for (int i = 0; i < cell.length; i++) {
-                    if (cell[positionGrid.getCell().getPosition().getRow()][i].getNumber() == positionToCheck.getCell().getNumber()) {
-                        notExistNumberOnRowOrColumn = false;
-                        canBreak = true;
-                    }
-                    System.out.println(cell[positionGrid.getCell().getPosition().getRow()][i].getNumber());
-                }
-                if (canBreak) {
-                    break;
-                }
-            }
-        }
-        return notExistNumberOnRowOrColumn;
-    }
-
-
-
     public void changePosition(PositionGrid positionTo, PositionGrid positionFrom){
         int to = positionTo.getCell().getNumber();
         int from = positionFrom.getCell().getNumber();
@@ -719,8 +494,6 @@ public class Cuadricula{
         cTo[positionTo.getCell().getPosition().getRow()][positionTo.getCell().getPosition().getColumn()].setNumber(from);
         cFrom[positionFrom.getCell().getPosition().getRow()][positionFrom.getCell().getPosition().getColumn()].setNumber(to);
     }
-
-
 
     public ArrayList<PositionSearcher> getWaysToSearcherAList(PositionGrid p, int limitRow, int maxColumn){
         ArrayList<PositionSearcher> list = new ArrayList<>();
@@ -775,8 +548,4 @@ public class Cuadricula{
                 '}';
     }
 
-
-    private class InternPositionGrid{
-
-    }
 }
