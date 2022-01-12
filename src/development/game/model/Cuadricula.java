@@ -1,6 +1,7 @@
 package development.game.model;
 
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -258,7 +259,39 @@ public class Cuadricula{
 
             }
         }
-        
+        searchInRow();
+    }
+
+    public void searchInRow(){
+        int row = this.getGrid().length;
+        int column = this.getGrid()[row - 1].length;
+        int countRowTotal = row * row;
+        ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
+        int currentRow = 0;
+
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < column; j++) {
+
+                lsGrid.add(new PositionSearcher(String.valueOf(currentRow),new Position(i,j),null));
+                currentRow++;
+            }
+
+        }
+
+        for(int i = 0; i < countRowTotal; i++) {
+            if( i < row){
+                ArrayList<PositionSearcher> ls = lsGrid.stream().filter(actualRow -> Integer.parseInt(actualRow.getGrid()) < row).collect(Collectors.toCollection(ArrayList::new));
+
+                for(PositionSearcher rec: ls){
+                    for(int j = 0; j < this.getGrid().length; j++) {
+                       Cuadricula gridTmp = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
+                        Cell cellTmp = gridTmp.getCellsMatrix()[i][j];
+                        System.out.println(cellTmp.getNumber());
+                    }
+                }
+            }
+
+        }
 
     }
 
@@ -300,7 +333,7 @@ public class Cuadricula{
                 }
             }
         }
-        //Genero una lista que me dice que numeros me faltan de toda mi fila!
+        //Generate a list, He tell me, what number is absent
         List<Cell> lsNumberAbsent = lsNumberAvailable.stream().filter(e -> lsNumbersIHave.stream().map(PositionGrid::getCell).map(Cell::getNumber).allMatch( z -> z != e.getNumber())).collect(Collectors.toList());
 
         if(lsNumberAbsent.size() != 0 ){
@@ -321,9 +354,8 @@ public class Cuadricula{
         }
 
 
-
-        lsNumbersRepetitive.clear();
         ArrayList<PositionSearcher> waysToSearchUpDown = whereFindNumberGridUpDown(positionAnalyzed);
+        lsNumbersRepetitive.clear();
         lsNumbersIHave.clear();
         lsNumbersIHave.add(positionAnalyzed);
 
@@ -379,6 +411,7 @@ public class Cuadricula{
         waysToSearchUpDown.clear();
         lsNumbersRepetitive.clear();
         lsNumbersIHave.clear();
+
         positionAnalyzed.getCell().setChecked(true);
     }
 
@@ -433,38 +466,6 @@ public class Cuadricula{
         }
 
         return list;
-    }
-
-
-    public ArrayList<PositionGrid> walkToRowOrColumnAndVerifyIfIsChecked(ArrayList <PositionSearcher> waysList, PositionGrid pg){
-        ArrayList<PositionGrid> lsPositionRepeatChecked = new ArrayList<>();
-
-        for (PositionSearcher rec : waysList){
-            if(rec.getMovements().name().contentEquals(Movements.UP.name()) ){
-                Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
-                for (int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
-                    System.out.println(gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].getNumber());
-                    if(pg.getCell().getNumber() == gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].getNumber()){
-                        if(gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()].isChecked()){
-                            Cell c = gridToSearch.getCellsMatrix()[i][pg.getCell().getPosition().getColumn()];
-                            lsPositionRepeatChecked.add(new PositionGrid(rec.getGrid(), c, rec.getPositionSearcher()));
-                        }
-                    }
-                }
-            }else if(rec.getMovements().name().contentEquals(Movements.LEFT.name()) ){
-                Cuadricula gridToSearch = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
-                for (int i = 0; i < gridToSearch.getCellsMatrix().length; i++) {
-                            if(gridToSearch.getCellsMatrix()[pg.getCell().getPosition().getRow()][i].getNumber() == pg.getCell().getNumber()){
-                                if(gridToSearch.getCellsMatrix()[pg.getCell().getPosition().getRow()][i].isChecked()){
-                                    Cell c = gridToSearch.getCellsMatrix()[pg.getCell().getPosition().getRow()][i];
-                                    lsPositionRepeatChecked.add(new PositionGrid(rec.getGrid(), c, rec.getPositionSearcher()));
-                                }
-                            }
-                }
-            }
-
-        }
-        return lsPositionRepeatChecked;
     }
 
     public Movements whereIsMyRepeat(PositionGrid positionSearchRepetitive, PositionGrid positionAnalyzed){
