@@ -292,7 +292,6 @@ public class Cuadricula{
                             if(lsNumberIhave.stream().allMatch(number -> number != cellTmp.getNumber())){
                                 lsNumberIhave.add(cellTmp.getNumber());
                             }
-                            //---
                             for(PositionSearcher r: lsGridRow){
                                 for(int l = 0; l < row; l++) {
                                     Cuadricula grid = this.getGrid()[r.getPositionSearcher().getRow()][r.getPositionSearcher().getColumn()];

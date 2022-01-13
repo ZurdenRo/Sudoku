@@ -75,11 +75,11 @@ public class App{
         Cell[][] cellsTwo = new Cell[2][2];
         Cell[][] cellsThree = new Cell[2][2];
         Cell[][] cellsFour = new Cell[2][2];
-        Cuadricula c = new Cuadricula();;
+        Cuadricula c = new Cuadricula();
 
-        //App.upFile(cellsOne, cellsTwo, cellsThree, cellsFour);
+        App.upFile(cellsOne, cellsTwo, cellsThree, cellsFour);
 
-        c.createMatrixNumber(cellsOne);
+        /*c.createMatrixNumber(cellsOne);
         Cuadricula.fillNumbersAvailable();
         c.removeNumberRepetitive(cellsOne);
         c.markTrueNumberRepetitive(cellsOne);
@@ -101,7 +101,7 @@ public class App{
         Cuadricula.fillNumbersAvailable();
         c.removeNumberRepetitive(cellsFour);
         c.markTrueNumberRepetitive(cellsFour);
-        c.printMatrix(cellsFour);
+        c.printMatrix(cellsFour);*/
 
         c.setGrid(new Cuadricula[2][2]);
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour);
