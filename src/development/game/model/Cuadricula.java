@@ -263,33 +263,94 @@ public class Cuadricula{
     }
 
     public void searchInRow(){
+
         int row = this.getGrid().length;
         int column = this.getGrid()[row - 1].length;
-        int countRowTotal = row * row;
-        ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
         int currentRow = 0;
+        ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
 
         for(int i = 0; i < row; i++) {
             for(int j = 0; j < column; j++) {
-
                 lsGrid.add(new PositionSearcher(String.valueOf(currentRow),new Position(i,j),null));
-                currentRow++;
             }
-
+            currentRow++;
         }
 
-        for(int i = 0; i < countRowTotal; i++) {
-            if( i < row){
-                ArrayList<PositionSearcher> ls = lsGrid.stream().filter(actualRow -> Integer.parseInt(actualRow.getGrid()) < row).collect(Collectors.toCollection(ArrayList::new));
+        for(int i = 0; i < row; i++) {
+            int currentRowFinal = i;
 
-                for(PositionSearcher rec: ls){
-                    for(int j = 0; j < this.getGrid().length; j++) {
-                       Cuadricula gridTmp = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
-                        Cell cellTmp = gridTmp.getCellsMatrix()[i][j];
-                        System.out.println(cellTmp.getNumber());
+                for(int j = 0; j < row; j++) {
+                    ArrayList<Integer> lsNumberIhave = new ArrayList<>();
+                    ArrayList<PositionGrid> lsPosRepetitive = new ArrayList<>();
+                    List<PositionSearcher> lsGridRow = lsGrid.stream().filter(rowActual -> Integer.parseInt(rowActual.getGrid()) == currentRowFinal).collect(Collectors.toList());
+                    for(PositionSearcher rec: lsGridRow){
+                        for(int k = 0; k < row; k++) {
+                            Cuadricula gridTmp = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
+                            Cell cellTmp = gridTmp.getCellsMatrix()[j][k];
+
+                            PositionGrid posTmp = new PositionGrid(gridTmp.getIndicator(), cellTmp, rec.getPositionSearcher());
+                            if(lsNumberIhave.stream().allMatch(number -> number != cellTmp.getNumber())){
+                                lsNumberIhave.add(cellTmp.getNumber());
+                            }
+                            //---
+                            for(PositionSearcher r: lsGridRow){
+                                for(int l = 0; l < row; l++) {
+                                    Cuadricula grid = this.getGrid()[r.getPositionSearcher().getRow()][r.getPositionSearcher().getColumn()];
+                                    if(!posTmp.getCell().getPosition().equalsPosition(grid.getCellsMatrix()[j][l].getPosition())){
+                                        int numberTmp = grid.getCellsMatrix()[j][l].getNumber();
+                                        if(lsNumberIhave.stream().allMatch(number -> number != numberTmp)){
+                                            lsNumberIhave.add(numberTmp);
+                                        }
+                                        if(posTmp.getCell().getNumber() == grid.getCellsMatrix()[j][l].getNumber()){
+                                            PositionGrid pos = new PositionGrid(grid.getIndicator(),grid.cellsMatrix[j][l], r.getPositionSearcher());
+                                            lsPosRepetitive.add(pos);
+                                        }
+
+                                    }else{
+                                        if(!posTmp.getIdGrid().contentEquals(grid.getIndicator())){
+                                            int numberTmp = grid.getCellsMatrix()[j][l].getNumber();
+                                            if(lsNumberIhave.stream().allMatch(number -> number != numberTmp)){
+                                                lsNumberIhave.add(numberTmp);
+                                            }
+                                            if(posTmp.getCell().getNumber() == grid.getCellsMatrix()[j][l].getNumber()){
+                                                PositionGrid pos = new PositionGrid(grid.getIndicator(),grid.cellsMatrix[j][l], r.getPositionSearcher());
+                                                lsPosRepetitive.add(pos);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if(lsPosRepetitive.stream().findFirst().isPresent()){
+                                System.out.println("here");
+                                Optional<PositionGrid> obj = lsPosRepetitive.stream().findFirst();
+                                PositionGrid pos = obj.get();
+                                Cuadricula cTmp = this.getGrid()[pos.getPositionGrid().getRow()][pos.getPositionGrid().getColumn()];
+                                for(int l = 0; l < row; l++) {
+                                    for(int m = 0; m < column; m++) {
+                                        int numberChecking = cTmp.getCellsMatrix()[l][m].getNumber();
+                                        if(lsNumberIhave.stream().noneMatch(numberHave -> numberHave == numberChecking)){
+                                            PositionGrid from = new PositionGrid(cTmp.getIndicator(), cTmp.getCellsMatrix()[l][m], pos.getPositionGrid());
+                                            PositionGrid to = new PositionGrid(cTmp.getIndicator(), cTmp.getCellsMatrix()[pos.getCell().getPosition().getRow()][m], pos.getPositionGrid());
+                                            if(lsNumberIhave.stream().allMatch( numberHave -> numberHave != numberChecking) &&  pos.getCell().getNumber() != to.getCell().getNumber()){
+                                                lsNumberIhave.removeIf( numberHave -> numberHave == to.getCell().getNumber());
+
+                                            }
+                                            lsNumberIhave.add(from.getCell().getNumber());
+
+                                            changePosition(to, from);
+                                            printGridTwoRowTwoCol();
+                                        }
+                                    }
+                                }
+                                lsPosRepetitive.clear();
+                            }
+                            // chequear aca los repetidos, moverlos, ver que numeros me faltan
+                        }
                     }
+
+                printGridTwoRowTwoCol();
                 }
-            }
+
 
         }
 
