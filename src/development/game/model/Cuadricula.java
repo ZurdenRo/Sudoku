@@ -1,13 +1,12 @@
 package development.game.model;
 
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Cuadricula{
 
-    private static final Cell[] numberAvailable = new Cell[4];
+    private static ArrayList<Cell> numbersAvailable;
     private static ArrayList<Integer> numbersMissing;
     private Cuadricula[][] grid;
     private Cell[][] cellsMatrix;
@@ -53,7 +52,6 @@ public class Cuadricula{
     }
 
     public void createMatrixNumber(Cell[][] cell){
-
         for(int i = 0; i < cell.length; i++) {
             for(int c = 0; c < cell[i].length; c++) {
                 cell[i][c] = new Cell(generateNumberRandom(), false, new Position(i, c), false);
@@ -61,11 +59,13 @@ public class Cuadricula{
         }
     }
 
-    public static void fillNumbersAvailable(){
-        for(int i = 0; i < numberAvailable.length; i++) {
-            numberAvailable[i] = new Cell(i + 1, true);
+    public static void fillNumbersAvailable(Cell [][] c){
+        Cuadricula.numbersAvailable = new ArrayList<>();
+        int maxRow = c.length;
+        int maxCell = maxRow * maxRow;
+        for(int i = 0; i < maxCell; i++) {
+            Cuadricula.numbersAvailable.add(new Cell(i + 1, true));
         }
-
     }
 
     public void printMatrix(Cell[][] cell){
@@ -78,22 +78,20 @@ public class Cuadricula{
     }
 
     public void removeNumberRepetitive(Cell[][] cell){
-        for(int i = 0; i < cell.length; i++) {
-            //System.out.println(arr[i]);
-            for(int j = 0; j < cell[i].length; j++) {
-                cellToCheck(cell[i][j], cell);
+        for(Cell[] cells : cell) {
+            for(Cell value : cells) {
+                cellToCheck(value, cell);
             }
         }
     }
 
-    public void cellToCheck(Cell c, Cell[][] cell){
-        for(int i = 0; i < cell.length; i++) {
-            for(int j = 0; j < cell[i].length; j++) {
+    public void cellToCheck(Cell c, Cell[][] matrizCell){
+        for(Cell[] cells : matrizCell) {
+            for(Cell value : cells) {
                 if(!(c.isRepeat())) {
-                    if(!(c.getPosition().equalsPosition(cell[i][j].getPosition()))) {
-                        if(c.getNumber() == cell[i][j].getNumber()) {
-                            // System.out.println( arr[j].getNumber() + "Repeat");
-                            cell[i][j].setRepeat(true);
+                    if(!(c.getPosition().equalsPosition(value.getPosition()))) {
+                        if(c.getNumber() == value.getNumber()) {
+                            value.setRepeat(true);
                         }
                     }
                 }
@@ -114,9 +112,9 @@ public class Cuadricula{
 
     public void markTrueNumberRepetitive(Cell[][] cell){
         numbersMissing = new ArrayList<>();
-        for(int i = 0; i < cell.length; i++) {
-            for(int j = 0; j < cell[i].length; j++) {
-                searchArrNumberEnable(cell[i][j]);
+        for(Cell[] row : cell) {
+            for(Cell column : row) {
+                searchArrNumberEnable(column);
             }
 
         }
@@ -125,30 +123,30 @@ public class Cuadricula{
     }
 
     public void searchArrNumberEnable(Cell c){
-        for(int i = 0; i < numberAvailable.length; i++) {
-            if(numberAvailable[i].getNumber() == c.getNumber()) {
-                numberAvailable[i].setNumberAbsent(false);
+        for(Cell cell : numbersAvailable) {
+            if(cell.getNumber() == c.getNumber()) {
+                cell.setNumberAbsent(false);
             }
         }
     }
 
     public void changerNumberRepetitiveForMissing(){
-        for(int i = 0; i < numberAvailable.length; i++) {
-            if(numberAvailable[i].isNumberAbsent()) {
-                numbersMissing.add(numberAvailable[i].getNumber());
+        for(Cell cell : numbersAvailable) {
+            if(cell.isNumberAbsent()) {
+                numbersMissing.add(cell.getNumber());
             }
         }
     }
 
-    public void selectNumberMissing(Cell[][] cell){
+    public void selectNumberMissing(Cell[][] matrixCell){
         Random r = new Random();
 
-        for(int i = 0; i < cell.length; i++) {
-            for(int j = 0; j < cell[i].length; j++) {
-                if(cell[i][j].isRepeat()) {
+        for(Cell[] cell : matrixCell) {
+            for(Cell value : cell) {
+                if(value.isRepeat()) {
                     int n = r.nextInt(numbersMissing.size());
 
-                    cell[i][j].setNumber(numbersMissing.get(n));
+                    value.setNumber(numbersMissing.get(n));
                     numbersMissing.remove(n);
                 }
             }
@@ -360,8 +358,8 @@ public class Cuadricula{
         int colGrid = positionAnalyzed.getPositionGrid().getColumn();
         Cuadricula c = this.getGrid()[rowGrid][colGrid];
 
-        fillNumbersAvailable();
-        List<Cell> lsNumberAvailable = Arrays.asList(Cuadricula.numberAvailable);
+
+        List<Cell> lsNumberAvailable = Cuadricula.numbersAvailable;
         ArrayList<PositionGrid> lsNumbersIHave = new ArrayList<>();
         ArrayList<PositionGrid> lsNumbersRepetitive = new ArrayList<>();
         lsNumbersIHave.add(positionAnalyzed);

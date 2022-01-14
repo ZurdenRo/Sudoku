@@ -77,31 +77,31 @@ public class App{
         Cell[][] cellsFour = new Cell[2][2];
         Cuadricula c = new Cuadricula();
 
-        App.upFile(cellsOne, cellsTwo, cellsThree, cellsFour);
+        //App.upFile(cellsOne, cellsTwo, cellsThree, cellsFour);
 
-        /*c.createMatrixNumber(cellsOne);
-        Cuadricula.fillNumbersAvailable();
+        c.createMatrixNumber(cellsOne);
+        Cuadricula.fillNumbersAvailable(cellsOne);
         c.removeNumberRepetitive(cellsOne);
         c.markTrueNumberRepetitive(cellsOne);
         c.printMatrix(cellsOne);
 
         c.createMatrixNumber(cellsTwo);
-        Cuadricula.fillNumbersAvailable();
+        Cuadricula.fillNumbersAvailable(cellsTwo);
         c.removeNumberRepetitive(cellsTwo);
         c.markTrueNumberRepetitive(cellsTwo);
         c.printMatrix(cellsTwo);
 
         c.createMatrixNumber(cellsThree);
-        Cuadricula.fillNumbersAvailable();
+        Cuadricula.fillNumbersAvailable(cellsThree);
         c.removeNumberRepetitive(cellsThree);
         c.markTrueNumberRepetitive(cellsThree);
         c.printMatrix(cellsThree);
 
         c.createMatrixNumber(cellsFour);
-        Cuadricula.fillNumbersAvailable();
+        Cuadricula.fillNumbersAvailable(cellsFour);
         c.removeNumberRepetitive(cellsFour);
         c.markTrueNumberRepetitive(cellsFour);
-        c.printMatrix(cellsFour);*/
+        c.printMatrix(cellsFour);
 
         c.setGrid(new Cuadricula[2][2]);
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour);
