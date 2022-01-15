@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class Cuadricula{
 
     private static ArrayList<Cell> numbersAvailable;
-    private static ArrayList<Integer> numbersMissing;
+    private ArrayList<Integer> numbersMissing;
     private Cuadricula[][] grid;
     private Cell[][] cellsMatrix;
     private String indicator;
@@ -57,6 +57,7 @@ public class Cuadricula{
                 cell[i][c] = new Cell(generateNumberRandom(), false, new Position(i, c), false);
             }
         }
+        fillNumbersAvailable(cell);
     }
 
     public static void fillNumbersAvailable(Cell [][] c){
@@ -77,10 +78,10 @@ public class Cuadricula{
         }
     }
 
-    public void removeNumberRepetitive(Cell[][] cell){
-        for(Cell[] cells : cell) {
+    public void removeNumberRepetitive(Cell[][] matrixCell){
+        for(Cell[] cells : matrixCell) {
             for(Cell value : cells) {
-                cellToCheck(value, cell);
+                cellToCheck(value, matrixCell);
             }
         }
     }
@@ -147,6 +148,7 @@ public class Cuadricula{
                     int n = r.nextInt(numbersMissing.size());
 
                     value.setNumber(numbersMissing.get(n));
+                    value.setRepeat(false);
                     numbersMissing.remove(n);
                 }
             }
@@ -159,12 +161,11 @@ public class Cuadricula{
         for(Cell[][] rec: cells){
             boolean isBreak = false;
             for(int i = 0; i < this.getGrid().length; i++) {
-
-                for(int j = 0; j < this.getGrid()[i].length; j++) {
+                for(int j = 0; j < this.getGrid().length; j++) {
                     if(this.getGrid()[i][j] == null){
-                        isBreak = true;
                         count++;
                         this.getGrid()[i][j] = new Cuadricula(rec, "IDGrid: " + count);
+                        isBreak = true;
                         break;
                     }
                 }
@@ -181,6 +182,7 @@ public class Cuadricula{
         String rowTwo = "";
         String splitLines = "\n";
         String rowFinal = "";
+        String rowThree = "";
 
         for (int i = 0; i < this.getGrid().length; i++) {
             for (int j = 0; j < this.getGrid()[i].length; j++) {
@@ -193,26 +195,49 @@ public class Cuadricula{
                         else if (k ==1){
                             rowTwo = rowTwo + this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
                         }
+                        else if(k == 2){
+                            rowThree = rowThree + this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
+                        }
                     }
                 }
-                if(i == 0 && j == 1){
-                    rowFinal = rowOnes.concat(splitLines).concat(rowTwo);
-                    rowOnes = "";
-                    rowTwo = "";
+                if(this.getGrid().length == 2){
+                    if(i == 0 && j == 1){
+                        rowFinal = rowOnes.concat(splitLines).concat(rowTwo);
+                        rowOnes = "";
+                        rowTwo = "";
+                    }
+                    else if(i == 1 && j == 1){
+                        rowFinal = rowFinal.concat(splitLines).concat(rowOnes).concat(splitLines).concat(rowTwo);
+                    }
+                }else if(this.getGrid().length == 3){
+                    if(i == 0 && j == 2){
+                        rowFinal = rowOnes.concat(splitLines).concat(rowTwo).concat(splitLines).concat(rowThree);
+                        rowOnes = "";
+                        rowTwo = "";
+                        rowThree = "";
+                    }
+                    else if(i == 1 && j == 2){
+                        rowFinal = rowFinal.concat(splitLines).concat(rowOnes).concat(splitLines).concat(rowTwo).concat(splitLines).concat(rowThree);
+                        rowOnes = "";
+                        rowTwo = "";
+                        rowThree = "";
+                    }else if(i == 2 && j == 2){
+                        rowFinal = rowFinal.concat(splitLines).concat(rowOnes).concat(splitLines).concat(rowTwo).concat(splitLines).concat(rowThree);
+                        rowOnes = "";
+                        rowTwo = "";
+                        rowThree = "";
+                    }
                 }
-                else if(i == 1 && j == 1){
-                    rowFinal = rowFinal.concat(splitLines).concat(rowOnes).concat(splitLines).concat(rowTwo);
-                }
-            }
 
+            }
         }
+
         System.out.println("-------------");
         System.out.println(rowFinal);
         System.out.println("-------------");
     }
 
-    public PositionGrid getPositionNotChecked()
-    {
+    public PositionGrid getPositionNotChecked(){
         PositionGrid p = null ;
         boolean getPosition = false;
         for (int i = 0; i < this.getGrid().length; i++) {
@@ -250,14 +275,67 @@ public class Cuadricula{
                 for(int k = 0; k < this.getGrid()[i][j].getCellsMatrix().length; k++) {
                     for(int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
                         PositionGrid p = getPositionNotChecked();
-                        finallyUltimateSolution(p);
+                        //finallyUltimateSolution(p);
                         printGridTwoRowTwoCol();
                     }
                 }
 
             }
         }
-        searchInRow();
+        searchInRowSolutionFinal();
+    }
+
+    public void searchInRowSolutionFinal(){
+        int row = this.getGrid().length;
+        int column = this.getGrid()[row - 1].length;
+        int currentRow = 0;
+        ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
+        Cell [][] c = new Cell[3][3];
+        Cuadricula.fillNumbersAvailable(c);
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < column; j++) {
+                lsGrid.add(new PositionSearcher(String.valueOf(currentRow),new Position(i,j),null));
+            }
+            currentRow++;
+        }
+
+
+        for(int i = 0; i < row; i++) {
+            int currentRowFinal = i;
+            List<PositionSearcher> lsGridRow = lsGrid.stream().filter(rowActual -> Integer.parseInt(rowActual.getGrid()) == currentRowFinal).collect(Collectors.toList());
+            ArrayList<PositionGrid> lsNumberHave = new ArrayList<>();
+            ArrayList<PositionGrid> lsNumberRepetitive = new ArrayList<>();
+            for(int j = 0; j < row; j++) {
+
+                for(PositionSearcher r : lsGridRow){
+                    Cuadricula subGrid = this.getGrid()[r.getPositionSearcher().getRow()][r.getPositionSearcher().getColumn()];
+
+                    for(int k = 0; k < row; k++) {
+                        System.out.println(subGrid.getCellsMatrix()[j][k].getNumber());
+                        int numberToChek = subGrid.getCellsMatrix()[j][k].getNumber();
+                        if(lsNumberHave.stream().map(PositionGrid::getCell).noneMatch(numberCell -> numberCell.getNumber() == numberToChek)){
+                            PositionGrid posTmp = new PositionGrid(subGrid.getIndicator(), subGrid.getCellsMatrix()[j][k], r.getPositionSearcher());
+                            lsNumberHave.add(posTmp);
+                        }else{
+                            //problem 3 position in row
+                            PositionGrid posTmp = new PositionGrid(subGrid.getIndicator(), subGrid.getCellsMatrix()[j][k], r.getPositionSearcher());
+                            lsNumberRepetitive.add(posTmp);
+                            Optional<PositionGrid> nm = lsNumberHave.stream().filter(pos -> pos.getCell().getNumber() == posTmp.getCell().getNumber()).findFirst();
+                            nm.ifPresent(lsNumberRepetitive::add);
+                        }
+                    }
+
+                }
+                // here keep code
+                List<Cell> numberAbsent = Cuadricula.numbersAvailable.stream().filter( numbersAvailable -> lsNumberHave.stream().noneMatch(positionGrid -> positionGrid.getCell().getNumber() == numbersAvailable.getNumber())).collect(Collectors.toList());
+                System.out.println(numberAbsent);
+
+                lsNumberHave.clear();
+                lsNumberRepetitive.clear();
+            }
+
+        }
+
     }
 
     public void searchInRow(){
