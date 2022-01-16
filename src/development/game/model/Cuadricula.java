@@ -319,9 +319,16 @@ public class Cuadricula{
                         }else{
                             //problem 3 position in row
                             PositionGrid posTmp = new PositionGrid(subGrid.getIndicator(), subGrid.getCellsMatrix()[j][k], r.getPositionSearcher());
-                            lsNumberRepetitive.add(posTmp);
-                            Optional<PositionGrid> nm = lsNumberHave.stream().filter(pos -> pos.getCell().getNumber() == posTmp.getCell().getNumber()).findFirst();
-                            nm.ifPresent(lsNumberRepetitive::add);
+                            if(lsNumberRepetitive.stream().noneMatch(repetitive -> repetitive.getPositionGrid().equalsPosition(posTmp.getPositionGrid()) && repetitive.getCell().getPosition().equalsPosition(posTmp.getCell().getPosition()))){
+                                lsNumberRepetitive.add(posTmp);
+                                ArrayList<PositionGrid> ls = lsNumberHave.stream().filter(numberHave -> numberHave.getCell().getNumber() == posTmp.getCell().getNumber()).collect(Collectors.toCollection(ArrayList::new));
+                                Optional<PositionGrid> posHave = ls.stream().filter( posGrid -> lsNumberRepetitive.stream().noneMatch( repetitive ->  repetitive.getPositionGrid().equalsPosition(posTmp.getPositionGrid()) && repetitive.getCell().getPosition().equalsPosition(posTmp.getCell().getPosition()))).findFirst();
+                                if(posHave.isPresent()){
+                                    if(lsNumberRepetitive.stream().noneMatch(repetitive -> repetitive.getPositionGrid().equalsPosition(posHave.get().getPositionGrid()) && repetitive.getCell().getPosition().equalsPosition(posHave.get().getCell().getPosition()))){
+                                        posHave.ifPresent(lsNumberRepetitive::add);
+                                    }
+                                }
+                            }
                         }
                     }
 
