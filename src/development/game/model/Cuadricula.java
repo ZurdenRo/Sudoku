@@ -304,7 +304,7 @@ public class Cuadricula{
             int currentRowFinal = i;
             List<PositionSearcher> lsGridRow = lsGrid.stream().filter(rowActual -> Integer.parseInt(rowActual.getGrid()) == currentRowFinal).collect(Collectors.toList());
             ArrayList<PositionGrid> lsNumberHave = new ArrayList<>();
-            ArrayList<PositionGrid> lsNumberRepetitive = new ArrayList<>();
+            ArrayList<PositionGrid> lsNumberRepeated = new ArrayList<>();
             for(int j = 0; j < row; j++) {
 
                 for(PositionSearcher r : lsGridRow){
@@ -318,9 +318,9 @@ public class Cuadricula{
                             lsNumberHave.add(posTmp);
                         }else{
                             PositionGrid posTmp = new PositionGrid(subGrid.getIndicator(), subGrid.getCellsMatrix()[j][k], r.getPositionSearcher());
-                            lsNumberRepetitive.add(posTmp);
-                            Optional<PositionGrid> pairRepetitive = lsNumberHave.stream().filter(numberHave -> numberHave.getCell().getNumber() == posTmp.getCell().getNumber()).findFirst();
-                            pairRepetitive.ifPresent( pair -> ifNotExistPairAddToListRepetitive(pair, lsNumberRepetitive));
+                            lsNumberRepeated.add(posTmp);
+                            Optional<PositionGrid> pairRepeated = lsNumberHave.stream().filter(numberHave -> numberHave.getCell().getNumber() == posTmp.getCell().getNumber()).findFirst();
+                            pairRepeated.ifPresent( pair -> ifNotExistPairAddToListRepetitive(pair, lsNumberRepeated));
                         }
                     }
                 }
@@ -329,16 +329,16 @@ public class Cuadricula{
                 System.out.println(numberAbsent);
 
                 lsNumberHave.clear();
-                lsNumberRepetitive.clear();
+                lsNumberRepeated.clear();
             }
 
         }
 
     }
 
-    private void ifNotExistPairAddToListRepetitive(PositionGrid pg, ArrayList<PositionGrid> lsNumberRepetitive){
-         if(lsNumberRepetitive.stream().noneMatch(repetitive -> repetitive.getPositionGrid().equalsPosition(pg.getPositionGrid()) && repetitive.getCell().getNumber() == pg.getCell().getNumber())){
-            lsNumberRepetitive.add(pg);
+    private void ifNotExistPairAddToListRepetitive(PositionGrid repeated, ArrayList<PositionGrid> lsNumberRepetitive){
+         if(lsNumberRepetitive.stream().noneMatch(lsRepeated -> lsRepeated.getPositionGrid().equalsPosition(repeated.getPositionGrid()) && lsRepeated.getCell().getNumber() == repeated.getCell().getNumber())){
+            lsNumberRepetitive.add(repeated);
         }
     }
 
@@ -443,7 +443,7 @@ public class Cuadricula{
 
         List<Cell> lsNumberAvailable = Cuadricula.numbersAvailable;
         ArrayList<PositionGrid> lsNumbersIHave = new ArrayList<>();
-        ArrayList<PositionGrid> lsNumbersRepetitive = new ArrayList<>();
+        ArrayList<PositionGrid> lsNumberRepeated = new ArrayList<>();
         lsNumbersIHave.add(positionAnalyzed);
 
         int limitRow = this.getGrid().length;
@@ -468,7 +468,7 @@ public class Cuadricula{
                         lsNumbersIHave.add(posTmp);
                     }else{
                         PositionGrid posTmp = new PositionGrid(cTmp.getIndicator(), cTmp.getCellsMatrix()[positionAnalyzed.getCell().getPosition().getRow()][i], rec.getPositionSearcher());
-                        lsNumbersRepetitive.add(posTmp);
+                        lsNumberRepeated.add(posTmp);
                     }
                 }
             }
@@ -477,7 +477,7 @@ public class Cuadricula{
         List<Cell> lsNumberAbsent = lsNumberAvailable.stream().filter(e -> lsNumbersIHave.stream().map(PositionGrid::getCell).map(Cell::getNumber).allMatch( z -> z != e.getNumber())).collect(Collectors.toList());
 
         if(lsNumberAbsent.size() != 0 ){
-            for(PositionGrid rec: lsNumbersRepetitive){
+            for(PositionGrid rec: lsNumberRepeated){
                 for(int i = 0; i < limitRow; i++) {
                     for(int j = 0; j < maxColumn; j++) {
                         Cuadricula cTmp = this.getGrid()[rec.getPositionGrid().getRow()][rec.getPositionGrid().getColumn()];
@@ -495,7 +495,7 @@ public class Cuadricula{
 
 
         ArrayList<PositionSearcher> waysToSearchUpDown = whereFindNumberGridUpDown(positionAnalyzed);
-        lsNumbersRepetitive.clear();
+        lsNumberRepeated.clear();
         lsNumbersIHave.clear();
         lsNumbersIHave.add(positionAnalyzed);
 
@@ -521,16 +521,16 @@ public class Cuadricula{
                         lsNumbersIHave.add(posTmp);
                     }else{
                         PositionGrid posTmp = new PositionGrid(gridTmp.getIndicator(), cell, rec.getPositionSearcher());
-                        lsNumbersRepetitive.add(posTmp);
+                        lsNumberRepeated.add(posTmp);
                     }
                 }
             }
         }
 
-        lsNumberAbsent = lsNumberAvailable.stream().filter(e -> lsNumbersIHave.stream().map(PositionGrid::getCell).map(Cell::getNumber).allMatch( z -> z != e.getNumber())).collect(Collectors.toList());
+        lsNumberAbsent = lsNumberAvailable.stream().filter(numberAvail -> lsNumbersIHave.stream().map(PositionGrid::getCell).map(Cell::getNumber).allMatch( numberCell -> numberCell != numberAvail.getNumber())).collect(Collectors.toList());
 
         if(lsNumberAbsent.size() != 0 ){
-            for(PositionGrid rec: lsNumbersRepetitive){
+            for(PositionGrid rec: lsNumberRepeated){
                 for(int i = 0; i < limitRow; i++) {
                     for(int j = 0; j < maxColumn; j++) {
                         Cuadricula cTmp = this.getGrid()[rec.getPositionGrid().getRow()][rec.getPositionGrid().getColumn()];
@@ -549,7 +549,7 @@ public class Cuadricula{
 
         waysToSearchLeftRight.clear();
         waysToSearchUpDown.clear();
-        lsNumbersRepetitive.clear();
+        lsNumberRepeated.clear();
         lsNumbersIHave.clear();
 
         positionAnalyzed.getCell().setChecked(true);
