@@ -326,7 +326,7 @@ public class Cuadricula{
                     }
                 }
                 // here keep code
-                List<Integer> numberAbsent = Cuadricula.numbersAvailable.stream().filter( numbersAvailable -> lsNumberHave.stream().noneMatch(numbersHave -> numbersHave.getCell().getNumber() == numbersAvailable.getNumber())).map(Cell::getNumber).collect(Collectors.toList())
+                List<Integer> numberAbsent = Cuadricula.numbersAvailable.stream().map(Cell::getNumber).filter(number -> lsNumberHave.stream().noneMatch(numbersHave -> numbersHave.getCell().getNumber() == number)).collect(Collectors.toList());
                 for(int k = 0; k < row; k++) {
                     if( k > j){
                         for(PositionSearcher value : lsGridRow){
