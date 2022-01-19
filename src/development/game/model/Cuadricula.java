@@ -299,7 +299,6 @@ public class Cuadricula{
             currentRow++;
         }
 
-
         for(int i = 0; i < row; i++) {
             int currentRowFinal = i;
             List<PositionSearcher> lsGridRow = lsGrid.stream().filter(rowActual -> Integer.parseInt(rowActual.getGrid()) == currentRowFinal).collect(Collectors.toList());
@@ -326,16 +325,18 @@ public class Cuadricula{
                     }
                 }
                 // here keep code
-                List<Integer> numberAbsent = Cuadricula.numbersAvailable.stream().map(Cell::getNumber).filter(number -> lsNumberHave.stream().noneMatch(numbersHave -> numbersHave.getCell().getNumber() == number)).collect(Collectors.toList());
+                ArrayList<Integer> numbersAbsent = findNumberAbsentInLsThatHaveNumber(lsNumberHave);
+
                 for(int k = 0; k < row; k++) {
                     if( k > j){
                         for(PositionSearcher value : lsGridRow){
                             Cuadricula gridTmp = this.getGrid()[value.getPositionSearcher().getRow()][value.getPositionSearcher().getColumn()];
-                            Arrays.stream(gridTmp.getCellsMatrix()[k]).filter( cell -> numberAbsent.stream().anyMatch(absent -> absent == cell.getNumber())).forEach(cell -> lsNumbersAbsent.add(new PositionGrid(gridTmp.getIndicator(), cell, value.getPositionSearcher())));
+                            Arrays.stream(gridTmp.getCellsMatrix()[k]).filter( cell -> numbersAbsent.stream().anyMatch(absent -> absent == cell.getNumber())).forEach(cell -> lsNumbersAbsent.add(new PositionGrid(gridTmp.getIndicator(), cell, value.getPositionSearcher())));
                         }
                     }
                 }
 
+                numbersAbsent.clear();
                 lsNumberHave.clear();
                 lsNumberRepeated.clear();
             }
@@ -348,6 +349,21 @@ public class Cuadricula{
          if(lsNumberRepetitive.stream().noneMatch(lsRepeated -> lsRepeated.getPositionGrid().equalsPosition(repeated.getPositionGrid()) && lsRepeated.getCell().getNumber() == repeated.getCell().getNumber())){
             lsNumberRepetitive.add(repeated);
         }
+    }
+
+    private ArrayList<Integer> findNumberAbsentInLsThatHaveNumber(ArrayList<PositionGrid> lsNumberHave){
+        ArrayList<Integer> numbersAbsent = new ArrayList<>();
+        for(Cell cell : numbersAvailable) {
+            for(int l = 0; l < lsNumberHave.size(); l++) {
+                if(lsNumberHave.get(l).getCell().getNumber() == cell.getNumber()) {
+                    break;
+                }
+                if( l == lsNumberHave.size() - 1 ) {
+                    numbersAbsent.add(cell.getNumber());
+                }
+            }
+        }
+        return numbersAbsent;
     }
 
     public void searchInRow(){
