@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class Cuadricula{
 
     private static ArrayList<Cell> numbersAvailable;
-    private ArrayList<Integer> numbersMissing;
+    private static ArrayList<Integer> numbersMissing;
     private Cuadricula[][] grid;
     private Cell[][] cellsMatrix;
     private String indicator;
@@ -305,13 +305,14 @@ public class Cuadricula{
             List<PositionSearcher> lsGridRow = lsGrid.stream().filter(rowActual -> Integer.parseInt(rowActual.getGrid()) == currentRowFinal).collect(Collectors.toList());
             ArrayList<PositionGrid> lsNumberHave = new ArrayList<>();
             ArrayList<PositionGrid> lsNumberRepeated = new ArrayList<>();
+            ArrayList<PositionGrid> lsNumbersAbsent = new ArrayList<>();
             for(int j = 0; j < row; j++) {
 
                 for(PositionSearcher r : lsGridRow){
                     Cuadricula subGrid = this.getGrid()[r.getPositionSearcher().getRow()][r.getPositionSearcher().getColumn()];
 
                     for(int k = 0; k < row; k++) {
-                        System.out.println(subGrid.getCellsMatrix()[j][k].getNumber());
+                        //System.out.println(subGrid.getCellsMatrix()[j][k].getNumber());
                         int numberToChek = subGrid.getCellsMatrix()[j][k].getNumber();
                         if(lsNumberHave.stream().map(PositionGrid::getCell).noneMatch(numberCell -> numberCell.getNumber() == numberToChek)){
                             PositionGrid posTmp = new PositionGrid(subGrid.getIndicator(), subGrid.getCellsMatrix()[j][k], r.getPositionSearcher());
@@ -325,8 +326,15 @@ public class Cuadricula{
                     }
                 }
                 // here keep code
-                List<Cell> numberAbsent = Cuadricula.numbersAvailable.stream().filter( numbersAvailable -> lsNumberHave.stream().noneMatch(positionGrid -> positionGrid.getCell().getNumber() == numbersAvailable.getNumber())).collect(Collectors.toList());
-                System.out.println(numberAbsent);
+                List<Integer> numberAbsent = Cuadricula.numbersAvailable.stream().filter( numbersAvailable -> lsNumberHave.stream().noneMatch(numbersHave -> numbersHave.getCell().getNumber() == numbersAvailable.getNumber())).map(Cell::getNumber).collect(Collectors.toList())
+                for(int k = 0; k < row; k++) {
+                    if( k > j){
+                        for(PositionSearcher value : lsGridRow){
+                            Cuadricula gridTmp = this.getGrid()[value.getPositionSearcher().getRow()][value.getPositionSearcher().getColumn()];
+                            Arrays.stream(gridTmp.getCellsMatrix()[k]).filter( cell -> numberAbsent.stream().anyMatch(absent -> absent == cell.getNumber())).forEach(cell -> lsNumbersAbsent.add(new PositionGrid(gridTmp.getIndicator(), cell, value.getPositionSearcher())));
+                        }
+                    }
+                }
 
                 lsNumberHave.clear();
                 lsNumberRepeated.clear();
