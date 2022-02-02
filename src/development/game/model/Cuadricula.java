@@ -336,6 +336,8 @@ public class Cuadricula{
                     }
                 }
 
+
+
                 numbersAbsent.clear();
                 lsNumberHave.clear();
                 lsNumberRepeated.clear();
@@ -345,9 +347,9 @@ public class Cuadricula{
 
     }
 
-    private void ifNotExistPairAddToListRepetitive(PositionGrid repeated, ArrayList<PositionGrid> lsNumberRepetitive){
-         if(lsNumberRepetitive.stream().noneMatch(lsRepeated -> lsRepeated.getPositionGrid().equalsPosition(repeated.getPositionGrid()) && lsRepeated.getCell().getNumber() == repeated.getCell().getNumber())){
-            lsNumberRepetitive.add(repeated);
+    private void ifNotExistPairAddToListRepetitive(PositionGrid posRepeated, ArrayList<PositionGrid> lsNumberRepetitive){
+         if(lsNumberRepetitive.stream().noneMatch(lsRepeated -> lsRepeated.getPositionGrid().equalsPosition(posRepeated.getPositionGrid()) && lsRepeated.getCell().getNumber() == posRepeated.getCell().getNumber())){
+            lsNumberRepetitive.add(posRepeated);
         }
     }
 
