@@ -335,11 +335,11 @@ public class Cuadricula{
                         }
                     }
                 }
-            /*
-            long startTime = System.currentTimeMillis();
-            long endTime = System.currentTimeMillis();
-            long duration = (endTime - startTime);
-            System.out.println(duration);*/
+                /*
+                long startTime = System.currentTimeMillis();
+                long endTime = System.currentTimeMillis();
+                long duration = (endTime - startTime);
+                System.out.println(duration);*/
 
                 for(int k = 0; k < lsNumbersAbsent.size(); k++) {
                     PositionGrid posAbsent = lsNumbersAbsent.get(k);
