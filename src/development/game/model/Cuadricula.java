@@ -366,8 +366,14 @@ public class Cuadricula{
 
                 ArrayList<PositionGrid> arrayPosAbs = new ArrayList<>();
                 for(PositionGrid rec: lsNumbersAbsent){
+                    int totalRow = row - 1;
                     for(int k = 0; k < rec.getCell().getPosition().getRow(); k++) {
-                        if(rec.getCell().getPosition().getRow() != k){
+                        if(rec.getCell().getPosition().getRow() != k && totalRow - j != 1){
+                            Cuadricula grid = this.getGrid()[rec.getPositionGrid().getRow()][rec.getPositionGrid().getColumn()];
+                            Cell cellTmp = grid.getCellsMatrix()[k][rec.getCell().getPosition().getColumn()];
+                            PositionGrid pos = new PositionGrid(rec.getIdGrid(), cellTmp, rec.getPositionGrid());
+                            arrayPosAbs.add(pos);
+                        }else if(totalRow - j == 1 && k == j) {
                             Cuadricula grid = this.getGrid()[rec.getPositionGrid().getRow()][rec.getPositionGrid().getColumn()];
                             Cell cellTmp = grid.getCellsMatrix()[k][rec.getCell().getPosition().getColumn()];
                             PositionGrid pos = new PositionGrid(rec.getIdGrid(), cellTmp, rec.getPositionGrid());
@@ -376,19 +382,62 @@ public class Cuadricula{
                     }
                 }
 
-
-                for (int k = 0; k < arrayPosAbs.size(); k++) {
-                    PositionGrid posAb = arrayPosAbs.get(k);
-                    for (int l = 0; l < arrayPosRepeated.size(); l++) {
-                        PositionGrid posRe = arrayPosRepeated.get(l);
-                        if(posAb.getCell().getNumber() == posRe.getCell().getNumber()){
-                            Optional <PositionGrid> pos = lsNumbersAbsent.stream().filter(x -> x.getIdGrid().contentEquals(posAb.getIdGrid()) && x.getCell().getPosition().getColumn() == posAb.getCell().getPosition().getColumn()).findFirst();
-                            Optional <PositionGrid> otherPos = lsNumberRepeated.stream().filter(x -> x.getIdGrid().contentEquals(posRe.getIdGrid()) && x.getCell().getPosition().getColumn() == posRe.getCell().getPosition().getColumn()).findFirst();
-                            pos.ifPresent( p ->  changePosition(p, posAb));
-                            otherPos.ifPresent( p -> changePosition(p, posRe));
-                        }
-                    }
+               while( arrayPosAbs.stream().anyMatch(abs -> null != checkNumberInList(abs, arrayPosRepeated)) && lsNumberRepeated.size() != 0 ){
+                   for(int k = 0; k < arrayPosAbs.size(); k++) {
+                       PositionGrid posAb = arrayPosAbs.get(k);
+                       PositionGrid posRep = checkNumberInList(posAb, arrayPosRepeated);
+                       if(posRep != null){
+                           Optional <PositionGrid> lsPosAbs = lsNumbersAbsent.stream().filter(x -> x.getIdGrid().contentEquals(posAb.getIdGrid()) && x.getCell().getPosition().getColumn() == posAb.getCell().getPosition().getColumn()).findFirst();
+                           Optional <PositionGrid> lsPosRep = lsNumberRepeated.stream().filter(x -> x.getIdGrid().contentEquals(posRep.getIdGrid()) && x.getCell().getPosition().getColumn() == posRep.getCell().getPosition().getColumn()).findFirst();
+                           lsPosAbs.ifPresent( abs -> lsNumbersAbsent.removeIf(lsAbs -> lsAbs.getCell().getNumber() == abs.getCell().getNumber()));
+                           lsPosRep.ifPresent( rep -> removeLastPositionInLsRepeated(rep, lsNumberRepeated));
+                           arrayPosAbs.removeIf( posAbs -> posAbs.getCell().getNumber() == posAb.getCell().getNumber());
+                           arrayPosRepeated.removeIf( rep -> rep.getCell().getNumber() == posRep.getCell().getNumber());
+                           lsPosAbs.ifPresent( p ->  changePosition(p, posAb));
+                           lsPosRep.ifPresent( p -> changePosition(p, posRep));
+                           break;
+                       }
+                   }
                 }
+                printGridTwoRowTwoCol();
+
+               if(lsNumbersAbsent.size() != 0 && lsNumberRepeated.size() != 0){
+
+
+                   ArrayList<PositionGrid> lsTmp = new ArrayList<>();
+                   Optional<PositionGrid> posHave = lsNumberHave.stream().filter(rep -> null != checkNumberInList(rep, arrayPosRepeated)).findFirst();
+                   if(posHave.isPresent()){
+                       PositionGrid posG = posHave.get();
+                       for(int l = 0; l < row; l++) {
+                           if(l > posG.getCell().getPosition().getRow()){
+                               Cuadricula grid = this.getGrid()[posG.getPositionGrid().getRow()][posG.getPositionGrid().getColumn()];
+                               Cell cellTmp = grid.getCellsMatrix()[l][posG.getCell().getPosition().getColumn()];
+                               lsTmp.add(new PositionGrid(posG.getIdGrid(), cellTmp, posG.getPositionGrid()));
+                           }
+                       }
+
+
+                       Optional<PositionGrid> change = arrayPosAbs.stream().filter( abs -> null != checkNumberInList(abs, lsTmp)).findFirst();
+                       if(change.isPresent()){
+                           PositionGrid pg = checkPositionLs(change.get(), lsNumbersAbsent);
+                           lsNumbersAbsent.removeIf( abs -> abs.getCell().getNumber() == pg.getCell().getNumber());
+                           changePosition(change.get(),pg);
+                       }
+
+                       Optional<PositionGrid> otherChange = arrayPosRepeated.stream().filter( rep -> rep.getCell().getNumber() == posHave.get().getCell().getNumber()).findFirst();
+                       if(otherChange.isPresent()){
+                           PositionGrid pg = checkPositionLs(otherChange.get(), lsNumberRepeated);
+                           removeLastPositionInLsRepeated(pg, lsNumberRepeated);
+                           changePosition(otherChange.get(), pg);
+                       }
+                   }
+
+                //changes
+
+
+
+               }
+
 
                 numbersAbsent.clear();
                 lsNumberHave.clear();
@@ -397,6 +446,29 @@ public class Cuadricula{
 
         }
 
+    }
+
+    public PositionGrid checkPositionLs(PositionGrid pos, ArrayList<PositionGrid> ls){
+        PositionGrid pg = null;
+        for(PositionGrid r: ls){
+            if(r.getIdGrid().contentEquals(pos.getIdGrid()) && r.getCell().getPosition().getColumn() == pos.getCell().getPosition().getColumn()){
+                pg = r;
+                break;
+            }
+        }
+        return  pg;
+    }
+
+    private PositionGrid checkNumberInList(PositionGrid pos, ArrayList<PositionGrid> lsRep){
+        PositionGrid posTmp = null;
+        for(int i = 0; i < lsRep.size(); i++) {
+            PositionGrid posRepeated = lsRep.get(i);
+            if(pos.getCell().getNumber() == posRepeated.getCell().getNumber()){
+                posTmp = lsRep.get(i);
+                break;
+            }
+        }
+        return posTmp;
     }
 
     private boolean isPresentEqualGridAndColumn(PositionGrid pos, ArrayList<PositionGrid> lsAbs){
