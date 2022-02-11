@@ -332,7 +332,12 @@ public class Cuadricula{
                         if( k > j){
                             for(PositionSearcher value : lsGridRow){
                                 Cuadricula gridTmp = this.getGrid()[value.getPositionSearcher().getRow()][value.getPositionSearcher().getColumn()];
-                                Arrays.stream(gridTmp.getCellsMatrix()[k]).filter( cell -> numbersAbsent.stream().anyMatch(absent -> absent == cell.getNumber())).forEach(cell -> lsNumbersAbsent.add(new PositionGrid(gridTmp.getIndicator(), cell, value.getPositionSearcher())));
+                                for(int l = 0; l < row; l++) {
+                                    Cell cellTmp = gridTmp.getCellsMatrix()[k][l];
+                                    if(numbersAbsent.stream().anyMatch(abs -> abs == cellTmp.getNumber())){
+                                        lsNumbersAbsent.add(new PositionGrid(gridTmp.getIndicator(), cellTmp, value.getPositionSearcher()));
+                                    }
+                                }
                             }
                         }
                     }
@@ -353,7 +358,7 @@ public class Cuadricula{
 
                     //Process Two
                     // inside this process, we need a lsRepeated isnt empty
-                    ArrayList<PositionGrid> arrayPosRepeated = new ArrayList<>();
+                  /*  ArrayList<PositionGrid> arrayPosRepeated = new ArrayList<>();
                     addPositionInSameColumnOfPosRepeatedInList(lsNumberRepeated, arrayPosRepeated, row);
 
 
@@ -391,7 +396,7 @@ public class Cuadricula{
                                 break;
                             }
                         }
-                    }
+                    }*/
                     printGridTwoRowTwoCol();
 
                     //process three
@@ -486,16 +491,30 @@ public class Cuadricula{
             for(int i = 0; i < totalRow; i++) {
                 if(i > posRep.get().getCell().getPosition().getRow()){
                     Cell repeatedCell = gridRep.getCellsMatrix()[posRep.get().getCell().getPosition().getRow()][posRep.get().getCell().getPosition().getColumn()];
-                    Cell tmpCell = gridRep.getCellsMatrix()[i][posRep.get().getCell().getPosition().getColumn()];
+                    Cell posAbs = getCellInSameColumnRepeated(posRep.get(), lsAbs);
+                    Cell tmpCell = posAbs == null ? gridRep.getCellsMatrix()[i][posRep.get().getCell().getPosition().getColumn()] : posAbs;
                     lsHave.stream().filter(have -> have.getCell().isRepeat()).forEach(numRep -> numRep.getCell().setRepeat(false));
                     lsHave.stream().filter( have -> have.getCell().getNumber() == tmpCell.getNumber()).forEach( numRep -> numRep.getCell().setRepeat(true));
                     PositionGrid posFrom = new PositionGrid(posRep.get().getIdGrid(), repeatedCell, posRep.get().getPositionGrid());
                     PositionGrid posTo = new PositionGrid(posRep.get().getIdGrid(), tmpCell, posRep.get().getPositionGrid());
                     changePosition(posTo, posFrom);
+                    break;
                 }
             }
             printGridTwoRowTwoCol();
         }
+    }
+
+    private Cell getCellInSameColumnRepeated(PositionGrid pos, ArrayList<PositionGrid> lsAbs){
+        Cuadricula gridRep = this.getGrid()[pos.getPositionGrid().getRow()][pos.getPositionGrid().getColumn()];
+        Cell positionInColumn = null;
+        for(int i = 0; i < gridRep.getCellsMatrix().length; i++) {
+            Cell c = gridRep.getCellsMatrix()[i][pos.getCell().getPosition().getColumn()];
+            if(lsAbs.stream().anyMatch(abs -> abs.getCell().getNumber() == c.getNumber())){
+                positionInColumn = c;
+            }
+        }
+        return positionInColumn;
     }
 
     private void addPositionInSameColumnOfPosRepeatedInList(ArrayList<PositionGrid> lsToRun, ArrayList<PositionGrid> lsToAdd, int totalRow){
