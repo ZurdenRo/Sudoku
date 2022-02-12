@@ -142,9 +142,9 @@ public class App{
         Cell[][] cellsNine = new Cell[3][3];
         Cuadricula c = new Cuadricula();
 
-        App.upFile(cellsOne, cellsTwo, cellsThree, cellsFour,cellsFive,cellsSix, cellsSeven, cellsEight, cellsNine);
+        //App.upFile(cellsOne, cellsTwo, cellsThree, cellsFour,cellsFive,cellsSix, cellsSeven, cellsEight, cellsNine);
 
-      /* c.createMatrixNumber(cellsOne);
+       c.createMatrixNumber(cellsOne);
         c.removeNumberRepetitive(cellsOne);
         c.markTrueNumberRepetitive(cellsOne);
         c.printMatrix(cellsOne);
@@ -188,7 +188,6 @@ public class App{
         c.removeNumberRepetitive(cellsNine);
         c.markTrueNumberRepetitive(cellsNine);
         c.printMatrix(cellsNine);
-*/
 
         c.setGrid(new Cuadricula[3][3]);
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour, cellsFive, cellsSix, cellsSeven, cellsEight, cellsNine);
