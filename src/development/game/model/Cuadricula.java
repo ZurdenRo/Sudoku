@@ -268,21 +268,6 @@ public class Cuadricula{
     }
 
     public void walkGridOnRow(){
-
-        for(int i = 0; i < this.getGrid().length; i++) {
-            for(int j = 0; j < this.getGrid()[i].length; j++) {
-
-                for(int k = 0; k < this.getGrid()[i][j].getCellsMatrix().length; k++) {
-                    for(int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
-                        PositionGrid p = getPositionNotChecked();
-                        //finallyUltimateSolution(p);
-
-                       // printGridTwoRowTwoCol();
-                    }
-                }
-
-            }
-        }
         finallyFinallyColumnSolution();
         searchInRowSolutionFinal();
     }
@@ -440,7 +425,7 @@ public class Cuadricula{
                         }
                     }
 
-                    while(lsNumberRepeated.stream().anyMatch( rep -> isPresentEqualGridAndColumn(rep, lsNumbersAbsent))){
+                    /*while(lsNumberRepeated.stream().anyMatch( rep -> isPresentEqualGridAndColumn(rep, lsNumbersAbsent))){
                         for(int k = 0; k < lsNumbersAbsent.size(); k++) {
                             PositionGrid posAbsent = lsNumbersAbsent.get(k);
                             Optional<PositionGrid> posRepeat = lsNumberRepeated.stream().filter(rep -> rep.getCell().getPosition().getColumn() == posAbsent.getCell().getPosition().getColumn() && rep.getIdGrid().contentEquals(posAbsent.getIdGrid())).findFirst();
@@ -452,7 +437,7 @@ public class Cuadricula{
                             }
                         }
                     }
-                    printGridTwoRowTwoCol();
+                    printGridTwoRowTwoCol();*/
                 }
                 if(lsNumbersAbsent.size() != 0 && lsNumberRepeated.size() != 0){
                     changePossibleNumberNotEqual(lsNumberRepeated, lsNumbersAbsent, lsGridRow,  j , row);
