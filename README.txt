@@ -1,7 +1,1 @@
-A
-B
-C
-D
-E
-F
-G
+There is a Sudoku Game backend development in Java.

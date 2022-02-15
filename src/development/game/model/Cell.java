@@ -9,14 +9,6 @@ public class Cell{
     private boolean numberAbsent;
     private boolean isChecked;
 
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-    }
-
     public Cell(int number, boolean isRepeat, Position p, boolean isChecked){
         setNumber(number);
         setRepeat(isRepeat);
@@ -29,6 +21,14 @@ public class Cell{
         setNumberAbsent(numberAbsent);
     }
 
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
     public boolean isRepeat() {
         return isRepeat;
     }
@@ -36,6 +36,7 @@ public class Cell{
     public void setRepeat(boolean repeat) {
         isRepeat = repeat;
     }
+
     public int getNumber() {
         return number;
     }
@@ -66,7 +67,6 @@ public class Cell{
                 "number=" + number +
                 ", isRepeat=" + isRepeat +
                 ", position=" + position +
-                ", numberAbsent=" + numberAbsent +
                 ", isChecked=" + isChecked +
                 '}';
     }
