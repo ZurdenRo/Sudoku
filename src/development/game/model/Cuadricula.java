@@ -459,9 +459,6 @@ public class Cuadricula{
     private Cell getCellInSameColumnPositionRepeated(PositionGrid pos, ArrayList<PositionGrid> lsAbs, ArrayList<PositionGrid> lsHave, int sameRow){
         Cuadricula gridRep = this.getGrid()[pos.getPositionGrid().getRow()][pos.getPositionGrid().getColumn()];
         Cell positionInColumn = null;
-        for (int i = 0; i < gridRep.getCellsMatrix().length; i++) {
-
-        }
         while (sameRow < gridRep.getCellsMatrix().length && positionInColumn == null){
             Cell tmp = gridRep.getCellsMatrix()[sameRow][pos.getCell().getPosition().getColumn()];
             if(lsAbs.stream().anyMatch(abs -> abs.getCell().getNumber()  == tmp.getNumber()) && lsHave.stream().noneMatch( have -> have.getCell().getNumber() == tmp.getNumber())){
