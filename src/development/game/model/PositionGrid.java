@@ -52,7 +52,10 @@ public class PositionGrid implements IPosition{
 
     @Override
     public boolean equalsPosition(IPosition otherPos){
-        return false;
+        if(otherPos == null) return false;
+        if(this.getColumn() != otherPos.getColumn() && this.getRow() != otherPos.getRow()) return false;
+        if(this.getColumn() != otherPos.getColumn() || this.getRow() != otherPos.getRow()) return false;
+        return this.getColumn() == otherPos.getColumn() && this.getRow() == otherPos.getRow();
     }
 
     @Override
