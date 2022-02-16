@@ -3,8 +3,10 @@ package development.game.model;
 public interface IPosition{
 
     int getRow();
-    void setRow();
+    void setRow(int row);
 
     int getColumn();
-    void setColumn();
+    void setColumn(int column);
+
+    boolean equalsPosition(IPosition otherPos);
 }

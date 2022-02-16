@@ -1,6 +1,6 @@
 package development.game.model;
 
-public class Position{
+public class Position implements  IPosition{
 
     private int row;
     private int column;
@@ -10,20 +10,29 @@ public class Position{
         setColumn(column);
     }
 
+    @Override
     public int getRow(){
-        return row;
+        return this.row;
     }
 
+    @Override
     public void setRow(int row){
         this.row = row;
     }
 
+    @Override
     public int getColumn(){
-        return column;
+        return this.column;
     }
 
+    @Override
     public void setColumn(int column){
         this.column = column;
+    }
+
+    @Override
+    public boolean equalsPosition(IPosition otherPos){
+        return false;
     }
 
 

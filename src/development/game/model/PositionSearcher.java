@@ -1,14 +1,17 @@
 package development.game.model;
 
-public class PositionSearcher{
+public class PositionSearcher implements IPosition{
 
     private String grid;
     private Position positionSearcher;
     private Movements movements;
+    private int row;
+    private int column;
 
-    public PositionSearcher(String indicatorGrid, Position positionSearcher, Movements movements){
+    public PositionSearcher(String indicatorGrid, int row, int column, Movements movements){
         setGrid(indicatorGrid);
-        setPositionSearcher(positionSearcher);
+        setRow(row);
+        setColumn(column);
         setMovements(movements);
     }
 
@@ -34,6 +37,31 @@ public class PositionSearcher{
 
     public void setMovements(Movements movements){
         this.movements = movements;
+    }
+
+    @Override
+    public int getRow(){
+        return this.row;
+    }
+
+    @Override
+    public void setRow(int row){
+        this.row = row;
+    }
+
+    @Override
+    public int getColumn(){
+        return this.column;
+    }
+
+    @Override
+    public void setColumn(int column){
+        this.column = column;
+    }
+
+    @Override
+    public boolean equalsPosition(IPosition otherPos){
+        return false;
     }
 
     @Override
