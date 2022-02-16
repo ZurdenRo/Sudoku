@@ -3,7 +3,6 @@ package development.game.app;
 
 import development.game.model.Cell;
 import development.game.model.Cuadricula;
-import development.game.model.Position;
 
 import java.io.*;
 import java.nio.file.Files;
