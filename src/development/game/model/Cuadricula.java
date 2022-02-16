@@ -282,7 +282,7 @@ public class Cuadricula{
         ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
         for(int i = 0; i < totalRow; i++) {
             for(int j = 0; j < totalColumn; j++) {
-                lsGrid.add(new PositionSearcher(String.valueOf(columnInGrid),new Position(i,j),null));
+                lsGrid.add(new PositionSearcher(String.valueOf(columnInGrid),i,j,null));
                 columnInGrid++;
             }
             columnInGrid = 0;
@@ -380,7 +380,7 @@ public class Cuadricula{
         ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
         for(int i = 0; i < totalRow; i++) {
             for(int j = 0; j < totalColumn; j++) {
-                lsGrid.add(new PositionSearcher(String.valueOf(currentRow),new Position(i,j),null));
+                lsGrid.add(new PositionSearcher(String.valueOf(currentRow),i, j,null));
             }
             currentRow++;
         }
@@ -512,7 +512,7 @@ public class Cuadricula{
         return numbersAbsent;
     }
 
-    public void finallyUltimateSolution(PositionGrid positionAnalyzed){
+    /*public void finallyUltimateSolution(PositionGrid positionAnalyzed){
         int rowGrid = positionAnalyzed.getPositionGrid().getRow();
         int colGrid = positionAnalyzed.getPositionGrid().getColumn();
         Cuadricula c = this.getGrid()[rowGrid][colGrid];
@@ -625,7 +625,7 @@ public class Cuadricula{
         lsNumbersIHave.clear();
 
         positionAnalyzed.getCell().setChecked(true);
-    }
+    }*/
 
 
 
