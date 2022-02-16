@@ -269,6 +269,7 @@ public class Cuadricula{
 
     public void walkGridOnRow(){
         finallyFinallyColumnSolution();
+        System.out.println("init row algorithm");
         searchInRowSolutionFinal();
     }
 
@@ -434,6 +435,7 @@ public class Cuadricula{
     private void changePossibleNumberNotEqual(ArrayList<PositionGrid> lsHave, ArrayList<PositionGrid> lsAbs, int totalRow){
 
         while(lsHave.stream().anyMatch( have -> have.getCell().isRepeat())){
+            System.out.println("Has change");
             Optional<PositionGrid> optPosRep = lsHave.stream().filter(have -> have.getCell().isRepeat()).findFirst();
             if(optPosRep.isPresent()){
                 PositionGrid posRep = optPosRep.get();
