@@ -282,7 +282,7 @@ public class Cuadricula{
         ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
         for(int i = 0; i < totalRow; i++) {
             for(int j = 0; j < totalColumn; j++) {
-                lsGrid.add(new PositionSearcher(String.valueOf(columnInGrid),i,j,null));
+                lsGrid.add(new PositionSearcher(String.valueOf(columnInGrid),i,j));
                 columnInGrid++;
             }
             columnInGrid = 0;
@@ -294,7 +294,7 @@ public class Cuadricula{
 
             for (int currentColumn = 0; currentColumn < totalColumn; currentColumn++) {
                 for(PositionSearcher rec: lsGridRow){
-                    Cuadricula subGrid = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
+                    Cuadricula subGrid = this.getGrid()[rec.getRow()][rec.getColumn()];
                     for(int k = 0; k < totalRow; k++) {
                         Cell tmpCell = subGrid.getCellsMatrix()[k][currentColumn];
                         if(lsHave.stream().map(PositionGrid::getCell).noneMatch(numberCell -> numberCell.getNumber() == tmpCell.getNumber())){
@@ -309,7 +309,7 @@ public class Cuadricula{
                 }
 
                 for(PositionSearcher rec: lsGridRow){
-                    Cuadricula gridTmp = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
+                    Cuadricula gridTmp = this.getGrid()[rec.getRow()][rec.getColumn()];
                     for(int row = 0; row < totalRow; row++) {
                         for(int column = 0; column < totalColumn; column++) {
                             if(column > currentColumn){
@@ -380,7 +380,7 @@ public class Cuadricula{
         ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
         for(int i = 0; i < totalRow; i++) {
             for(int j = 0; j < totalColumn; j++) {
-                lsGrid.add(new PositionSearcher(String.valueOf(currentRow),i, j,null));
+                lsGrid.add(new PositionSearcher(String.valueOf(currentRow),i, j));
             }
             currentRow++;
         }
@@ -393,7 +393,7 @@ public class Cuadricula{
             for(int rowSubGrid = 0; rowSubGrid < totalRow; rowSubGrid++) {
 
                 for(PositionSearcher rec: lsGridRow){
-                    Cuadricula grid = this.getGrid()[rec.getPositionSearcher().getRow()][rec.getPositionSearcher().getColumn()];
+                    Cuadricula grid = this.getGrid()[rec.getRow()][rec.getColumn()];
                     for(int k = 0; k < totalRow; k++) {
                         Cell tmpCell = grid.getCellsMatrix()[rowSubGrid][k];
                         PositionGrid posTmp = new PositionGrid( grid.getIndicator(), tmpCell, rec.getPositionSearcher());
@@ -405,7 +405,7 @@ public class Cuadricula{
                 }
 
                 for(PositionSearcher value : lsGridRow){
-                    Cuadricula gridTmp = this.getGrid()[value.getPositionSearcher().getRow()][value.getPositionSearcher().getColumn()];
+                    Cuadricula gridTmp = this.getGrid()[value.getRow()][value.getColumn()];
                     for(int l = 0; l < totalRow; l++) {
                         if(l > rowSubGrid ){
                             for(int k = 0; k < totalRow; k++) {
