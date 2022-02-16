@@ -629,7 +629,7 @@ public class Cuadricula{
 
 
 
-    public ArrayList<PositionSearcher> getWaysToSearch(PositionGrid positionAnalyzed){
+    /*public ArrayList<PositionSearcher> getWaysToSearch(PositionGrid positionAnalyzed){
         int limitGrid  = this.getGrid().length;
         ArrayList<PositionSearcher> list = new ArrayList<>();
 
@@ -668,7 +668,7 @@ public class Cuadricula{
         }
 
         return list;
-    }
+    }*/
 
     public Movements whereIsMyRepeat(PositionGrid positionSearchRepetitive, PositionGrid positionAnalyzed){
         Movements mov = null;
