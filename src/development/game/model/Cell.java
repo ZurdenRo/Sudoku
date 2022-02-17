@@ -9,27 +9,17 @@ public class Cell implements IPosition{
     private int column;
     private boolean isRepeat;
     private boolean numberAbsent;
-    private boolean isChecked;
 
-    public Cell(int number, boolean isRepeat,int row, int column, boolean isChecked){
+    public Cell(int number, boolean isRepeat,int row, int column){
         setNumber(number);
         setRepeat(isRepeat);
         setRow(row);
         setColumn(column);
-        setChecked(isChecked);
     }
 
     public Cell(int number, boolean numberAbsent){
         setNumber(number);
         setNumberAbsent(numberAbsent);
-    }
-
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        isChecked = checked;
     }
 
     public boolean isRepeat() {
@@ -88,11 +78,11 @@ public class Cell implements IPosition{
     public String toString(){
         return "Cell{" +
                 "number=" + number +
-                ", isRepeat=" + isRepeat +
                 ", row=" + row +
                 ", column=" + column +
+                ", isRepeat=" + isRepeat +
                 ", numberAbsent=" + numberAbsent +
-                ", isChecked=" + isChecked +
                 '}';
     }
+
 }
