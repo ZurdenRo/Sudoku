@@ -1,5 +1,7 @@
 package development.game.model;
 
+import development.game.model.interfaces.IPosition;
+
 public class PositionSearcher implements IPosition{
 
     private String grid;
