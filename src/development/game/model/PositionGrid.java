@@ -1,23 +1,17 @@
 package development.game.model;
 
-public class PositionGrid{
+public class PositionGrid implements IPosition{
 
     private Cell cell;
     private String idGrid;
-    private Position positionGrid;
+    private int row;
+    private int column;
 
-    public PositionGrid(String idGrid, Cell cell, Position positionGrid){
+    public PositionGrid(String idGrid, Cell cell, int row, int column){
         setIdGrid(idGrid);
         setCell(cell);
-        setPositionGrid(positionGrid);
-    }
-
-    public Position getPositionGrid(){
-        return positionGrid;
-    }
-
-    public void setPositionGrid(Position positionGrid){
-        this.positionGrid = positionGrid;
+        setRow(row);
+        setColumn(column);
     }
 
     public Cell getCell(){
@@ -37,11 +31,40 @@ public class PositionGrid{
     }
 
     @Override
+    public int getRow(){
+        return this.row;
+    }
+
+    @Override
+    public void setRow(int row){
+        this.row = row;
+    }
+
+    @Override
+    public int getColumn(){
+        return this.column;
+    }
+
+    @Override
+    public void setColumn(int column){
+        this.column = column;
+    }
+
+    @Override
+    public boolean equalsPosition(IPosition otherPos){
+        if(otherPos == null) return false;
+        if(this.getColumn() != otherPos.getColumn() && this.getRow() != otherPos.getRow()) return false;
+        if(this.getColumn() != otherPos.getColumn() || this.getRow() != otherPos.getRow()) return false;
+        return this.getColumn() == otherPos.getColumn() && this.getRow() == otherPos.getRow();
+    }
+
+    @Override
     public String toString(){
         return "PositionGrid{" +
-                "idGrid='" + idGrid + '\'' +
                 "cell=" + cell +
-                ", positionGrid=" + positionGrid +
+                ", idGrid='" + idGrid + '\'' +
+                ", row=" + row +
+                ", column=" + column +
                 '}';
     }
 

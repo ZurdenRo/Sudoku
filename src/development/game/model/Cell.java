@@ -1,18 +1,19 @@
 package development.game.model;
 
-public class Cell{
-
+public class Cell implements IPosition{
 
     private int number;
+    private int row;
+    private int column;
     private boolean isRepeat;
-    private Position position;
     private boolean numberAbsent;
     private boolean isChecked;
 
-    public Cell(int number, boolean isRepeat, Position p, boolean isChecked){
+    public Cell(int number, boolean isRepeat,int row, int column, boolean isChecked){
         setNumber(number);
         setRepeat(isRepeat);
-        setPosition(p);
+        setRow(row);
+        setColumn(column);
         setChecked(isChecked);
     }
 
@@ -53,20 +54,42 @@ public class Cell{
         this.numberAbsent = numberAbsent;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
+    @Override
+    public int getRow(){
+        return this.row;
     }
 
     @Override
-    public String toString() {
+    public void setRow(int row){
+        this.row = row;
+    }
+
+    @Override
+    public int getColumn(){
+        return this.column;
+    }
+
+    @Override
+    public void setColumn(int column){
+        this.column = column;
+    }
+
+    @Override
+    public boolean equalsPosition(IPosition otherPos){
+        if(otherPos == null) return false;
+        if(this.getColumn() != otherPos.getColumn() && this.getRow() != otherPos.getRow()) return false;
+        if(this.getColumn() != otherPos.getColumn() || this.getRow() != otherPos.getRow()) return false;
+        return this.getColumn() == otherPos.getColumn() && this.getRow() == otherPos.getRow();
+    }
+
+    @Override
+    public String toString(){
         return "Cell{" +
                 "number=" + number +
                 ", isRepeat=" + isRepeat +
-                ", position=" + position +
+                ", row=" + row +
+                ", column=" + column +
+                ", numberAbsent=" + numberAbsent +
                 ", isChecked=" + isChecked +
                 '}';
     }

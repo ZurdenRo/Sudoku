@@ -3,7 +3,6 @@ package development.game.app;
 
 import development.game.model.Cell;
 import development.game.model.Cuadricula;
-import development.game.model.Position;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -21,7 +20,7 @@ public class App{
                     for(int k = 0; k < cOne[j].length; k++) {
                         String[] arr = rec.split(",");
                         if(cOne[j][k] == null){
-                            cOne[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), new Position(Integer.parseInt(arr[2]),Integer.parseInt(arr[3])),Boolean.parseBoolean(arr[4]));
+                            cOne[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]),Integer.parseInt(arr[3]),Boolean.parseBoolean(arr[4]));
                             canBreak = true;
                         }
                         if(canBreak) break;
@@ -33,7 +32,7 @@ public class App{
                     for(int k = 0; k < cTwo[j].length; k++) {
                         String[] arr = rec.split(",");
                         if(cTwo[j][k] == null){
-                            cTwo[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), new Position(Integer.parseInt(arr[2]),Integer.parseInt(arr[3])),Boolean.parseBoolean(arr[4]));
+                            cTwo[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]),Integer.parseInt(arr[3]),Boolean.parseBoolean(arr[4]));
                             canBreak = true;
                         }
                         if(canBreak) break;
@@ -45,7 +44,7 @@ public class App{
                     for(int k = 0; k < cThree[j].length; k++) {
                         String[] arr = rec.split(",");
                         if(cThree[j][k] == null){
-                            cThree[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), new Position(Integer.parseInt(arr[2]),Integer.parseInt(arr[3])),Boolean.parseBoolean(arr[4]));
+                            cThree[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]),Integer.parseInt(arr[3]),Boolean.parseBoolean(arr[4]));
                             canBreak = true;
                         }
                         if(canBreak) break;
@@ -57,7 +56,7 @@ public class App{
                     for(int k = 0; k < cFour[j].length; k++) {
                         String[] arr = rec.split(",");
                         if(cFour[j][k] == null){
-                            cFour[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), new Position(Integer.parseInt(arr[2]),Integer.parseInt(arr[3])),Boolean.parseBoolean(arr[4]));
+                            cFour[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]),Integer.parseInt(arr[3]),Boolean.parseBoolean(arr[4]));
                             canBreak = true;
                         }
                         if(canBreak) break;
@@ -69,7 +68,7 @@ public class App{
                     for(int k = 0; k < fiv[j].length; k++) {
                         String[] arr = rec.split(",");
                         if(fiv[j][k] == null){
-                            fiv[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), new Position(Integer.parseInt(arr[2]),Integer.parseInt(arr[3])),Boolean.parseBoolean(arr[4]));
+                            fiv[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]),Integer.parseInt(arr[2]),Integer.parseInt(arr[3]),Boolean.parseBoolean(arr[4]));
                             canBreak = true;
                         }
                         if(canBreak) break;
@@ -81,7 +80,7 @@ public class App{
                     for(int k = 0; k < six[j].length; k++) {
                         String[] arr = rec.split(",");
                         if(six[j][k] == null){
-                            six[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), new Position(Integer.parseInt(arr[2]),Integer.parseInt(arr[3])),Boolean.parseBoolean(arr[4]));
+                            six[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]),Integer.parseInt(arr[3]),Boolean.parseBoolean(arr[4]));
                             canBreak = true;
                         }
                         if(canBreak) break;
@@ -93,7 +92,7 @@ public class App{
                     for(int k = 0; k < sev[j].length; k++) {
                         String[] arr = rec.split(",");
                         if(sev[j][k] == null){
-                            sev[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), new Position(Integer.parseInt(arr[2]),Integer.parseInt(arr[3])),Boolean.parseBoolean(arr[4]));
+                            sev[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]),Integer.parseInt(arr[3]),Boolean.parseBoolean(arr[4]));
                             canBreak = true;
                         }
                         if(canBreak) break;
@@ -105,7 +104,7 @@ public class App{
                     for(int k = 0; k < eight[j].length; k++) {
                         String[] arr = rec.split(",");
                         if(eight[j][k] == null){
-                            eight[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), new Position(Integer.parseInt(arr[2]),Integer.parseInt(arr[3])),Boolean.parseBoolean(arr[4]));
+                            eight[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]),Integer.parseInt(arr[3]),Boolean.parseBoolean(arr[4]));
                             canBreak = true;
                         }
                         if(canBreak) break;
@@ -117,7 +116,7 @@ public class App{
                     for(int k = 0; k < nine[j].length; k++) {
                         String[] arr = rec.split(",");
                         if(nine[j][k] == null){
-                            nine[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), new Position(Integer.parseInt(arr[2]),Integer.parseInt(arr[3])),Boolean.parseBoolean(arr[4]));
+                            nine[j][k] = new Cell(Integer.parseInt(arr[0]),Boolean.parseBoolean(arr[1]), Integer.parseInt(arr[2]),Integer.parseInt(arr[3]),Boolean.parseBoolean(arr[4]));
                             canBreak = true;
                         }
                         if(canBreak) break;
