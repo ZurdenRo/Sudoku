@@ -79,6 +79,12 @@ public class Cell implements IPosition{
         return this.getColumn() == otherPos.getColumn() && this.getRow() == otherPos.getRow();
     }
 
+    public static void createMatrix(Cell [][] cell ){
+        fillCellInMatrix(cell);
+        setRepeatedInMatrix(cell);
+        sortMatrix(cell);
+    }
+
     public static int generateNumberRandom(int maxRandom){
         Random number = new Random();
         int n = number.nextInt(maxRandom);

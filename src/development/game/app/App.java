@@ -23,49 +23,31 @@ public class App{
         Cuadricula c = new Cuadricula();
 
         //GetUpFile.upFile(cellsOne, cellsTwo, cellsThree, cellsFour,cellsFive,cellsSix, cellsSeven, cellsEight, cellsNine);
-        Cell.fillCellInMatrix(cellsOne);
-        Cell.setRepeatedInMatrix(cellsOne);
-        Cell.sortMatrix(cellsOne);
+        Cell.createMatrix(cellsOne);
         Cell.printMatrix(cellsOne);
 
-        Cell.fillCellInMatrix(cellsTwo);
-        Cell.setRepeatedInMatrix(cellsTwo);
-        Cell.sortMatrix(cellsTwo);
+        Cell.createMatrix(cellsTwo);
         Cell.printMatrix(cellsTwo);
 
-        Cell.fillCellInMatrix(cellsThree);
-        Cell.setRepeatedInMatrix(cellsThree);
-        Cell.sortMatrix(cellsThree);
+        Cell.createMatrix(cellsThree);
         Cell.printMatrix(cellsThree);
 
-        Cell.fillCellInMatrix(cellsFour);
-        Cell.setRepeatedInMatrix(cellsFour);
-        Cell.sortMatrix(cellsFour);
+        Cell.createMatrix(cellsFour);
         Cell.printMatrix(cellsFour);
 
-        Cell.fillCellInMatrix(cellsFive);
-        Cell.setRepeatedInMatrix(cellsFive);
-        Cell.sortMatrix(cellsFive);
+        Cell.createMatrix(cellsFive);
         Cell.printMatrix(cellsFive);
 
-        Cell.fillCellInMatrix(cellsSix);
-        Cell.setRepeatedInMatrix(cellsSix);
-        Cell.sortMatrix(cellsSix);
+        Cell.createMatrix(cellsSix);
         Cell.printMatrix(cellsSix);
 
-        Cell.fillCellInMatrix(cellsSeven);
-        Cell.setRepeatedInMatrix(cellsSeven);
-        Cell.sortMatrix(cellsSeven);
+        Cell.createMatrix(cellsSeven);
         Cell.printMatrix(cellsSeven);
 
-        Cell.fillCellInMatrix(cellsEight);
-        Cell.setRepeatedInMatrix(cellsEight);
-        Cell.sortMatrix(cellsEight);
+        Cell.createMatrix(cellsEight);
         Cell.printMatrix(cellsEight);
 
-        Cell.fillCellInMatrix(cellsNine);
-        Cell.setRepeatedInMatrix(cellsNine);
-        Cell.sortMatrix(cellsNine);
+        Cell.createMatrix(cellsNine);
         Cell.printMatrix(cellsNine);
 
         c.setGrid(new Cuadricula[3][3]);
