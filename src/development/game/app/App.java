@@ -3,7 +3,6 @@ package development.game.app;
 
 import development.game.model.Cell;
 import development.game.model.Cuadricula;
-import development.game.utils.GetUpFile;
 
 import java.io.IOException;
 
@@ -24,51 +23,50 @@ public class App{
         Cuadricula c = new Cuadricula();
 
         //GetUpFile.upFile(cellsOne, cellsTwo, cellsThree, cellsFour,cellsFive,cellsSix, cellsSeven, cellsEight, cellsNine);
+        Cell.fillCellInMatrix(cellsOne);
+        Cell.setRepeatedInMatrix(cellsOne);
+        Cell.sortMatrix(cellsOne);
+        Cell.printMatrix(cellsOne);
 
-        c.createMatrixNumber(cellsOne);
-        c.removeNumberRepetitive(cellsOne);
-        c.markTrueNumberRepetitive(cellsOne);
-        c.printMatrix(cellsOne);
+        Cell.fillCellInMatrix(cellsTwo);
+        Cell.setRepeatedInMatrix(cellsTwo);
+        Cell.sortMatrix(cellsTwo);
+        Cell.printMatrix(cellsTwo);
 
-        c.createMatrixNumber(cellsTwo);
-        c.removeNumberRepetitive(cellsTwo);
-        c.markTrueNumberRepetitive(cellsTwo);
-        c.printMatrix(cellsTwo);
+        Cell.fillCellInMatrix(cellsThree);
+        Cell.setRepeatedInMatrix(cellsThree);
+        Cell.sortMatrix(cellsThree);
+        Cell.printMatrix(cellsThree);
 
-        c.createMatrixNumber(cellsThree);
-        c.removeNumberRepetitive(cellsThree);
-        c.markTrueNumberRepetitive(cellsThree);
-        c.printMatrix(cellsThree);
+        Cell.fillCellInMatrix(cellsFour);
+        Cell.setRepeatedInMatrix(cellsFour);
+        Cell.sortMatrix(cellsFour);
+        Cell.printMatrix(cellsFour);
 
-        c.createMatrixNumber(cellsFour);
-        c.removeNumberRepetitive(cellsFour);
-        c.markTrueNumberRepetitive(cellsFour);
-        c.printMatrix(cellsFour);
+        Cell.fillCellInMatrix(cellsFive);
+        Cell.setRepeatedInMatrix(cellsFive);
+        Cell.sortMatrix(cellsFive);
+        Cell.printMatrix(cellsFive);
 
-        c.createMatrixNumber(cellsFive);
-        c.removeNumberRepetitive(cellsFive);
-        c.markTrueNumberRepetitive(cellsFive);
-        c.printMatrix(cellsFive);
+        Cell.fillCellInMatrix(cellsSix);
+        Cell.setRepeatedInMatrix(cellsSix);
+        Cell.sortMatrix(cellsSix);
+        Cell.printMatrix(cellsSix);
 
-        c.createMatrixNumber(cellsSix);
-        c.removeNumberRepetitive(cellsSix);
-        c.markTrueNumberRepetitive(cellsSix);
-        c.printMatrix(cellsSix);
+        Cell.fillCellInMatrix(cellsSeven);
+        Cell.setRepeatedInMatrix(cellsSeven);
+        Cell.sortMatrix(cellsSeven);
+        Cell.printMatrix(cellsSeven);
 
-        c.createMatrixNumber(cellsSeven);
-        c.removeNumberRepetitive(cellsSeven);
-        c.markTrueNumberRepetitive(cellsSeven);
-        c.printMatrix(cellsSeven);
+        Cell.fillCellInMatrix(cellsEight);
+        Cell.setRepeatedInMatrix(cellsEight);
+        Cell.sortMatrix(cellsEight);
+        Cell.printMatrix(cellsEight);
 
-        c.createMatrixNumber(cellsEight);
-        c.removeNumberRepetitive(cellsEight);
-        c.markTrueNumberRepetitive(cellsEight);
-        c.printMatrix(cellsEight);
-
-        c.createMatrixNumber(cellsNine);
-        c.removeNumberRepetitive(cellsNine);
-        c.markTrueNumberRepetitive(cellsNine);
-        c.printMatrix(cellsNine);
+        Cell.fillCellInMatrix(cellsNine);
+        Cell.setRepeatedInMatrix(cellsNine);
+        Cell.sortMatrix(cellsNine);
+        Cell.printMatrix(cellsNine);
 
         c.setGrid(new Cuadricula[3][3]);
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour, cellsFive, cellsSix, cellsSeven, cellsEight, cellsNine);
