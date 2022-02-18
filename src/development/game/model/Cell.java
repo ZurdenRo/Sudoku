@@ -2,6 +2,9 @@ package development.game.model;
 
 import development.game.model.interfaces.IPosition;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Cell implements IPosition{
 
     private int number;
@@ -9,6 +12,8 @@ public class Cell implements IPosition{
     private int column;
     private boolean isRepeat;
     private boolean numberAbsent;
+    private static ArrayList<Cell> numbersAvailable;
+    private static ArrayList<Integer> numbersMissing;
 
     public Cell(int number, boolean isRepeat,int row, int column){
         setNumber(number);
@@ -72,6 +77,110 @@ public class Cell implements IPosition{
         if(this.getColumn() != otherPos.getColumn() && this.getRow() != otherPos.getRow()) return false;
         if(this.getColumn() != otherPos.getColumn() || this.getRow() != otherPos.getRow()) return false;
         return this.getColumn() == otherPos.getColumn() && this.getRow() == otherPos.getRow();
+    }
+
+    public static int generateNumberRandom(int maxRandom){
+        Random number = new Random();
+        int n = number.nextInt(maxRandom);
+        return n += 1;
+    }
+
+    public static void fillCellInMatrix(Cell[][] cell){
+        int maxNumberRandom = cell.length * cell.length;
+        for(int i = 0; i < cell.length; i++) {
+            for(int c = 0; c < cell[i].length; c++) {
+                cell[i][c] = new Cell(generateNumberRandom(maxNumberRandom), false, i, c);
+            }
+        }
+        fillNumbersAvailable(cell);
+    }
+
+    public static void fillNumbersAvailable(Cell [][] c){
+        if(Cell.numbersAvailable == null) Cell.numbersAvailable = new ArrayList<>();
+        int maxRow = c.length;
+        int maxCell = maxRow * maxRow;
+        if(numbersAvailable.size() != maxCell){
+            for(int i = 0; i < maxCell; i++) {
+                Cell.numbersAvailable.add(new Cell(i + 1, true));
+            }
+        }else{
+            for(Cell rec: numbersAvailable){
+                rec.setNumberAbsent(true);
+            }
+        }
+
+    }
+
+    public static void setRepeatedInMatrix(Cell[][] matrixCell){
+        for(Cell[] cells : matrixCell) {
+            for(Cell value : cells) {
+                cellToCheck(value, matrixCell);
+            }
+        }
+    }
+
+    public static void cellToCheck(Cell c, Cell[][] matrizCell){
+        for(Cell[] cells : matrizCell) {
+            for(Cell value : cells) {
+                if(!(c.isRepeat())) {
+                    if(!(c.equalsPosition(value))  &&  c.getNumber() == value.getNumber()) {
+                        value.setRepeat(true);
+                    }
+                }
+            }
+        }
+    }
+    public static void sortMatrix(Cell[][] cell){
+        numbersMissing = new ArrayList<>();
+        for(Cell[] row : cell) {
+            for(Cell column : row) {
+                checkNumbersAbsentInNumAvailable(column);
+            }
+        }
+        addNumbersAbsentInListMissing();
+        changeNumberAbsentInCell(cell);
+    }
+
+    public static void checkNumbersAbsentInNumAvailable(Cell c){
+        for(Cell cell : numbersAvailable) {
+            if(cell.getNumber() == c.getNumber()) {
+                cell.setNumberAbsent(false);
+            }
+        }
+    }
+
+    public static void addNumbersAbsentInListMissing(){
+        for(Cell cell : numbersAvailable) {
+            if(cell.isNumberAbsent()) {
+                numbersMissing.add(cell.getNumber());
+            }
+        }
+    }
+
+    public static void changeNumberAbsentInCell(Cell[][] matrixCell){
+        Random r = new Random();
+
+        for(Cell[] cell : matrixCell) {
+            for(Cell value : cell) {
+                if(value.isRepeat()) {
+                    int n = r.nextInt(numbersMissing.size());
+                    int numAbs = numbersMissing.get(n);
+                    value.setNumber(numAbs);
+                    value.setRepeat(false);
+                    numbersMissing.remove(n);
+                }
+            }
+        }
+
+    }
+
+    public static void printMatrix(Cell[][] cell){
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell[i].length; j++) {
+                System.out.print(cell[i][j].getNumber() + " ");
+            }
+            System.out.println();
+        }
     }
 
     @Override
