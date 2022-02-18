@@ -99,7 +99,12 @@ public class Cell implements IPosition{
         if(Cell.numbersAvailable == null) Cell.numbersAvailable = new ArrayList<>();
         int maxRow = c.length;
         int maxCell = maxRow * maxRow;
-        if(numbersAvailable.size() != maxCell){
+        if(numbersAvailable.isEmpty()){
+            for(int i = 0; i < maxCell; i++) {
+                Cell.numbersAvailable.add(new Cell(i + 1, true));
+            }
+        }else if(numbersAvailable.size() != maxCell){
+            numbersAvailable.clear();
             for(int i = 0; i < maxCell; i++) {
                 Cell.numbersAvailable.add(new Cell(i + 1, true));
             }
