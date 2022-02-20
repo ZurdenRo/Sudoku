@@ -87,8 +87,7 @@ public class Cell implements IPosition{
 
     public static int generateNumberRandom(int maxRandom){
         Random number = new Random();
-        int n = number.nextInt(maxRandom);
-        return n += 1;
+        return number.nextInt(maxRandom) + 1;
     }
 
     public static void fillCellInMatrix(Cell[][] cell){
@@ -130,8 +129,8 @@ public class Cell implements IPosition{
         }
     }
 
-    public static void cellToCheck(Cell c, Cell[][] matrizCell){
-        for(Cell[] cells : matrizCell) {
+    public static void cellToCheck(Cell c, Cell[][] matrixCell){
+        for(Cell[] cells : matrixCell) {
             for(Cell value : cells) {
                 if(!(c.isRepeat())) {
                     if(!(c.equalsPosition(value))  &&  c.getNumber() == value.getNumber()) {
