@@ -297,6 +297,7 @@ public class Cuadricula{
 
         while(lsHave.stream().anyMatch( have -> have.getCell().isRepeat())){
             System.out.println("Has change");
+            printGridTwoRowTwoCol();
             Optional<PositionGrid> optPosRep = lsHave.stream().filter(have -> have.getCell().isRepeat()).findFirst();
             if(optPosRep.isPresent()){
                 PositionGrid posRep = optPosRep.get();
