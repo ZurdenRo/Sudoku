@@ -208,6 +208,7 @@ public class Cuadricula{
                         PositionGrid posTo = new PositionGrid(posRep.getIdGrid(), tmpCell, posRep.getRow(), posRep.getColumn());
                         changePosition(posTo, posFrom);
                         lsAbs.removeIf( abs -> abs.getCell().getNumber() == posTo.getCell().getNumber() && abs.getCell().equalsPosition(posTo.getCell()));
+                        //tmpCell
                         break;
                     }
                 }
@@ -336,10 +337,8 @@ public class Cuadricula{
         int to = positionTo.getCell().getNumber();
         int from = positionFrom.getCell().getNumber();
 
-        Cell[][] cTo = this.getGrid()[positionTo.getRow()][positionTo.getColumn()].getCellsMatrix();
-        Cell[][] cFrom = this.getGrid()[positionFrom.getRow()][positionFrom.getColumn()].getCellsMatrix();
-        cTo[positionTo.getCell().getRow()][positionTo.getCell().getColumn()].setNumber(from);
-        cFrom[positionFrom.getCell().getRow()][positionFrom.getCell().getColumn()].setNumber(to);
+        positionTo.getCell().setNumber(from);
+        positionFrom.getCell().setNumber(to);
     }
 
     @Override
