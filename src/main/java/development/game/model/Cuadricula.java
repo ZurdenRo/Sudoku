@@ -328,12 +328,12 @@ public class Cuadricula{
             sameRow++;
         }
 
-        if(positionInColumn == null) positionInColumn = passCell(lsHave, lsAbs, tmpInt, pos);
+        if(positionInColumn == null) positionInColumn = findInOtherColumnsTheNumberAbsent(lsHave, lsAbs, tmpInt, pos);
 
         return positionInColumn;
     }
 
-    private Cell passCell(ArrayList<PositionGrid> lsHave, ArrayList<PositionGrid> lsAbs, int sameRow, PositionGrid pos){
+    private Cell findInOtherColumnsTheNumberAbsent(ArrayList<PositionGrid> lsHave, ArrayList<PositionGrid> lsAbs, int sameRow, PositionGrid pos){
         Cuadricula gridRep = this.getGrid()[pos.getRow()][pos.getColumn()];
         Cell searchPos = null;
         while (sameRow < gridRep.getCellsMatrix().length && searchPos == null){
