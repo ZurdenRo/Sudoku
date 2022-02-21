@@ -1,5 +1,6 @@
 # Default ignored files
 .idea
+/target
 Sudoku.iml
 out
 /bin
