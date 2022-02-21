@@ -23,8 +23,8 @@ public class App{
         Cell[][] cellsNine = new Cell[3][3];
         Cuadricula c = new Cuadricula();
 
-        GetUpFile.upFile(cellsOne, cellsTwo, cellsThree, cellsFour,cellsFive,cellsSix, cellsSeven, cellsEight, cellsNine);
-        /*Cell.createMatrix(cellsOne);
+        //GetUpFile.upFile(cellsOne, cellsTwo, cellsThree, cellsFour,cellsFive,cellsSix, cellsSeven, cellsEight, cellsNine);
+        Cell.createMatrix(cellsOne);
         Cell.printMatrix(cellsOne);
 
         Cell.createMatrix(cellsTwo);
@@ -49,7 +49,7 @@ public class App{
         Cell.printMatrix(cellsEight);
 
         Cell.createMatrix(cellsNine);
-        Cell.printMatrix(cellsNine);*/
+        Cell.printMatrix(cellsNine);
 
         c.setGrid(new Cuadricula[3][3]);
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour, cellsFive, cellsSix, cellsSeven, cellsEight, cellsNine);
