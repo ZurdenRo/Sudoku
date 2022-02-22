@@ -96,7 +96,7 @@ public class Cuadricula{
         System.out.println("-------------");
     }
 
-    public void walkGridOnRow(){
+    public void organizeMatrix(){
         finallyFinallyColumnSolution();
         System.out.println("init row algorithm");
         searchInRowSolutionFinal();

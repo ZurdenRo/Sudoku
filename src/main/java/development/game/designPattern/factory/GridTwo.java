@@ -28,6 +28,6 @@ public class GridTwo implements IGrid{
             Cell.createMatrix(cellsOne);
             c.setCellsOnGrid(cellsOne, i + 1);
         }
-        c.walkGridOnRow();
+        c.organizeMatrix();
     }
 }

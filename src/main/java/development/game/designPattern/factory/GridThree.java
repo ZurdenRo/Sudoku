@@ -27,6 +27,6 @@ public class GridThree implements  IGrid{
             Cell.createMatrix(cellsOne);
             this.getMakeGrid().setCellsOnGrid(cellsOne, i + 1);
         }
-        this.getMakeGrid().walkGridOnRow();
+        this.getMakeGrid().organizeMatrix();
     }
 }
