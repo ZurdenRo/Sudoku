@@ -1,17 +1,17 @@
 package development.game.designPattern.factory;
 
 import development.game.model.Cell;
-import development.game.model.Cuadricula;
+import development.game.model.Grid;
 
 public class GridTwo implements IGrid{
 
-    private Cuadricula grid;
+    private Grid grid;
 
-    public Cuadricula getMakeGrid(){
+    public Grid getMakeGrid(){
         return grid;
     }
 
-    public void setMakeGrid(Cuadricula c){
+    public void setMakeGrid(Grid c){
         this.grid = c;
     }
 
@@ -20,8 +20,8 @@ public class GridTwo implements IGrid{
 
     @Override
     public void buildGrid(){
-        this.setMakeGrid(new Cuadricula());
-        this.getMakeGrid().setSubGrid(new Cuadricula.SubGrid[2][2]);
+        this.setMakeGrid(new Grid());
+        this.getMakeGrid().setSubGrid(new Grid.SubGrid[2][2]);
         int totalMatrixCell = 2 * 2;
         for(int i = 0; i < totalMatrixCell ; i++) {
             Cell[][] cellsOne = new Cell[2][2];

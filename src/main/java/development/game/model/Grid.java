@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class Cuadricula{
+public class Grid{
 
     private SubGrid [][] subGrid;
 
-    public Cuadricula(){
+    public Grid(){
 
     }
 
