@@ -139,10 +139,10 @@ public class Cuadricula{
         int columnInGrid = 0;
         ArrayList<PositionGrid> lsHave = new ArrayList<>();
         ArrayList<PositionGrid> lsNumbersAbsent = new ArrayList<>();
-        ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
+        ArrayList<PositionGrid> lsGrid = new ArrayList<>();
         for(int i = 0; i < totalRow; i++) {
             for(int j = 0; j < totalColumn; j++) {
-                lsGrid.add(new PositionSearcher(String.valueOf(columnInGrid),i,j));
+                lsGrid.add(new PositionGrid(String.valueOf(columnInGrid),i,j));
                 columnInGrid++;
             }
             columnInGrid = 0;
@@ -150,10 +150,10 @@ public class Cuadricula{
 
         for (int i = 0; i < totalColumn; i++) {
             int currentlyColumn = i;
-            ArrayList<PositionSearcher> lsGridRow = lsGrid.stream().filter(rowActual -> Integer.parseInt(rowActual.getGrid()) == currentlyColumn).collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<PositionGrid> lsGridRow = lsGrid.stream().filter(rowActual -> Integer.parseInt(rowActual.getIdGrid()) == currentlyColumn).collect(Collectors.toCollection(ArrayList::new));
 
             for (int currentColumn = 0; currentColumn < totalColumn; currentColumn++) {
-                for(PositionSearcher rec: lsGridRow){
+                for(PositionGrid rec: lsGridRow){
                     Cuadricula subGrid = this.getGrid()[rec.getRow()][rec.getColumn()];
                     for(int k = 0; k < totalRow; k++) {
                         Cell tmpCell = subGrid.getCellsMatrix()[k][currentColumn];
@@ -168,7 +168,7 @@ public class Cuadricula{
                     }
                 }
 
-                for(PositionSearcher rec: lsGridRow){
+                for(PositionGrid rec: lsGridRow){
                     Cuadricula gridTmp = this.getGrid()[rec.getRow()][rec.getColumn()];
                     for(int row = 0; row < totalRow; row++) {
                         for(int column = 0; column < totalColumn; column++) {
@@ -235,22 +235,22 @@ public class Cuadricula{
         int totalRow = this.getGrid().length;
         int totalColumn = this.getGrid()[totalRow - 1].length;
         int currentRow = 0;
-        ArrayList<PositionSearcher> lsGrid = new ArrayList<>();
+        ArrayList<PositionGrid> lsGrid = new ArrayList<>();
         for(int i = 0; i < totalRow; i++) {
             for(int j = 0; j < totalColumn; j++) {
-                lsGrid.add(new PositionSearcher(String.valueOf(currentRow),i, j));
+                lsGrid.add(new PositionGrid(String.valueOf(currentRow),i, j));
             }
             currentRow++;
         }
 
         for(int i = 0; i < totalRow; i++) {
             int currentRowFinal = i;
-            ArrayList<PositionSearcher> lsGridRow = lsGrid.stream().filter(rowActual -> Integer.parseInt(rowActual.getGrid()) == currentRowFinal).collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<PositionGrid> lsGridRow = lsGrid.stream().filter(rowActual -> Integer.parseInt(rowActual.getIdGrid()) == currentRowFinal).collect(Collectors.toCollection(ArrayList::new));
             ArrayList<PositionGrid> lsNumberHave = new ArrayList<>();
             ArrayList<PositionGrid> lsNumbersAbsent = new ArrayList<>();
             for(int rowSubGrid = 0; rowSubGrid < totalRow; rowSubGrid++) {
 
-                for(PositionSearcher rec: lsGridRow){
+                for(PositionGrid rec: lsGridRow){
                     Cuadricula grid = this.getGrid()[rec.getRow()][rec.getColumn()];
                     for(int k = 0; k < totalRow; k++) {
                         Cell tmpCell = grid.getCellsMatrix()[rowSubGrid][k];
@@ -262,7 +262,7 @@ public class Cuadricula{
                     }
                 }
 
-                for(PositionSearcher value : lsGridRow){
+                for(PositionGrid value : lsGridRow){
                     Cuadricula gridTmp = this.getGrid()[value.getRow()][value.getColumn()];
                     for(int l = 0; l < totalRow; l++) {
                         if(l > rowSubGrid ){

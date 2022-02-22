@@ -16,6 +16,12 @@ public class PositionGrid implements IPosition{
         setColumn(column);
     }
 
+    public PositionGrid(String idGrid, int row, int column){
+        setIdGrid(idGrid);
+        setRow(row);
+        setColumn(column);
+    }
+
     public Cell getCell(){
         return cell;
     }
