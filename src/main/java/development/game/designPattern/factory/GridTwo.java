@@ -1,5 +1,9 @@
 package development.game.designPattern.factory;
 
-public class GridTwo{
+public class GridTwo implements IGrid{
 
+    @Override
+    public void buildGrid(){
+
+    }
 }
