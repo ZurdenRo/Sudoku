@@ -10,4 +10,9 @@ public class GridFactory{
         return grid;
     }
 
+    public static IGrid createGridThree(){
+        IGrid grid = new GridThree();
+        grid.buildGrid();
+        return grid;
+    }
 }

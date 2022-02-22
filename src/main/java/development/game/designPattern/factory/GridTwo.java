@@ -5,22 +5,23 @@ import development.game.model.Cuadricula;
 
 public class GridTwo implements IGrid{
 
-    public Cuadricula getC(){
+    private Cuadricula c ;
+
+    public Cuadricula getMakeGrid(){
         return c;
     }
 
-    public void setC(Cuadricula c){
+    public void setMakeGrid(Cuadricula c){
         this.c = c;
     }
 
-    Cuadricula c ;
-
     public GridTwo(){}
+
 
     @Override
     public void buildGrid(){
-        this.setC(new Cuadricula());
-        this.getC().setGrid(new Cuadricula.SubGrid[2][2]);
+        this.setMakeGrid(new Cuadricula());
+        this.getMakeGrid().setSubGrid(new Cuadricula.SubGrid[2][2]);
         int totalMatrixCell = 2 * 2;
         for(int i = 0; i < totalMatrixCell ; i++) {
             Cell[][] cellsOne = new Cell[2][2];
