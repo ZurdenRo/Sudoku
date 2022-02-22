@@ -9,5 +9,4 @@ public class GridFactory{
     IGrid createGrid(){
         return grid;
     }
-
 }
