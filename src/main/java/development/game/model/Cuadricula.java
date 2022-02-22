@@ -22,24 +22,17 @@ public class Cuadricula{
         this.subGrid = grid;
     }
 
-    public void setCellsOnGrid(Cell[][] ... cells){
-        int count = 0;
-        for(Cell[][] rec: cells){
-            boolean isBreak = false;
-            for(int i = 0; i < this.getGrid().length; i++) {
-                for(int j = 0; j < this.getGrid().length; j++) {
-                    if(this.getGrid()[i][j] == null){
-                        count++;
-                        this.getGrid()[i][j] = new SubGrid(rec, "IDGrid: " + count);
-                        isBreak = true;
-                        break;
-                    }
-                }
-                if(isBreak){
+    public void setCellsOnGrid(Cell[][] cell, int count){
+        boolean hasChange = false;
+        for(int i = 0; i < cell.length; i++) {
+            for(int j = 0; j < cell.length; j++) {
+                if(this.getGrid()[i][j] == null){
+                    hasChange = true;
+                    this.getGrid()[i][j] = new SubGrid(cell, "IDGrid: " + count);
                     break;
                 }
             }
-
+            if(hasChange) break;
         }
     }
 

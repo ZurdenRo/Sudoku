@@ -4,9 +4,10 @@ public class GridFactory{
 
     private IGrid grid;
 
-
-
-    IGrid createGrid(){
+    public static IGrid createGridTwo(){
+        IGrid grid = new GridTwo();
+        grid.buildGrid();
         return grid;
     }
+
 }
