@@ -12,8 +12,6 @@ public class Cell implements IPosition{
     private int column;
     private boolean isRepeat;
     private boolean numberAbsent;
-    private static ArrayList<Cell> numbersAvailable;
-    private static ArrayList<Integer> numbersMissing;
 
     public Cell(int number, boolean isRepeat,int row, int column){
         setNumber(number);
@@ -80,9 +78,11 @@ public class Cell implements IPosition{
     }
 
     public static void createMatrix(Cell [][] cell ){
-        fillCellInMatrix(cell);
+        ArrayList<Cell> numAvailable = new ArrayList<>();
+
+        fillCellInMatrix(cell, numAvailable);
         setRepeatedInMatrix(cell);
-        sortMatrix(cell);
+        sortMatrix(cell, numAvailable);
     }
 
     public static int generateNumberRandom(int maxRandom){
@@ -90,35 +90,22 @@ public class Cell implements IPosition{
         return number.nextInt(maxRandom) + 1;
     }
 
-    public static void fillCellInMatrix(Cell[][] cell){
+    public static void fillCellInMatrix(Cell[][] cell, ArrayList<Cell> numbersAvailable){
         int maxNumberRandom = cell.length * cell.length;
         for(int i = 0; i < cell.length; i++) {
             for(int c = 0; c < cell[i].length; c++) {
                 cell[i][c] = new Cell(generateNumberRandom(maxNumberRandom), false, i, c);
             }
         }
-        fillNumbersAvailable(cell);
+        fillNumbersAvailable(cell, numbersAvailable);
     }
 
-    public static void fillNumbersAvailable(Cell [][] c){
-        if(Cell.numbersAvailable == null) Cell.numbersAvailable = new ArrayList<>();
+    public static void fillNumbersAvailable(Cell [][] c, ArrayList<Cell> numbersAvailable){
         int maxRow = c.length;
         int maxCell = maxRow * maxRow;
-        if(numbersAvailable.isEmpty()){
-            for(int i = 0; i < maxCell; i++) {
-                Cell.numbersAvailable.add(new Cell(i + 1, true));
-            }
-        }else if(numbersAvailable.size() != maxCell){
-            numbersAvailable.clear();
-            for(int i = 0; i < maxCell; i++) {
-                Cell.numbersAvailable.add(new Cell(i + 1, true));
-            }
-        }else{
-            for(Cell rec: numbersAvailable){
-                rec.setNumberAbsent(true);
-            }
+        for(int i = 0; i < maxCell; i++) {
+            numbersAvailable.add(new Cell(i + 1, true));
         }
-
     }
 
     public static void setRepeatedInMatrix(Cell[][] matrixCell){
@@ -140,26 +127,27 @@ public class Cell implements IPosition{
             }
         }
     }
-    public static void sortMatrix(Cell[][] cell){
-        numbersMissing = new ArrayList<>();
-        for(Cell[] row : cell) {
-            for(Cell column : row) {
-                checkNumbersAbsentInNumAvailable(column);
+
+    public static void sortMatrix(Cell[][] matrixCell, ArrayList<Cell> numAvailable){
+        ArrayList<Integer> numAbsent = new ArrayList<>();
+        for(Cell[] cells : matrixCell) {
+            for(Cell cellValue : cells) {
+                checkNumbersAbsentInNumAvailable(cellValue,  numAvailable);
             }
         }
-        addNumbersAbsentInListMissing();
-        changeNumberAbsentInCell(cell);
+        addNumbersAbsentInListMissing(numAvailable, numAbsent);
+        changeNumberAbsentInCell(matrixCell, numAbsent);
     }
 
-    public static void checkNumbersAbsentInNumAvailable(Cell c){
-        for(Cell cell : numbersAvailable) {
-            if(cell.getNumber() == c.getNumber()) {
-                cell.setNumberAbsent(false);
+    public static void checkNumbersAbsentInNumAvailable(Cell cell, ArrayList<Cell> numAvailable){
+        for(Cell number : numAvailable) {
+            if(number.getNumber() == cell.getNumber()) {
+                number.setNumberAbsent(false);
             }
         }
     }
 
-    public static void addNumbersAbsentInListMissing(){
+    public static void addNumbersAbsentInListMissing(ArrayList<Cell> numbersAvailable, ArrayList<Integer> numbersMissing){
         for(Cell cell : numbersAvailable) {
             if(cell.isNumberAbsent()) {
                 numbersMissing.add(cell.getNumber());
@@ -167,7 +155,7 @@ public class Cell implements IPosition{
         }
     }
 
-    public static void changeNumberAbsentInCell(Cell[][] matrixCell){
+    public static void changeNumberAbsentInCell(Cell[][] matrixCell, ArrayList<Integer> numbersMissing){
         Random r = new Random();
 
         for(Cell[] cell : matrixCell) {

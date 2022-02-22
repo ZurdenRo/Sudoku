@@ -51,10 +51,10 @@ public class App{
         Cell.createMatrix(cellsNine);
         Cell.printMatrix(cellsNine);
 
-        c.setGrid(new Cuadricula[3][3]);
+    /*    c.setGrid(new Cuadricula[3][3]);
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour, cellsFive, cellsSix, cellsSeven, cellsEight, cellsNine);
         c.printGridTwoRowTwoCol();
-        c.walkGridOnRow();
+        c.walkGridOnRow();*/
 
 
     }
