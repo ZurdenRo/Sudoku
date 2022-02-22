@@ -14,11 +14,11 @@ public class Cuadricula{
 
     }
 
-    public SubGrid [][] getGrid() {
+    public SubGrid [][] getSubGrid() {
         return this.subGrid;
     }
 
-    public void setGrid(SubGrid[][] grid) {
+    public void setSubGrid(SubGrid[][] grid) {
         this.subGrid = grid;
     }
 
@@ -26,9 +26,9 @@ public class Cuadricula{
         boolean hasChange = false;
         for(int i = 0; i < cell.length; i++) {
             for(int j = 0; j < cell.length; j++) {
-                if(this.getGrid()[i][j] == null){
+                if(this.getSubGrid()[i][j] == null){
                     hasChange = true;
-                    this.getGrid()[i][j] = new SubGrid(cell, "IDGrid: " + count);
+                    this.getSubGrid()[i][j] = new SubGrid(cell, "IDGrid: " + count);
                     break;
                 }
             }
@@ -43,23 +43,23 @@ public class Cuadricula{
         String rowFinal = "";
         String rowThree = "";
 
-        for (int i = 0; i < this.getGrid().length; i++) {
-            for (int j = 0; j < this.getGrid()[i].length; j++) {
+        for (int i = 0; i < this.getSubGrid().length; i++) {
+            for (int j = 0; j < this.getSubGrid()[i].length; j++) {
 
-                for (int k = 0; k < this.getGrid()[i][j].getCellsMatrix().length; k++) {
-                    for (int l = 0; l < this.getGrid()[i][j].getCellsMatrix()[k].length; l++) {
+                for (int k = 0; k < this.getSubGrid()[i][j].getCellsMatrix().length; k++) {
+                    for (int l = 0; l < this.getSubGrid()[i][j].getCellsMatrix()[k].length; l++) {
                         if(k == 0){
-                            rowOnes = rowOnes + this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
+                            rowOnes = rowOnes + this.getSubGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
                         }
                         else if (k ==1){
-                            rowTwo = rowTwo + this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
+                            rowTwo = rowTwo + this.getSubGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
                         }
                         else if(k == 2){
-                            rowThree = rowThree + this.getGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
+                            rowThree = rowThree + this.getSubGrid()[i][j].getCellsMatrix()[k][l].getNumber() + " ";
                         }
                     }
                 }
-                if(this.getGrid().length == 2){
+                if(this.getSubGrid().length == 2){
                     if(i == 0 && j == 1){
                         rowFinal = rowOnes.concat(splitLines).concat(rowTwo);
                         rowOnes = "";
@@ -68,7 +68,7 @@ public class Cuadricula{
                     else if(i == 1 && j == 1){
                         rowFinal = rowFinal.concat(splitLines).concat(rowOnes).concat(splitLines).concat(rowTwo);
                     }
-                }else if(this.getGrid().length == 3){
+                }else if(this.getSubGrid().length == 3){
                     if(i == 0 && j == 2){
                         rowFinal = rowOnes.concat(splitLines).concat(rowTwo).concat(splitLines).concat(rowThree);
                         rowOnes = "";
@@ -103,8 +103,8 @@ public class Cuadricula{
     }
 
     public void finallyFinallyColumnSolution(){
-        int totalRow = this.getGrid().length;
-        int totalColumn = this.getGrid()[totalRow - 1].length;
+        int totalRow = this.getSubGrid().length;
+        int totalColumn = this.getSubGrid()[totalRow - 1].length;
         int columnInGrid = 0;
         ArrayList<PositionGrid> lsHave = new ArrayList<>();
         ArrayList<PositionGrid> lsNumbersAbsent = new ArrayList<>();
@@ -123,7 +123,7 @@ public class Cuadricula{
 
             for (int currentColumn = 0; currentColumn < totalColumn; currentColumn++) {
                 for(PositionGrid rec: lsGridRow){
-                    SubGrid subGrid = this.getGrid()[rec.getRow()][rec.getColumn()];
+                    SubGrid subGrid = this.getSubGrid()[rec.getRow()][rec.getColumn()];
                     for(int k = 0; k < totalRow; k++) {
                         Cell tmpCell = subGrid.getCellsMatrix()[k][currentColumn];
                         if(lsHave.stream().map(PositionGrid::getCell).noneMatch(numberCell -> numberCell.getNumber() == tmpCell.getNumber())){
@@ -138,7 +138,7 @@ public class Cuadricula{
                 }
 
                 for(PositionGrid rec: lsGridRow){
-                    SubGrid gridTmp = this.getGrid()[rec.getRow()][rec.getColumn()];
+                    SubGrid gridTmp = this.getSubGrid()[rec.getRow()][rec.getColumn()];
                     for(int row = 0; row < totalRow; row++) {
                         for(int column = 0; column < totalColumn; column++) {
                             if(column > currentColumn){
@@ -164,7 +164,7 @@ public class Cuadricula{
             Optional<PositionGrid> optPosRep = lsHave.stream().filter(have -> have.getCell().isRepeat()).findFirst();
             if(optPosRep.isPresent()){
                 PositionGrid posRep = optPosRep.get();
-                SubGrid gridRep = this.getGrid()[posRep.getRow()][posRep.getColumn()];
+                SubGrid gridRep = this.getSubGrid()[posRep.getRow()][posRep.getColumn()];
                 for (int i = 0; i < row; i++) {
                     if(i > posRep.getCell().getColumn()){
                         Cell repeatedCell = posRep.getCell();
@@ -184,7 +184,7 @@ public class Cuadricula{
     }
 
     private Cell getCellOtherColumn(PositionGrid rec, ArrayList<PositionGrid> lsAbs, ArrayList<PositionGrid> lsHave, int column){
-        SubGrid grid = this.getGrid()[rec.getRow()][rec.getColumn()];
+        SubGrid grid = this.getSubGrid()[rec.getRow()][rec.getColumn()];
         Cell positionInColumn = null;
         while(positionInColumn == null && column < grid.getCellsMatrix().length){
             for(int i = 0; i < grid.getCellsMatrix().length; i++) {
@@ -200,8 +200,8 @@ public class Cuadricula{
     }
 
     public void searchInRowSolutionFinal(){
-        int totalRow = this.getGrid().length;
-        int totalColumn = this.getGrid()[totalRow - 1].length;
+        int totalRow = this.getSubGrid().length;
+        int totalColumn = this.getSubGrid()[totalRow - 1].length;
         int currentRow = 0;
         ArrayList<PositionGrid> lsGrid = new ArrayList<>();
         for(int i = 0; i < totalRow; i++) {
@@ -219,7 +219,7 @@ public class Cuadricula{
             for(int rowSubGrid = 0; rowSubGrid < totalRow; rowSubGrid++) {
 
                 for(PositionGrid rec: lsGridRow){
-                    SubGrid grid = this.getGrid()[rec.getRow()][rec.getColumn()];
+                    SubGrid grid = this.getSubGrid()[rec.getRow()][rec.getColumn()];
                     for(int k = 0; k < totalRow; k++) {
                         Cell tmpCell = grid.getCellsMatrix()[rowSubGrid][k];
                         PositionGrid posTmp = new PositionGrid( grid.getIndicator(), tmpCell, rec.getRow(), rec.getColumn());
@@ -231,7 +231,7 @@ public class Cuadricula{
                 }
 
                 for(PositionGrid value : lsGridRow){
-                    SubGrid gridTmp = this.getGrid()[value.getRow()][value.getColumn()];
+                    SubGrid gridTmp = this.getSubGrid()[value.getRow()][value.getColumn()];
                     for(int l = 0; l < totalRow; l++) {
                         if(l > rowSubGrid ){
                             for(int k = 0; k < totalRow; k++) {
@@ -261,11 +261,10 @@ public class Cuadricula{
 
         while(lsHave.stream().anyMatch( have -> have.getCell().isRepeat())){
             System.out.println("Has change");
-            printGridTwoRowTwoCol();
             Optional<PositionGrid> optPosRep = lsHave.stream().filter(have -> have.getCell().isRepeat()).findFirst();
             if(optPosRep.isPresent()){
                 PositionGrid posRep = optPosRep.get();
-                SubGrid gridRep = this.getGrid()[posRep.getRow()][posRep.getColumn()];
+                SubGrid gridRep = this.getSubGrid()[posRep.getRow()][posRep.getColumn()];
                 for(int i = 0; i < totalRow; i++) {
                     if(i > optPosRep.get().getCell().getRow()){
                         Cell repeatedCell = gridRep.getCellsMatrix()[posRep.getCell().getRow()][posRep.getCell().getColumn()];
@@ -279,11 +278,12 @@ public class Cuadricula{
                     }
                 }
             }
+            printGridTwoRowTwoCol();
         }
     }
 
     private Cell getCellInSameColumnPositionRepeated(PositionGrid pos, ArrayList<PositionGrid> lsAbs, ArrayList<PositionGrid> lsHave, int sameRow){
-        SubGrid gridRep = this.getGrid()[pos.getRow()][pos.getColumn()];
+        SubGrid gridRep = this.getSubGrid()[pos.getRow()][pos.getColumn()];
         Cell positionInColumn = null;
         int tmpInt = sameRow;
 
@@ -301,15 +301,15 @@ public class Cuadricula{
     }
 
     private Cell findInOtherColumnsTheNumberAbsent(ArrayList<PositionGrid> lsHave, ArrayList<PositionGrid> lsAbs, int sameRow, PositionGrid pos){
-        SubGrid gridRep = this.getGrid()[pos.getRow()][pos.getColumn()];
+        SubGrid gridRep = this.getSubGrid()[pos.getRow()][pos.getColumn()];
         Cell searchPos = null;
         while (sameRow < gridRep.getCellsMatrix().length && searchPos == null){
             Cell tmp = gridRep.getCellsMatrix()[sameRow][pos.getCell().getColumn()];
             Optional<PositionGrid> posOpt = lsHave.stream().filter(have -> have.getCell().getNumber() == tmp.getNumber()).findFirst();
             if(posOpt.isPresent()){
                 PositionGrid posGrid = posOpt.get();
-                SubGrid grid = this.getGrid()[posGrid.getRow()][posGrid.getColumn()];
-                for(int i = 0; i < this.getGrid().length; i++) {
+                SubGrid grid = this.getSubGrid()[posGrid.getRow()][posGrid.getColumn()];
+                for(int i = 0; i < this.getSubGrid().length; i++) {
                     if(i > posGrid.getCell().getRow()){
                         Cell c = grid.getCellsMatrix()[i][posGrid.getCell().getColumn()];
                         if(lsAbs.stream().anyMatch(abs -> abs.getCell().getNumber()  == c.getNumber()) && lsHave.stream().noneMatch( have -> have.getCell().getNumber() == c.getNumber())){
