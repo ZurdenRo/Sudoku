@@ -21,7 +21,7 @@ public class App{
         Cell[][] cellsSeven = new Cell[3][3];
         Cell[][] cellsEight = new Cell[3][3];
         Cell[][] cellsNine = new Cell[3][3];
-        Cuadricula c = new Cuadricula();
+
 
         //GetUpFile.upFile(cellsOne, cellsTwo, cellsThree, cellsFour,cellsFive,cellsSix, cellsSeven, cellsEight, cellsNine);
         Cell.createMatrix(cellsOne);
@@ -51,10 +51,11 @@ public class App{
         Cell.createMatrix(cellsNine);
         Cell.printMatrix(cellsNine);
 
-    /*    c.setGrid(new Cuadricula[3][3]);
+        Cuadricula c = new Cuadricula();
+        c.setGrid(new Cuadricula.SubGrid[3][3]);
         c.setCellsOnGrid(cellsOne, cellsTwo, cellsThree, cellsFour, cellsFive, cellsSix, cellsSeven, cellsEight, cellsNine);
         c.printGridTwoRowTwoCol();
-        c.walkGridOnRow();*/
+        c.walkGridOnRow();
 
 
     }
