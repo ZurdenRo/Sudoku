@@ -5,14 +5,14 @@ import development.game.model.Cuadricula;
 
 public class GridTwo implements IGrid{
 
-    private Cuadricula c ;
+    private Cuadricula grid;
 
     public Cuadricula getMakeGrid(){
-        return c;
+        return grid;
     }
 
     public void setMakeGrid(Cuadricula c){
-        this.c = c;
+        this.grid = c;
     }
 
     public GridTwo(){}
@@ -26,8 +26,8 @@ public class GridTwo implements IGrid{
         for(int i = 0; i < totalMatrixCell ; i++) {
             Cell[][] cellsOne = new Cell[2][2];
             Cell.createMatrix(cellsOne);
-            c.setCellsOnGrid(cellsOne, i + 1);
+            grid.setCellsOnGrid(cellsOne, i + 1);
         }
-        c.organizeMatrix();
+        grid.organizeMatrix();
     }
 }
