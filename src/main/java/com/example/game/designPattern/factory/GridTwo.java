@@ -7,11 +7,11 @@ public class GridTwo implements IGrid{
 
     private Grid grid;
 
-    public Grid getMakeGrid(){
+    public Grid getGrid(){
         return grid;
     }
 
-    public void setMakeGrid(Grid c){
+    public void setGrid(Grid c){
         this.grid = c;
     }
 
@@ -20,8 +20,8 @@ public class GridTwo implements IGrid{
 
     @Override
     public void buildGrid(){
-        this.setMakeGrid(new Grid());
-        this.getMakeGrid().setSubGrid(new Grid.SubGrid[2][2]);
+        this.setGrid(new Grid());
+        this.getGrid().setSubGrid(new Grid.SubGrid[2][2]);
         int totalMatrixCell = 2 * 2;
         for(int i = 0; i < totalMatrixCell ; i++) {
             Cell[][] cellsOne = new Cell[2][2];
