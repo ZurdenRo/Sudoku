@@ -1,7 +1,7 @@
-package development.game.designPattern.factory;
+package com.example.game.designPattern.factory;
 
-import development.game.model.Cell;
-import development.game.model.Grid;
+import com.example.game.model.Cell;
+import com.example.game.model.Grid;
 
 public class GridThree implements  IGrid{
 

@@ -1,4 +1,4 @@
-package development.game.model.interfaces;
+package com.example.game.model.interfaces;
 
 public interface IPosition{
 

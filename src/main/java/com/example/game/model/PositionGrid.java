@@ -1,6 +1,6 @@
-package development.game.model;
+package com.example.game.model;
 
-import development.game.model.interfaces.IPosition;
+import com.example.game.model.interfaces.IPosition;
 
 public class PositionGrid implements IPosition{
 

@@ -1,6 +1,6 @@
-package development.game.utils;
+package com.example.game.utils;
 
-import development.game.model.Cell;
+import com.example.game.model.Cell;
 
 import java.io.File;
 import java.io.IOException;

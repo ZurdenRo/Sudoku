@@ -1,4 +1,4 @@
-package development.game.model;
+package com.example.game.model;
 
 
 

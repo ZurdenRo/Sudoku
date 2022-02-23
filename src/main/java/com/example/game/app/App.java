@@ -1,7 +1,7 @@
-package development.game.app;
+package com.example.game.app;
 
 
-import development.game.designPattern.factory.GridFactory;
+import com.example.game.designPattern.factory.GridFactory;
 
 import java.io.IOException;
 
