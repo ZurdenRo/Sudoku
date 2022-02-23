@@ -2,8 +2,8 @@ package com.example.grid;
 
 
 
-import com.example.game.designPattern.factory.GridFactory;
 import com.example.game.designPattern.factory.IGrid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,9 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class GridController{
 
 
-    @GetMapping
-    public IGrid hello(){
-        return GridFactory.createGridThree();
+    private final GridService gridService;
+
+    @Autowired
+    public GridController(){
+        this.gridService = new GridService();
+    }
+
+    @GetMapping(path = "three")
+    public IGrid createGridThree(){
+        return this.gridService.makeGridThree();
+    }
+
+    @GetMapping(path = "two")
+    public IGrid createGridTwo(){
+        return this.gridService.makeGridTwo();
     }
 
 }
