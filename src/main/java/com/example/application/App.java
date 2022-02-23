@@ -1,4 +1,4 @@
-package com.example.game.app;
+package com.example.application;
 
 
 import com.example.game.designPattern.factory.GridFactory;

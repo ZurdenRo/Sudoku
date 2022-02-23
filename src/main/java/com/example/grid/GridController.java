@@ -1,2 +1,5 @@
-package com.example.grid;public class GridController {
+package com.example.grid;
+
+public class GridController{
+
 }
