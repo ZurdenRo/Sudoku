@@ -3,6 +3,7 @@ package com.example.game.model;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -332,6 +333,12 @@ public class Grid{
         positionFrom.setNumber(to);
     }
 
+    @Override
+    public String toString(){
+        return "Grid{" +
+                "subGrid=" + Arrays.toString(subGrid) +
+                '}';
+    }
 
     public static class SubGrid{
         private String indicator;
