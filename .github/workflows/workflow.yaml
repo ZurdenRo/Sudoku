@@ -21,7 +21,7 @@ jobs:
         run: docker login -u $user -p $password
 
       - name: build images
-        run: docker build . -t my-app:latest
+        run: docker build . -t zurdenro/my-app:latest
 
       - name: push images
         run: docker push zurdenro/my-app:latest
