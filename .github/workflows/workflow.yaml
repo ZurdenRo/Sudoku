@@ -9,8 +9,8 @@ jobs:
   build_and_push:
     runs-on: ubuntu-18.04
     env:
-        user: ${{DOCKER_USER}}
-        password: ${{DOCKER_PASS}}
+        user: ${{secrets.DOCKER_USER}}
+        password: ${{secrets.DOCKER_PASS}}
     steps:
       - uses: actions/checkout@v2
 
