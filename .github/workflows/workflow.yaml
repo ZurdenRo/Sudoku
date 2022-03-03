@@ -19,3 +19,9 @@ jobs:
 
       - name: login docker
         run: docker login -u $user -p $password
+
+      - name: build images
+        run: docker build . -t my-app:latest
+
+      - name: push images
+        run: docker push my-app:latest
