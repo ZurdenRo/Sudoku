@@ -2,8 +2,11 @@ name: ci
 
 on:
   push:
-      branches:
-        - 'feature/*'
+    branches:
+      - 'master'
+  pull_request:
+    branches:
+      - 'feature/*'
 
 jobs:
   build_and_push:
