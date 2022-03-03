@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  push: :
+      branches:
+        - 'feature/*'
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-18.04
+    env:
+        user: ${{DOCKER_USER}}
+        password: ${{DOCKER_PASS}}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: mvn clean and install
+        run: mvn clean install
+
+      - name: login docker
+        run: docker login -u $user -p $password
