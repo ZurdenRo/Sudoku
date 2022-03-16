@@ -100,7 +100,7 @@ public class Grid{
     public void organizeMatrix(){
         finallyFinallyColumnSolution();
         System.out.println("init row algorithm");
-        searchInRowSolutionFinal();
+        rowSolution();
     }
 
     public void finallyFinallyColumnSolution(){
@@ -170,11 +170,11 @@ public class Grid{
                     if(i > posRep.getCell().getColumn()){
                         Cell repeatedCell = posRep.getCell();
                         Cell cellTmp = getCellOtherColumn(posRep, lsAbs, lsHave, i);
-                        Cell tmpCell = cellTmp == null ? gridRep.getCellsMatrix()[posRep.getCell().getRow()][i] : cellTmp;
-                        lsHave.stream().filter(have -> have.getCell().equalsPosition(repeatedCell) && have.getIdGrid().contentEquals(posRep.getIdGrid())).forEach(numRep -> numRep.getCell().setRepeat(false));
-                        lsHave.stream().filter( have -> have.getCell().getNumber() == tmpCell.getNumber()).forEach( numRep -> numRep.getCell().setRepeat(true));
-                        changePosition(tmpCell, repeatedCell);
-                        lsAbs.removeIf( abs -> abs.getCell().getNumber() == tmpCell.getNumber() && abs.getCell().equalsPosition(tmpCell));
+                        Cell cellAbsent = cellTmp == null ? gridRep.getCellsMatrix()[posRep.getCell().getRow()][i] : cellTmp;
+                        lsHave.stream().filter(have -> have.getCell().equalsPosition(posRep.getCell()) && have.getIdGrid().contentEquals(posRep.getIdGrid())).findFirst().ifPresent(pos -> pos.getCell().setRepeat(false));
+                        lsHave.stream().filter( have -> have.getCell().getNumber() == cellAbsent.getNumber()).forEach( numRep -> numRep.getCell().setRepeat(true));
+                        changePosition(cellAbsent, repeatedCell);
+                        lsAbs.removeIf( abs -> abs.getCell().getNumber() == cellAbsent.getNumber() && abs.getCell().equalsPosition(cellAbsent));
                         break;
                     }
                 }
@@ -200,7 +200,7 @@ public class Grid{
         return positionInColumn;
     }
 
-    public void searchInRowSolutionFinal(){
+    public void rowSolution(){
         int totalRow = this.getSubGrid().length;
         int totalColumn = this.getSubGrid()[totalRow - 1].length;
         int currentRow = 0;
@@ -245,7 +245,7 @@ public class Grid{
                     }
                 }
 
-                changePossibleNumberNotEqual(lsNumberHave, lsNumbersAbsent, totalRow);
+                changePositionRowInSameColum(lsNumberHave, lsNumbersAbsent, totalRow);
                 cleanList(lsNumberHave, lsNumbersAbsent);
             }
 
@@ -258,7 +258,7 @@ public class Grid{
         lsThree.clear();
     }
 
-    private void changePossibleNumberNotEqual(ArrayList<PositionGrid> lsHave, ArrayList<PositionGrid> lsAbs, int totalRow){
+    private void changePositionRowInSameColum(ArrayList<PositionGrid> lsHave, ArrayList<PositionGrid> lsAbs, int totalRow){
 
         while(lsHave.stream().anyMatch( have -> have.getCell().isRepeat())){
             System.out.println("Has change");
